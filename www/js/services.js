@@ -246,7 +246,7 @@ angular.module('starter.services', [])
                     $rootScope.$broadcast(NETWORK_EVENTS.timeout);
                     break;
             }
-            
+
             return $q.reject(rejection);
         }
     };

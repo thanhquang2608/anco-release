@@ -28,7 +28,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 })
 
 .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-    //$ionicConfigProvider.views.forwardCache(true);
+    $ionicConfigProvider.views.forwardCache(true);
 
     $stateProvider
 

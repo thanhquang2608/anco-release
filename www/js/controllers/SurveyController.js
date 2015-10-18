@@ -219,10 +219,27 @@
         $scope.user = AuthService.user();
         loadProvinces();
     });
+
+    $scope.$on('$ionicView.enter', function () {
+        if ($scope.flag) {
+            $ionicHistory.clearCache();
+            $ionicHistory.clearHistory();
+        }
+    });
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+
+
+    });
+
     // check change sate to set needUpdate = false
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+        $scope.flag = false;
         if (fromState.name == "tabs.survey" && toState.name == "login")
             event.preventDefault();
+        else if (fromState.name == "tabs.newsurvey" && toState.name == "tabs.survey") {
+            $scope.flag = true;
+        }
     });
     $scope.update = false;
     //use to check update image
@@ -246,7 +263,7 @@
         }
     }
 
-    $scope.getPhoto = function(id) {
+    $scope.getPhoto = function (id) {
         $scope.id = id;
 
         $scope.popupChooseImage = $ionicPopup.show({
@@ -256,10 +273,10 @@
         });
     }
 
-   $scope.takePhoto = function (id, from) {
+    $scope.takePhoto = function (id, from) {
         $scope.id = id;
-        
-        switch(from) {
+
+        switch (from) {
             case 0:
                 $scope.takePhotoFromCamera(id);
                 break;
@@ -273,7 +290,7 @@
         if ($scope.popupChooseImage) {
             $scope.popupChooseImage.close();
         }
-        
+
         var options = {
             quality: 75,
             destinationType: Camera.DestinationType.FILE_URL,
@@ -287,13 +304,13 @@
         };
 
         navigator.camera.getPicture(onSuccess, onFail, options);
-    } 
+    }
 
     $scope.takePhotoFromAlbum = function (id) {
         if ($scope.popupChooseImage) {
             $scope.popupChooseImage.close();
         }
-        
+
         // var options = {
         //     quality: 75,
         //     destinationType: Camera.DestinationType.FILE_URL,
@@ -307,7 +324,7 @@
         // navigator.camera.getPicture(onSuccess, onFail, options);
 
         window.imagePicker.getPictures(
-            function(results) {
+            function (results) {
                 var uri = results[0];
                 onSuccess(uri);
             },
@@ -316,7 +333,7 @@
                 maximumImagesCount: 1,
                 width: 500,
                 height: 500,
-                quality : 75
+                quality: 75
             }
         );
     }
@@ -370,47 +387,47 @@
             var param = {
                 token: AuthService.token(),
                 surveyid: SurveyService.getSurveyID(),
-                ac_kd:  $scope.survey.HEO_ANCO,
+                ac_kd: $scope.survey.HEO_ANCO,
                 ac_mua: $scope.survey.HEO_ANCO == 0 ? 0 : $scope.survey.HEO_ANCO_MUA_TT,
-                ac_sl:  $scope.survey.HEO_ANCO == 0 ? 0 : parseInt($scope.survey.HEO_ANCO_SL),
+                ac_sl: $scope.survey.HEO_ANCO == 0 ? 0 : parseInt($scope.survey.HEO_ANCO_SL),
                 ac_con: $scope.survey.HEO_ANCO == 0 ? 0 : parseInt($scope.survey.HEO_ANCO_HEO),
-                ac_thit:$scope.survey.HEO_ANCO == 0 ? 0 : parseInt($scope.survey.HEO_ANCO_THIT),
+                ac_thit: $scope.survey.HEO_ANCO == 0 ? 0 : parseInt($scope.survey.HEO_ANCO_THIT),
                 ac_nai: $scope.survey.HEO_ANCO == 0 ? 0 : parseInt($scope.survey.HEO_ANCO_NAI),
 
                 cc_kd: $scope.survey.HEO_CONCO,
                 cc_mua: $scope.survey.HEO_CONCO == 0 ? 0 : $scope.survey.HEO_CONCO_MUA_TT,
-                cc_sl:  $scope.survey.HEO_CONCO == 0 ? 0 : parseInt($scope.survey.HEO_CONCO_SL),
+                cc_sl: $scope.survey.HEO_CONCO == 0 ? 0 : parseInt($scope.survey.HEO_CONCO_SL),
                 cc_con: $scope.survey.HEO_CONCO == 0 ? 0 : parseInt($scope.survey.HEO_CONCO_HEO),
-                cc_thit:$scope.survey.HEO_CONCO == 0 ? 0 : parseInt($scope.survey.HEO_CONCO_THIT),
+                cc_thit: $scope.survey.HEO_CONCO == 0 ? 0 : parseInt($scope.survey.HEO_CONCO_THIT),
                 cc_nai: $scope.survey.HEO_CONCO == 0 ? 0 : parseInt($scope.survey.HEO_CONCO_NAI),
 
                 cp_kd: $scope.survey.HEO_CP,
-                cp_mua:  $scope.survey.HEO_CP == 0 ? 0 : $scope.survey.HEO_CP_MUA_TT,
-                cp_sl:   $scope.survey.HEO_CP == 0 ? 0 : parseInt($scope.survey.HEO_CP_SL),
-                cp_con:  $scope.survey.HEO_CP == 0 ? 0 : parseInt($scope.survey.HEO_CP_HEO),
+                cp_mua: $scope.survey.HEO_CP == 0 ? 0 : $scope.survey.HEO_CP_MUA_TT,
+                cp_sl: $scope.survey.HEO_CP == 0 ? 0 : parseInt($scope.survey.HEO_CP_SL),
+                cp_con: $scope.survey.HEO_CP == 0 ? 0 : parseInt($scope.survey.HEO_CP_HEO),
                 cp_thit: $scope.survey.HEO_CP == 0 ? 0 : parseInt($scope.survey.HEO_CP_THIT),
-                cp_nai:  $scope.survey.HEO_CP == 0 ? 0 : parseInt($scope.survey.HEO_CP_NAI),
+                cp_nai: $scope.survey.HEO_CP == 0 ? 0 : parseInt($scope.survey.HEO_CP_NAI),
 
                 cg_kd: $scope.survey.HEO_CG,
-                cg_mua:  $scope.survey.HEO_CG == 0 ? 0 : $scope.survey.HEO_CG_MUA_TT,
-                cg_sl:   $scope.survey.HEO_CG == 0 ? 0 : parseInt($scope.survey.HEO_CG_SL),
-                cg_con:  $scope.survey.HEO_CG == 0 ? 0 : parseInt($scope.survey.HEO_CG_HEO),
+                cg_mua: $scope.survey.HEO_CG == 0 ? 0 : $scope.survey.HEO_CG_MUA_TT,
+                cg_sl: $scope.survey.HEO_CG == 0 ? 0 : parseInt($scope.survey.HEO_CG_SL),
+                cg_con: $scope.survey.HEO_CG == 0 ? 0 : parseInt($scope.survey.HEO_CG_HEO),
                 cg_thit: $scope.survey.HEO_CG == 0 ? 0 : parseInt($scope.survey.HEO_CG_THIT),
-                cg_nai:  $scope.survey.HEO_CG == 0 ? 0 : parseInt($scope.survey.HEO_CG_NAI),
+                cg_nai: $scope.survey.HEO_CG == 0 ? 0 : parseInt($scope.survey.HEO_CG_NAI),
 
                 gf_kd: $scope.survey.HEO_GF,
-                gf_mua:  $scope.survey.HEO_GF == 0 ? 0 : $scope.survey.HEO_GF_MUA_TT,
-                gf_sl:   $scope.survey.HEO_GF == 0 ? 0 : parseInt($scope.survey.HEO_GF_SL),
-                gf_con:  $scope.survey.HEO_GF == 0 ? 0 : parseInt($scope.survey.HEO_GF_HEO),
+                gf_mua: $scope.survey.HEO_GF == 0 ? 0 : $scope.survey.HEO_GF_MUA_TT,
+                gf_sl: $scope.survey.HEO_GF == 0 ? 0 : parseInt($scope.survey.HEO_GF_SL),
+                gf_con: $scope.survey.HEO_GF == 0 ? 0 : parseInt($scope.survey.HEO_GF_HEO),
                 gf_thit: $scope.survey.HEO_GF == 0 ? 0 : parseInt($scope.survey.HEO_GF_THIT),
-                gf_nai:  $scope.survey.HEO_GF == 0 ? 0 : parseInt($scope.survey.HEO_GF_NAI),
+                gf_nai: $scope.survey.HEO_GF == 0 ? 0 : parseInt($scope.survey.HEO_GF_NAI),
 
                 o_kd: $scope.survey.HEO_ANOTHER,
-                o_mua:  $scope.survey.HEO_ANOTHER == 0 ? 0 : $scope.survey.HEO_ANOTHER_MUA_TT,
-                o_sl:   $scope.survey.HEO_ANOTHER == 0 ? 0 : parseInt($scope.survey.HEO_ANOTHER_SL),
-                o_con:  $scope.survey.HEO_ANOTHER == 0 ? 0 : parseInt($scope.survey.HEO_ANOTHER_HEO),
+                o_mua: $scope.survey.HEO_ANOTHER == 0 ? 0 : $scope.survey.HEO_ANOTHER_MUA_TT,
+                o_sl: $scope.survey.HEO_ANOTHER == 0 ? 0 : parseInt($scope.survey.HEO_ANOTHER_SL),
+                o_con: $scope.survey.HEO_ANOTHER == 0 ? 0 : parseInt($scope.survey.HEO_ANOTHER_HEO),
                 o_thit: $scope.survey.HEO_ANOTHER == 0 ? 0 : parseInt($scope.survey.HEO_ANOTHER_THIT),
-                o_nai:  $scope.survey.HEO_ANOTHER == 0 ? 0 : parseInt($scope.survey.HEO_ANOTHER_NAI)
+                o_nai: $scope.survey.HEO_ANOTHER == 0 ? 0 : parseInt($scope.survey.HEO_ANOTHER_NAI)
             }
 
             if ($scope.survey.HEO_ID) {
@@ -420,7 +437,7 @@
 
             $http.post($scope.serviceBase + '/survey/create/heo', param, { timeout: $rootScope.TIME_OUT })
                 .then(
-                    function successCallback (response) {
+                    function successCallback(response) {
                         $ionicLoading.hide();
                         $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                         //console.log("AC_PC: " + ac_pc);
@@ -429,10 +446,10 @@
                         //if (ac_pc == 0)
                         //    $state.go('tabs.sales-giacam', {});
                         //else
-                            $state.go('tabs.sales-ga', {});
+                        $state.go('tabs.sales-ga', {});
 
                     },
-                    function errorCallback (response) {
+                    function errorCallback(response) {
                         $rootScope.processRequestError(response);
                     }
                 );
@@ -442,7 +459,7 @@
             //if (ac_pc == 0)
             //    $state.go('tabs.sales-giacam', {});
             //else
-                $state.go('tabs.sales-ga', {});
+            $state.go('tabs.sales-ga', {});
         }
     }
     // ---------------------GA--------------------------
@@ -464,46 +481,46 @@
                 surveyid: SurveyService.getSurveyID(),
 
                 cc_kd: $scope.survey.GA_CC,
-                cc_mua:  $scope.survey.GA_CC == 0 ? 0 : $scope.survey.GA_CC_MUA_TT,
+                cc_mua: $scope.survey.GA_CC == 0 ? 0 : $scope.survey.GA_CC_MUA_TT,
                 cc_gade: $scope.survey.GA_CC == 0 ? 0 : parseInt($scope.survey.GA_CC_GD),
-                cc_lt:   $scope.survey.GA_CC == 0 ? 0 : parseInt($scope.survey.GA_CC_LT),
-                cc_lm:   $scope.survey.GA_CC == 0 ? 0 : parseInt($scope.survey.GA_CC_LM),
+                cc_lt: $scope.survey.GA_CC == 0 ? 0 : parseInt($scope.survey.GA_CC_LT),
+                cc_lm: $scope.survey.GA_CC == 0 ? 0 : parseInt($scope.survey.GA_CC_LM),
 
                 cp_kd: $scope.survey.GA_CP,
-                cp_mua:  $scope.survey.GA_CP == 0 ? 0 : $scope.survey.GA_CP_MUA_TT,
+                cp_mua: $scope.survey.GA_CP == 0 ? 0 : $scope.survey.GA_CP_MUA_TT,
                 cp_gade: $scope.survey.GA_CP == 0 ? 0 : parseInt($scope.survey.GA_CP_GD),
-                cp_lt:   $scope.survey.GA_CP == 0 ? 0 : parseInt($scope.survey.GA_CP_LT),
-                cp_lm:   $scope.survey.GA_CP == 0 ? 0 : parseInt($scope.survey.GA_CP_LM),
+                cp_lt: $scope.survey.GA_CP == 0 ? 0 : parseInt($scope.survey.GA_CP_LT),
+                cp_lm: $scope.survey.GA_CP == 0 ? 0 : parseInt($scope.survey.GA_CP_LM),
 
                 gf_kd: $scope.survey.GA_GF,
-                gf_mua:  $scope.survey.GA_GF == 0 ? 0 : $scope.survey.GA_GF_MUA_TT,
+                gf_mua: $scope.survey.GA_GF == 0 ? 0 : $scope.survey.GA_GF_MUA_TT,
                 gf_gade: $scope.survey.GA_GF == 0 ? 0 : parseInt($scope.survey.GA_GF_GD),
-                gf_lt:   $scope.survey.GA_GF == 0 ? 0 : parseInt($scope.survey.GA_GF_LT),
-                gf_lm:   $scope.survey.GA_GF == 0 ? 0 : parseInt($scope.survey.GA_GF_LM),
+                gf_lt: $scope.survey.GA_GF == 0 ? 0 : parseInt($scope.survey.GA_GF_LT),
+                gf_lm: $scope.survey.GA_GF == 0 ? 0 : parseInt($scope.survey.GA_GF_LM),
 
                 jf_kd: $scope.survey.GA_JF,
-                jf_mua:  $scope.survey.GA_JF == 0 ? 0 : $scope.survey.GA_JF_MUA_TT,
+                jf_mua: $scope.survey.GA_JF == 0 ? 0 : $scope.survey.GA_JF_MUA_TT,
                 jf_gade: $scope.survey.GA_JF == 0 ? 0 : parseInt($scope.survey.GA_JF_GD),
-                jf_lt:   $scope.survey.GA_JF == 0 ? 0 : parseInt($scope.survey.GA_JF_LT),
-                jf_lm:   $scope.survey.GA_JF == 0 ? 0 : parseInt($scope.survey.GA_JF_LM),
+                jf_lt: $scope.survey.GA_JF == 0 ? 0 : parseInt($scope.survey.GA_JF_LT),
+                jf_lm: $scope.survey.GA_JF == 0 ? 0 : parseInt($scope.survey.GA_JF_LM),
 
                 db_kd: $scope.survey.GA_DB,
-                db_mua:  $scope.survey.GA_DB == 0 ? 0 : $scope.survey.GA_DB_MUA_TT,
+                db_mua: $scope.survey.GA_DB == 0 ? 0 : $scope.survey.GA_DB_MUA_TT,
                 db_gade: $scope.survey.GA_DB == 0 ? 0 : parseInt($scope.survey.GA_DB_GD),
-                db_lt:   $scope.survey.GA_DB == 0 ? 0 : parseInt($scope.survey.GA_DB_LT),
-                db_lm:   $scope.survey.GA_DB == 0 ? 0 : parseInt($scope.survey.GA_DB_LM),
+                db_lt: $scope.survey.GA_DB == 0 ? 0 : parseInt($scope.survey.GA_DB_LT),
+                db_lm: $scope.survey.GA_DB == 0 ? 0 : parseInt($scope.survey.GA_DB_LM),
 
                 nh_kd: $scope.survey.GA_NH,
-                nh_mua:  $scope.survey.GA_NH == 0 ? 0 : $scope.survey.GA_NH_MUA_TT,
-                nh_gade: $scope.survey.GA_NH == 0 ? 0 :  parseInt($scope.survey.GA_NH_GD),
-                nh_lt:   $scope.survey.GA_NH == 0 ? 0 :  parseInt($scope.survey.GA_NH_LT),
-                nh_lm:   $scope.survey.GA_NH == 0 ? 0 :  parseInt($scope.survey.GA_NH_LM),
+                nh_mua: $scope.survey.GA_NH == 0 ? 0 : $scope.survey.GA_NH_MUA_TT,
+                nh_gade: $scope.survey.GA_NH == 0 ? 0 : parseInt($scope.survey.GA_NH_GD),
+                nh_lt: $scope.survey.GA_NH == 0 ? 0 : parseInt($scope.survey.GA_NH_LT),
+                nh_lm: $scope.survey.GA_NH == 0 ? 0 : parseInt($scope.survey.GA_NH_LM),
 
                 o_kd: $scope.survey.GA_ANOTHER,
-                o_mua:  $scope.survey.GA_ANOTHER == 0 ? 0 : $scope.survey.GA_ANOTHER_MUA_TT,
+                o_mua: $scope.survey.GA_ANOTHER == 0 ? 0 : $scope.survey.GA_ANOTHER_MUA_TT,
                 o_gade: $scope.survey.GA_ANOTHER == 0 ? 0 : parseInt($scope.survey.GA_ANOTHER_GD),
-                o_lt:   $scope.survey.GA_ANOTHER == 0 ? 0 : parseInt($scope.survey.GA_ANOTHER_LT),
-                o_lm:   $scope.survey.GA_ANOTHER == 0 ? 0 : parseInt($scope.survey.GA_ANOTHER_LM)
+                o_lt: $scope.survey.GA_ANOTHER == 0 ? 0 : parseInt($scope.survey.GA_ANOTHER_LT),
+                o_lm: $scope.survey.GA_ANOTHER == 0 ? 0 : parseInt($scope.survey.GA_ANOTHER_LM)
             }
             if ($scope.survey.GA_ID) {
                 param.gaid = $scope.survey.GA_ID;
@@ -512,7 +529,7 @@
 
             $http.post($scope.serviceBase + '/survey/create/ga', param, { timeout: $rootScope.TIME_OUT })
                 .then(
-                    function successCallback (response) {
+                    function successCallback(response) {
                         $ionicLoading.hide();
                         $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                         $scope.survey.GA_ID = response.data.GaId;
@@ -520,8 +537,8 @@
 
                         $state.go('tabs.sales-vit', {});
 
-                     },
-                    function errorCallback (response) {
+                    },
+                    function errorCallback(response) {
                         $rootScope.processRequestError(response);
                     }
                 );
@@ -550,38 +567,38 @@
 
                 cg_kd: $scope.survey.VIT_CG,
                 cg_mua: $scope.survey.VIT_CG == 0 ? 0 : $scope.survey.VIT_CG_MUA_TT,
-                cg_vd:  $scope.survey.VIT_CG == 0 ? 0 : parseInt($scope.survey.VIT_CG_VD),
-                cg_vt:  $scope.survey.VIT_CG == 0 ? 0 : parseInt($scope.survey.VIT_CG_VT),
+                cg_vd: $scope.survey.VIT_CG == 0 ? 0 : parseInt($scope.survey.VIT_CG_VD),
+                cg_vt: $scope.survey.VIT_CG == 0 ? 0 : parseInt($scope.survey.VIT_CG_VT),
 
                 cc_kd: $scope.survey.VIT_CC,
                 cc_mua: $scope.survey.VIT_CC == 0 ? 0 : $scope.survey.VIT_CC_MUA_TT,
-                cc_vd:  $scope.survey.VIT_CC == 0 ? 0 : parseInt($scope.survey.VIT_CC_VD),
-                cc_vt:  $scope.survey.VIT_CC == 0 ? 0 : parseInt($scope.survey.VIT_CC_VT),
+                cc_vd: $scope.survey.VIT_CC == 0 ? 0 : parseInt($scope.survey.VIT_CC_VD),
+                cc_vt: $scope.survey.VIT_CC == 0 ? 0 : parseInt($scope.survey.VIT_CC_VT),
 
                 dh_kd: $scope.survey.VIT_DH,
                 dh_mua: $scope.survey.VIT_DH == 0 ? 0 : $scope.survey.VIT_DH_MUA_TT,
-                dh_vd:  $scope.survey.VIT_DH == 0 ? 0 : parseInt($scope.survey.VIT_DH_VD),
-                dh_vt:  $scope.survey.VIT_DH == 0 ? 0 : parseInt($scope.survey.VIT_DH_VT),
+                dh_vd: $scope.survey.VIT_DH == 0 ? 0 : parseInt($scope.survey.VIT_DH_VD),
+                dh_vt: $scope.survey.VIT_DH == 0 ? 0 : parseInt($scope.survey.VIT_DH_VT),
 
                 nh_kd: $scope.survey.VIT_NH,
                 nh_mua: $scope.survey.VIT_NH == 0 ? 0 : $scope.survey.VIT_NH_MUA_TT,
-                nh_vd:  $scope.survey.VIT_NH == 0 ? 0 : parseInt($scope.survey.VIT_NH_VD),
-                nh_vt:  $scope.survey.VIT_NH == 0 ? 0 : parseInt($scope.survey.VIT_NH_VT),
+                nh_vd: $scope.survey.VIT_NH == 0 ? 0 : parseInt($scope.survey.VIT_NH_VD),
+                nh_vt: $scope.survey.VIT_NH == 0 ? 0 : parseInt($scope.survey.VIT_NH_VT),
 
                 gf_kd: $scope.survey.VIT_GF,
                 gf_mua: $scope.survey.VIT_GF == 0 ? 0 : $scope.survey.VIT_GF_MUA_TT,
-                gf_vd:  $scope.survey.VIT_GF == 0 ? 0 : parseInt($scope.survey.VIT_GF_VD),
-                gf_vt:  $scope.survey.VIT_GF == 0 ? 0 : parseInt($scope.survey.VIT_GF_VT),
+                gf_vd: $scope.survey.VIT_GF == 0 ? 0 : parseInt($scope.survey.VIT_GF_VD),
+                gf_vt: $scope.survey.VIT_GF == 0 ? 0 : parseInt($scope.survey.VIT_GF_VT),
 
                 lt_kd: $scope.survey.VIT_LT,
                 lt_mua: $scope.survey.VIT_LT == 0 ? 0 : $scope.survey.VIT_LT_MUA_TT,
-                lt_vd:  $scope.survey.VIT_LT == 0 ? 0 : parseInt($scope.survey.VIT_LT_VD),
-                lt_vt:  $scope.survey.VIT_LT == 0 ? 0 : parseInt($scope.survey.VIT_LT_VT),
+                lt_vd: $scope.survey.VIT_LT == 0 ? 0 : parseInt($scope.survey.VIT_LT_VD),
+                lt_vt: $scope.survey.VIT_LT == 0 ? 0 : parseInt($scope.survey.VIT_LT_VT),
 
                 o_kd: $scope.survey.VIT_ANOTHER,
                 o_mua: $scope.survey.VIT_ANOTHER == 0 ? 0 : $scope.survey.VIT_ANOTHER_MUA_TT,
-                o_vd:  $scope.survey.VIT_ANOTHER == 0 ? 0 : parseInt($scope.survey.VIT_ANOTHER_VD),
-                o_vt:  $scope.survey.VIT_ANOTHER == 0 ? 0 : parseInt($scope.survey.VIT_ANOTHER_VT)
+                o_vd: $scope.survey.VIT_ANOTHER == 0 ? 0 : parseInt($scope.survey.VIT_ANOTHER_VD),
+                o_vt: $scope.survey.VIT_ANOTHER == 0 ? 0 : parseInt($scope.survey.VIT_ANOTHER_VT)
             }
             if ($scope.survey.VIT_ID) {
                 param.vitid = $scope.survey.VIT_ID;
@@ -590,23 +607,25 @@
 
             $http.post($scope.serviceBase + '/survey/create/vit', param, { timeout: $rootScope.TIME_OUT })
                 .then(
-                    function successCallback (response) {
+                    function successCallback(response) {
                         $ionicLoading.hide();
                         $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                         $scope.survey.VIT_ID = response.data.VitId;
                         $scope.update = false;
 
-                        $state.go('tabs.sales-bo', {}, { reload: true });
+                        //$state.go('tabs.sales-bo', {}, { reload: true });
+                        $state.go('tabs.sales-bo');
 
-                     },
-                    function errorCallback (response) {
+                    },
+                    function errorCallback(response) {
                         $rootScope.processRequestError(response);
                     }
                 );
         }
         else {
             $scope.update = false;
-            $state.go('tabs.sales-bo', {}, { reload: true });
+            //$state.go('tabs.sales-bo', {}, { reload: true });
+            $state.go('tabs.sales-bo');
         }
     }
     // ---------------------BO--------------------------
@@ -628,23 +647,23 @@
 
                 cc_kd: $scope.survey.BO_CC,
                 cc_mua: $scope.survey.BO_CC == 0 ? 0 : $scope.survey.BO_CC_MUA_TT,
-                cc_sl:  $scope.survey.BO_CC == 0 ? 0 : parseInt($scope.survey.BO_CC_SL),
+                cc_sl: $scope.survey.BO_CC == 0 ? 0 : parseInt($scope.survey.BO_CC_SL),
 
                 dh_kd: $scope.survey.BO_DH,
                 dh_mua: $scope.survey.BO_DH == 0 ? 0 : $scope.survey.BO_DH_MUA_TT,
-                dh_sl:  $scope.survey.BO_DH == 0 ? 0 : parseInt($scope.survey.BO_DH_SL),
+                dh_sl: $scope.survey.BO_DH == 0 ? 0 : parseInt($scope.survey.BO_DH_SL),
 
                 cp_kd: $scope.survey.BO_CP,
                 cp_mua: $scope.survey.BO_CP == 0 ? 0 : $scope.survey.BO_CP_MUA_TT,
-                cp_sl:  $scope.survey.BO_CP == 0 ? 0 : parseInt($scope.survey.BO_CP_SL),
+                cp_sl: $scope.survey.BO_CP == 0 ? 0 : parseInt($scope.survey.BO_CP_SL),
 
                 up_kd: $scope.survey.BO_UP,
                 up_mua: $scope.survey.BO_UP == 0 ? 0 : $scope.survey.BO_UP_MUA_TT,
-                up_sl:  $scope.survey.BO_UP == 0 ? 0 : parseInt($scope.survey.BO_UP_SL),
+                up_sl: $scope.survey.BO_UP == 0 ? 0 : parseInt($scope.survey.BO_UP_SL),
 
                 o_kd: $scope.survey.BO_ANOTHER,
                 o_mua: $scope.survey.BO_ANOTHER == 0 ? 0 : $scope.survey.BO_ANOTHER_MUA_TT,
-                o_sl:  $scope.survey.BO_ANOTHER == 0 ? 0 : parseInt($scope.survey.BO_ANOTHER_SL)
+                o_sl: $scope.survey.BO_ANOTHER == 0 ? 0 : parseInt($scope.survey.BO_ANOTHER_SL)
             }
             if ($scope.survey.BO_ID) {
                 param.boid = $scope.survey.BO_ID;
@@ -653,7 +672,7 @@
 
             $http.post($scope.serviceBase + '/survey/create/bo', param, { timeout: $rootScope.TIME_OUT })
                 .then(
-                    function successCallback (response) {
+                    function successCallback(response) {
                         $ionicLoading.hide();
                         $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                         $scope.BO_ID = response.data.BoId;
@@ -661,9 +680,9 @@
                         $ionicHistory.clearCache();
                         $state.go('tabs.survey', {}, { reload: true });
 
-                     },
-                    function errorCallback (response) {
-                       $rootScope.processRequestError(response);
+                    },
+                    function errorCallback(response) {
+                        $rootScope.processRequestError(response);
                     }
                 );
         }
@@ -676,7 +695,7 @@
     // ---------------------GIA CAM--------------------------
     $scope.saveGiaCam = function (isValid) {
         $scope.submited = true;
-        
+
         if (!isValid) {
             $ionicLoading.hide();
             $ionicLoading.show({ template: 'Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại!\n', noBackdrop: true, duration: 2000 });
@@ -701,8 +720,8 @@
                 token: AuthService.token(),
                 surveyid: SurveyService.getSurveyID(),
 
-                kd : kd,
-                ga:  ga,
+                kd: kd,
+                ga: ga,
                 vit: vit,
                 cut: cut
             }
@@ -715,7 +734,7 @@
 
             $http.post($scope.serviceBase + '/survey/create/giacam', param, { timeout: $rootScope.TIME_OUT })
                 .then(
-                    function successCallback (response) {
+                    function successCallback(response) {
                         $ionicLoading.hide();
                         $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                         $scope.survey.GIA_CAM_ID = response.data.giaCamId;
@@ -723,8 +742,8 @@
                         $ionicHistory.clearCache();
                         $state.go('tabs.survey', {}, { reload: true });
 
-                     },
-                    function errorCallback (response) {
+                    },
+                    function errorCallback(response) {
                         $rootScope.processRequestError(response);
                     }
                 );
@@ -746,7 +765,7 @@
 
         $http.get($scope.serviceBase + '/provinces', { params: param, timeout: $rootScope.TIME_OUT })
             .then(
-                function successCallback (response) {
+                function successCallback(response) {
                     $scope.provinces = [];
                     $scope.provinces.push.apply($scope.provinces, response.data);
 
@@ -755,7 +774,7 @@
                         $scope.loadDistrict();
                     }
                 },
-                function errorCallback (response) {
+                function errorCallback(response) {
                     $rootScope.processRequestError(response);
                 }
             );
@@ -861,7 +880,7 @@
 
         if ($scope.update) {
             $ionicLoading.show({ template: 'Đang lưu...' });
-            
+
             var mBirthday = $scope.dealer.day + "/" + $scope.dealer.month + "/";
             if (typeof $scope.dealer.year !== "undefined" && $scope.dealer.year != null) {
                 mBirthday = mBirthday + $scope.dealer.year;
@@ -905,7 +924,7 @@
 
             $http.post($scope.serviceBase + '/survey/create_or_update', param, { timeout: $rootScope.TIME_OUT })
                 .then(
-                    function successCallback (response) {
+                    function successCallback(response) {
                         //console.log(response);
                         SurveyService.setSurveyID(response.data.SurveyId);
                         console.log("provinceID = " + $scope.dealer.provinceId);
@@ -961,9 +980,9 @@
                         $scope.update = false;
                         $state.go('tabs.sales-heo');
 
-                     },
-                    function errorCallback (response) {
-                       $rootScope.processRequestError(response);
+                    },
+                    function errorCallback(response) {
+                        $rootScope.processRequestError(response);
                     }
                 );
         }
@@ -1126,7 +1145,7 @@
 
         $http.get($scope.serviceBase + '/dealers', { params: param, timeout: $rootScope.TIME_OUT })
             .then(
-                function successCallback (response) {
+                function successCallback(response) {
                     $scope.dealers = [];
                     $scope.dealers.push.apply($scope.dealers, response.data);
                     console.log($scope.dealers);
@@ -1134,7 +1153,7 @@
                         $scope.setDealer(0);
                     }
                 },
-                function errorCallback (response) {
+                function errorCallback(response) {
                     $rootScope.processRequestError(response);
                 }
             );
@@ -1246,7 +1265,7 @@
 
         $http.get($scope.serviceBase + '/districts', { params: param, timeout: $rootScope.TIME_OUT })
             .then(
-                function successCallback (response) {
+                function successCallback(response) {
                     $scope.districts = [];
                     $scope.districts.push.apply($scope.districts, response.data);
 
@@ -1269,7 +1288,7 @@
 
         $http.get($scope.serviceBase + '/wards', { params: param, timeout: $rootScope.TIME_OUT })
             .then(
-                function successCallback (response) {
+                function successCallback(response) {
                     $scope.wards = [];
                     $scope.wards.push.apply($scope.wards, response.data);
 
@@ -1277,7 +1296,7 @@
                         $scope.dealer.wardId = $scope.wards[0].WardId;
                     }
                 },
-                function errorCallback (response) {
+                function errorCallback(response) {
                     $rootScope.processRequestError(response);
                 }
             );
