@@ -807,6 +807,7 @@
         $scope.dealer.districtId = undefined;
         $scope.dealer.districtName = undefined;
         $scope.dealer.address = undefined;
+        $scope.dealer.wardId = undefined;
     }
 
     $scope.checkInput = function () {
@@ -896,7 +897,7 @@
                 phonenumber: $scope.dealer.phoneNumber,
                 birthday: mBirthday,
                 //districtid: $scope.dealer.districtId,
-                wardid: $scope.dealer.wardId,
+                wardid: $scope.dealer.ward.WardId,
                 address: $scope.dealer.address,
                 cmnd: $scope.dealer.cmnd,
                 // cmndfont : $scope.dealer.cmndFront,
@@ -945,8 +946,7 @@
                         $scope.dealer.dealerId = response.data.DealerId;
 
 
-                        $ionicLoading.hide();
-                        $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+
 
                         // Upload image
                         $scope.sum = 0;
@@ -963,6 +963,11 @@
                             $scope.sum++;
                         if ($scope.update5)
                             $scope.sum++;
+
+                        if ($scope.sum == 0) {
+                            $ionicLoading.hide();
+                            $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                        }
 
                         if ($scope.update1)
                             uploadImage($scope.imgCMND1, 1);
@@ -1001,6 +1006,7 @@
                 $scope.sum++;
             if ($scope.update5)
                 $scope.sum++;
+
             // if need update image -> update
             if ($scope.update1)
                 uploadImage($scope.imgCMND1, 1);
@@ -1074,7 +1080,7 @@
                 }
                 else {
                     $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'Upload ảnh thành công!\n', noBackdrop: true, duration: 2000 });
+                    $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!\n', noBackdrop: true, duration: 2000 });
                 }
             }
 
@@ -1292,8 +1298,20 @@
                     $scope.wards = [];
                     $scope.wards.push.apply($scope.wards, response.data);
 
-                    if ($scope.wards.length > 0) {
-                        $scope.dealer.wardId = $scope.wards[0].WardId;
+                    // if (!$scope.dealer.wardId && $scope.wards.length > 0) {
+                    //     $scope.dealer.wardId = $scope.wards[0].WardId;
+                    // } else {
+
+                    // }
+
+                    if (!$scope.dealer.wardId && $scope.wards.length > 0) {
+                        $scope.dealer.ward = $scope.wards[0];
+                    } else {
+                        angular.forEach($scope.wards, function(value, key) {
+                            if ($scope.dealer.wardId == value.WardId) {
+                                $scope.dealer.ward = value;
+                            }
+                        });
                     }
                 },
                 function errorCallback(response) {

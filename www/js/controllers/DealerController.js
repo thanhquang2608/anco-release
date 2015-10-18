@@ -54,7 +54,7 @@
         
         var options = {
             quality: 75,
-            destinationType: Camera.DestinationType.NATIVE_URI,
+            destinationType: Camera.DestinationType.FILE_URL,
             sourceType: Camera.PictureSourceType.CAMERA,
             //allowEdit: true,
             encodingType: Camera.EncodingType.JPEG,
@@ -193,7 +193,7 @@
                 }
                 else {
                     $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'Upload ảnh thành công!\n', noBackdrop: true, duration: 2000 });
+                    $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                 }
             }
         }
@@ -276,6 +276,7 @@
             .then(
                 function successCallback (response) {
                     $scope.districts = response.data;
+                    $scope.loadWard();
                     //$scope.districts = [];
                     //$scope.districts.push.apply($scope.districts, response);
                 },
@@ -297,8 +298,14 @@
                     $scope.wards = [];
                     $scope.wards.push.apply($scope.wards, response.data);
 
-                    if ($scope.wards.length > 0) {
-                        $scope.dealer.wardId = $scope.wards[0].WardId;
+                    if (!$scope.dealer.WardId && $scope.wards.length > 0) {
+                        $scope.dealer.ward = $scope.wards[0];
+                    } else {
+                        angular.forEach($scope.wards, function(value, key) {
+                            if ($scope.dealer.WardId == value.WardId) {
+                                $scope.dealer.ward = value;
+                            }
+                        });
                     }
                 },
                 function errorCallback (response) {
@@ -584,7 +591,7 @@
                 phonenumber: $scope.dealer.PhoneNumber,
                 birthday: mBirthday,
                 districtid: $scope.dealer.DistrictId,
-                wardid: $scope.dealer.WardId,
+                wardid: $scope.dealer.ward.WardId,
                 address: $scope.dealer.Address,
                 cmnd: $scope.dealer.CMND,
                 // cmndfont : $scope.dealer.cmndFront,
@@ -614,8 +621,8 @@
                 .then(
                     function successCallback (response) {
                         //console.log(response);
-                        $ionicLoading.hide();
-                        $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                        //$ionicLoading.hide();
+                        //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
 
                         // edit first item in list dealer
                         var provinceName = getProvinceName($scope.dealer.ProvinceId);
@@ -639,6 +646,11 @@
                             $scope.sum++;
                         if ($scope.update5)
                             $scope.sum++;
+
+                        if ($scope.sum == 0) {
+                            $ionicLoading.hide();
+                            $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                        }
 
                         if ($scope.update1)
                             uploadImage($scope.dealer.CMND_Front_Local, 1);

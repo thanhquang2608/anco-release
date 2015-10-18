@@ -152,17 +152,23 @@
             </div>-->
             <div class="row">
                 <div class="col-survey-title padding-left">Quận/Huyện</div>
-                <div class="col">
+                <div class="col" ng-if="dealer.AC_PC == 2">
                     <select class="full-width match-parent" ng-model="dealer.districtId" ng-change="loadWard(); setUpdate()">
                         <option ng-selected="dealer.districtId == d.DistrictId" ng-repeat="d in districts track by $index" ng-bind="d.DistrictName" ng-value="d.DistrictId"></option>
                     </select>
+                </div>
+                <div class="col" ng-if="dealer.AC_PC != 2">
+                    <label ng-bind="dealer.districtName">
+                    </label>
                 </div>
             </div>
             <div class="row">
                 <div class="col-survey-title padding-left">Xã/Phường</div>
                 <div class="col">
-                    <select class="full-width match-parent" ng-model="dealer.wardId" ng-change="setUpdate()">
+                   <!--  <select  ng-model="dealer.wardId" ng-change="setUpdate()">
                         <option ng-selected="dealer.wardId == d.WardId" ng-repeat="d in wards track by $index" ng-bind="d.WardName" ng-value="d.WardId"></option>
+                    </select> -->
+                    <select class="full-width match-parent" ng-model="dealer.ward" ng-options="d.WardName for d in wards" ng-change="setUpdate()">
                     </select>
                 </div>
             </div>

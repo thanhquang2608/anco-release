@@ -104,27 +104,29 @@
             </div>
             <div class="row">
                 <div class="col-survey-title padding-left">Quận/Huyện</div>
-                <!--<div class="col" ng-if="dealer.AC_PC == 2">
+                <div class="col" ng-if="dealer.Buy == 2">
                     <select class="full-width match-parent" ng-model="dealer.DistrictId" ng-change="loadWard(); setUpdate()" >
                     <option ng-selected="dealer.DistrictId == d.DistrictId" ng-repeat="d in districts track by $index" ng-bind="d.DistrictName" ng-value="d.DistrictId"></option>
                     </select>
-                </div>-->
-                <div class="col" ng-if="dealer.AC_PC != 2">
+                </div>
+                <div class="col" ng-if="dealer.Buy != 2">
                     <label ng-bind="dealer.DistrictName">
                     </label>
                 </div>
             </div>
             <div class="row">
                 <div class="col-survey-title padding-left">Xã/Phường</div>
-                <!--<div class="col" ng-if="dealer.AC_PC == 2">
-                    <select class="full-width match-parent" ng-model="dealer.wardId"  ng-change="setUpdate()">
+                <div class="col">
+                    <!-- <select class="full-width match-parent" ng-model="dealer.wardId"  ng-change="setUpdate()">
                         <option ng-selected="dealer.wardId == d.wardId" ng-repeat="d in wards track by $index" ng-bind="d.WardName" ng-value="d.WardId"></option>
+                    </select> -->
+                    <select class="full-width match-parent" ng-model="dealer.ward" ng-options="d.WardName for d in wards" ng-change="setUpdate()">
                     </select>
-                </div>-->
-                <div class="col" ng-if="dealer.AC_PC != 2">
+                </div>
+                <!-- <div class="col" ng-if="dealer.AC_PC != 2">
                     <label ng-bind="dealer.WardName">
                     </label>
-                </div>
+                </div> -->
             </div>
             <div class="row">
                 <div class="col-survey-title padding-left">Địa chỉ cụ thể</div>
