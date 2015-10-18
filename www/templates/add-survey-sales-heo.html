@@ -1,0 +1,489 @@
+﻿<ion-view view-title="Thông tin khảo sát - HEO" hide-tabs>
+    <ion-content style="font-size:16px;">
+        <center><h3 class="padding-top">HEO</h3></center>
+        <form name="frmHeo" ng-submit="saveHeo(user.AC_PC, frmHeo.$valid);" novalidate>
+            <!-- ANCO -->
+            <div class="card">
+                <div class="item item-divider">
+                    ANCO
+                    <span style="float:right;">
+                        <input id="heo_anco_k_kd" type="radio" value="0" ng-model="survey.HEO_ANCO" ng-change="setUpdate()">
+                        <label for="heo_anco_k_kd">Không KD &nbsp;</label>
+                        <input id="heo_anco_kd" type="radio" value="1" ng-model="survey.HEO_ANCO" ng-change="setUpdate()">
+                        <label for="heo_anco_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="heo_anco_k_mua_tt" ng-disabled="survey.HEO_ANCO == 0" type="radio" value="0" ng-model="survey.HEO_ANCO_MUA_TT" ng-change="setUpdate()">
+                            <label for="heo_anco_k_mua_tt">Không &nbsp;</label>
+                            <input id="heo_anco_mua_tt" ng-disabled="survey.HEO_ANCO == 0" type="radio" value="1" ng-model="survey.HEO_ANCO_MUA_TT" ng-change="setUpdate()">
+                            <label for="heo_anco_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">                   
+                        <div class="col-survey-title">Sản lượng</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_ANCO == 0" class="number" type="number item-input-inset" ng-model="survey.HEO_ANCO_SL" name="HEO_ANCO_SL" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_ANCO_SL.$dirty) && (frmHeo.HEO_ANCO_SL.$error.pattern || frmHeo.HEO_ANCO_SL.$error.maxlength)">
+                            Không hợp lệ
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">
+                            Tỉ trọng Cám
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Heo con</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_ANCO == 0" class="number" type="number item-input-inset" name="HEO_ANCO_HEO" ng-model="survey.HEO_ANCO_HEO" ng-change="setUpdate()">
+                                <label>(%)</label>
+                            </div>
+                             <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_ANCO_HEO.$dirty) && (frmHeo.HEO_ANCO_HEO.$error.pattern || frmHeo.HEO_ANCO_HEO.$error.maxlength)">
+                            Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Thịt</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_ANCO == 0" class="number" type="number item-input-inset" name="HEO_ANCO_THIT" ng-model="survey.HEO_ANCO_THIT" ng-change="setUpdate()">
+                                <label>(%)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_ANCO_THIT.$dirty) && (frmHeo.HEO_ANCO_THIT.$error.pattern || frmHeo.HEO_ANCO_THIT.$error.maxlength)">
+                            Không hợp lệ
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Nái</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_ANCO == 0" class="number" type="number item-input-inset" name="HEO_ANCO_NAI" ng-model="survey.HEO_ANCO_NAI" ng-change="setUpdate()">
+                                <label>(%)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_ANCO_NAI.$dirty) && (frmHeo.HEO_ANCO_NAI.$error.pattern || frmHeo.HEO_ANCO_NAI.$error.maxlength)">
+                            Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ANCO -->
+            <!-- CON CO -->
+            <div class="card">
+                <div class="item item-divider">
+                    CON CÒ
+                    <span style="float:right;">
+                        <input id="heo_cc_k_kd" type="radio" name="heo-conco" value="0" ng-model="survey.HEO_CONCO" ng-change="setUpdate()">
+                        <label for="heo_cc_k_kd">Không KD &nbsp;</label>
+                        <input id="heo_cc_kd" type="radio" name="heo-conco" value="1" ng-model="survey.HEO_CONCO" ng-change="setUpdate()">
+                        <label for="heo_cc_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="heo_cc_k_mua_tt" ng-disabled="survey.HEO_CONCO == 0" type="radio" value="0" ng-model="survey.HEO_CONCO_MUA_TT" ng-change="setUpdate()">
+                            <label for="heo_cc_k_mua_tt">Không &nbsp;</label>
+                            <input id="heo_cc_mua_tt" ng-disabled="survey.HEO_CONCO == 0" type="radio" value="1" ng-model="survey.HEO_CONCO_MUA_TT" ng-change="setUpdate()">
+                            <label for="heo_cc_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_CONCO == 0" class="number" type="number item-input-inset" name="HEO_CONCO_SL" ng-model="survey.HEO_CONCO_SL" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_CONCO_SL.$dirty) && (frmHeo.HEO_CONCO_SL.$error.pattern || frmHeo.HEO_CONCO_SL.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">
+                            Tỉ trọng Cám
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Heo con</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_CONCO == 0" class="number" type="number item-input-inset" name="HEO_CONCO_HEO" ng-model="survey.HEO_CONCO_HEO" ng-change="setUpdate()">
+                                <label>(%)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_CONCO_HEO.$dirty) && (frmHeo.HEO_CONCO_HEO.$error.pattern || frmHeo.HEO_CONCO_HEO.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Thịt</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_CONCO == 0" class="number" type="number item-input-inset" name="HEO_CONCO_THIT" ng-model="survey.HEO_CONCO_THIT" ng-change="setUpdate()">
+                                <label>(%)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_CONCO_THIT.$dirty) && (frmHeo.HEO_CONCO_THIT.$error.pattern || frmHeo.HEO_CONCO_THIT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Nái</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_CONCO == 0" class="number" type="number item-input-inset" name="HEO_CONCO_NAI" ng-model="survey.HEO_CONCO_NAI" ng-change="setUpdate()">
+                                <label>(%)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_CONCO_NAI.$dirty) && (frmHeo.HEO_CONCO_NAI.$error.pattern || frmHeo.HEO_CONCO_NAI.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- CON CO -->
+            <!-- CP -->
+            <div class="card">
+                <div class="item item-divider">
+                    CP
+                    <span style="float:right;">
+                        <input id="heo_cp_k_kd" type="radio" name="heo-cp" value="0" ng-model="survey.HEO_CP" ng-change="setUpdate()">
+                        <label for="heo_cp_k_kd">Không KD &nbsp;</label>
+                        <input id="heo_cp_kd" type="radio" name="hep-cp" value="1" ng-model="survey.HEO_CP" ng-change="setUpdate()">
+                        <label for="heo_cp_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="heo_cp_k_mua_tt" ng-disabled="survey.HEO_CP == 0" type="radio" value="0" ng-model="survey.HEO_CP_MUA_TT" ng-change="setUpdate()">
+                            <label for="heo_cp_k_mua_tt">Không &nbsp;</label>
+                            <input id="heo_cp_mua_tt" ng-disabled="survey.HEO_CP == 0" type="radio" value="1" ng-model="survey.HEO_CP_MUA_TT" ng-change="setUpdate()">
+                            <label for="heo_cp_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_CP == 0" class="number" type="number item-input-inset" name="HEO_CP_SL" ng-model="survey.HEO_CP_SL" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_CP_SL.$dirty) && (frmHeo.HEO_CP_SL.$error.pattern || frmHeo.HEO_CP_SL.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">
+                            Tỉ trọng Cám
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Heo con</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_CP == 0" class="number" type="number item-input-inset" name="HEO_CP_HEO" ng-model="survey.HEO_CP_HEO" ng-change="setUpdate()">
+                                <label>(%)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_CP_HEO.$dirty) && (frmHeo.HEO_CP_HEO.$error.pattern || frmHeo.HEO_CP_HEO.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Thịt</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_CP == 0" class="number" type="number item-input-inset" name="HEO_CP_THIT" ng-model="survey.HEO_CP_THIT" ng-change="setUpdate()">
+                                <label>(%)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_CP_THIT.$dirty) && (frmHeo.HEO_CP_THIT.$error.pattern || frmHeo.HEO_CP_THIT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Nái</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_CP == 0" class="number" type="number item-input-inset" name="HEO_CP_NAI" ng-model="survey.HEO_CP_NAI" ng-change="setUpdate()">
+                                <label>(%)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_CP_NAI.$dirty) && (frmHeo.HEO_CP_NAI.$error.pattern || frmHeo.HEO_CP_NAI.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- CP -->
+            <!-- CARGILL -->
+            <div class="card">
+                <div class="item item-divider">
+                    CARGILL
+                    <span style="float:right;">
+                        <input id="heo_cg_k_kd" type="radio" name="hep-cg" value="0" ng-model="survey.HEO_CG" ng-change="setUpdate()">
+                        <label for="heo_cg_k_kd">Không KD &nbsp;</label>
+                        <input id="heo_cg_kd" type="radio" name="heo-cg" value="1" ng-model="survey.HEO_CG" ng-change="setUpdate()">
+                        <label for="heo_cg_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="heo_cg_k_mua_tt" ng-disabled="survey.HEO_CG == 0" type="radio" value="0" ng-model="survey.HEO_CG_MUA_TT" ng-change="setUpdate()">
+                            <label for="heo_cg_k_mua_tt">Không &nbsp;</label>
+                            <input id="heo_cg_mua_tt" ng-disabled="survey.HEO_CG == 0" type="radio" value="1" ng-model="survey.HEO_CG_MUA_TT" ng-change="setUpdate()">
+                            <label for="heo_cg_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_CG == 0" class="number" type="number item-input-inset" name="HEO_CG_SL" ng-model="survey.HEO_CG_SL" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_CG_SL.$dirty) && (frmHeo.HEO_CG_SL.$error.pattern || frmHeo.HEO_CG_SL.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                   <div class="row">
+                        <div class="col-survey-title">
+                            Tỉ trọng Cám
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Heo con</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_CG == 0" class="number" type="number item-input-inset" name="HEO_CG_HEO" ng-model="survey.HEO_CG_HEO" ng-change="setUpdate()">
+                                <label>(%)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_CG_HEO.$dirty) && (frmHeo.HEO_CG_HEO.$error.pattern || frmHeo.HEO_CG_HEO.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Thịt</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_CG == 0" class="number" type="number item-input-inset" name="HEO_CG_THIT" ng-model="survey.HEO_CG_THIT" ng-change="setUpdate()">
+                                <label>(%)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_CG_THIT.$dirty) && (frmHeo.HEO_CG_THIT.$error.pattern || frmHeo.HEO_CG_THIT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Nái</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_CG == 0" class="number" type="number item-input-inset" name="HEO_CG_NAI" ng-model="survey.HEO_CG_NAI" ng-change="setUpdate()">
+                                <label>(%)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_CG_NAI.$dirty) && (frmHeo.HEO_CG_NAI.$error.pattern || frmHeo.HEO_CG_NAI.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- CARGILL -->
+            <!-- GREEN FEED -->
+            <div class="card">
+                <div class="item item-divider">
+                    GREENFEED
+                    <span style="float:right;">
+                        <input id="heo_gf_k_kd" type="radio" name="heo-gf" value="0" ng-model="survey.HEO_GF" ng-change="setUpdate()">
+                        <label for="heo_gf_k_kd">Không KD &nbsp;</label>
+                        <input id="heo_gf_kd" type="radio" name="heo-gf" value="1" ng-model="survey.HEO_GF" ng-change="setUpdate()">
+                        <label for="heo_gf_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="heo_gf_k_mua_tt" ng-disabled="survey.HEO_GF == 0" type="radio" value="0" ng-model="survey.HEO_GF_MUA_TT" ng-change="setUpdate()">
+                            <label for="heo_gf_k_mua_tt">Không &nbsp;</label>
+                            <input id="heo_gf_mua_tt" ng-disabled="survey.HEO_GF == 0" type="radio" value="1" ng-model="survey.HEO_GF_MUA_TT" ng-change="setUpdate()">
+                            <label for="heo_gf_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_GF == 0" class="number" type="number item-input-inset" name="HEO_GF_SL" ng-model="survey.HEO_GF_SL" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_GF_SL.$dirty) && (frmHeo.HEO_GF_SL.$error.pattern || frmHeo.HEO_GF_SL.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                   <div class="row">
+                        <div class="col-survey-title">
+                            Tỉ trọng Cám
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Heo con</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_GF == 0" class="number" type="number item-input-inset" name="HEO_GF_HEO" ng-model="survey.HEO_GF_HEO" ng-change="setUpdate()">
+                                <label>(%)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_GF_HEO.$dirty) && (frmHeo.HEO_GF_HEO.$error.pattern || frmHeo.HEO_GF_HEO.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Thịt</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_GF == 0" class="number" type="number item-input-inset" name="HEO_GF_THIT" ng-model="survey.HEO_GF_THIT" ng-change="setUpdate()">
+                                <label>(%)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_GF_THIT.$dirty) && (frmHeo.HEO_GF_THIT.$error.pattern || frmHeo.HEO_GF_THIT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Nái</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_GF == 0" class="number" type="number item-input-inset" ng-model="survey.HEO_GF_NAI" ng-change="setUpdate()" name="HEO_GF_NAI">
+                                <label>(%)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_GF_NAI.$dirty) && (frmHeo.HEO_GF_NAI.$error.pattern || frmHeo.HEO_GF_NAI.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- GREEN FEED -->
+            <!-- Khac -->
+            <div class="card">
+                <div class="item item-divider">
+                    Khác
+                    <span style="float:right;">
+                        <input id="heo_o_k_kd" type="radio" name="heo-o" value="0" ng-model="survey.HEO_ANOTHER" ng-change="setUpdate()">
+                        <label for="heo_o_k_kd">Không KD &nbsp;</label>
+                        <input id="heo_o_kd" type="radio" name="heo-o" value="1" ng-model="survey.HEO_ANOTHER" ng-change="setUpdate()">
+                        <label for="heo_o_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent"> 
+                            <input id="heo_o_k_mua_tt" ng-disabled="survey.HEO_ANOTHER == 0" type="radio" value="0" ng-model="survey.HEO_ANOTHER_MUA_TT" ng-change="setUpdate()">
+                            <label for="heo_o_k_mua_tt">Không &nbsp;</label>
+                            <input id="heo_o_mua_tt" ng-disabled="survey.HEO_ANOTHER == 0" type="radio" value="1" ng-model="survey.HEO_ANOTHER_MUA_TT" ng-change="setUpdate()">
+                            <label for="heo_o_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_ANOTHER == 0" class="number" type="number item-input-inset" name="HEO_ANOTHER_SL" ng-model="survey.HEO_ANOTHER_SL" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_ANOTHER_SL.$dirty) && (frmHeo.HEO_ANOTHER_SL.$error.pattern || frmHeo.HEO_ANOTHER_SL.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                   <div class="row">
+                        <div class="col-survey-title">
+                            Tỉ trọng Cám
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Heo con</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_ANOTHER == 0" class="number" type="number item-input-inset" name="HEO_ANOTHER_HEO" ng-model="survey.HEO_ANOTHER_HEO" ng-change="setUpdate()">
+                                <label>(%)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_ANOTHER_HEO.$dirty) && (frmHeo.HEO_ANOTHER_HEO.$error.pattern || frmHeo.HEO_ANOTHER_HEO.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Thịt</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_ANOTHER == 0" class="number" type="number item-input-inset" name="HEO_ANOTHER_THIT" ng-model="survey.HEO_ANOTHER_THIT" ng-change="setUpdate()">
+                                <label>(%)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_ANOTHER_THIT.$dirty) && (frmHeo.HEO_ANOTHER_THIT.$error.pattern || frmHeo.HEO_ANOTHER_THIT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Nái</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.HEO_ANOTHER == 0" class="number" type="number item-input-inset" name="HEO_ANOTHER_NAI" ng-model="survey.HEO_ANOTHER_NAI" ng-change="setUpdate()">
+                                <label>(%)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmHeo.HEO_ANOTHER_NAI.$dirty) && (frmHeo.HEO_ANOTHER_NAI.$error.pattern || frmHeo.HEO_ANOTHER_NAI.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Khac -->
+            <!--Done-->
+            <!-- <div class="row" ng-if="survey.AC_PC">
+                <a class="button button-positive icon icon-right ion-checkmark-round col col-center" href="">Xong</a>
+            </div> -->
+            <!--Next-->
+
+            <div class="row">
+                <br>
+            </div>
+
+            <div class="row" ng-if="submited && !frmHeo.$valid">
+                <label class="error"> * Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại.</label>
+            </div>
+
+            <div class="row ">
+                <button type="submit" class="button button-positive icon icon-right ion-chevron-right col col-center">Tiếp Tục</button>
+            </div>
+        </form>
+        <div class="row">
+            <br>
+        </div>
+    </ion-content>
+</ion-view>

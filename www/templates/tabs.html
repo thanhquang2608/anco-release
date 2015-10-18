@@ -1,0 +1,15 @@
+﻿<ion-tabs class="tabs-icon-top tabs-positive" ng-class="{'tabs-item-hide': $root.hideTabs}">
+
+    <ion-tab title="Khảo Sát" icon="ion-ios-compose" href="#/tab/survey">
+        <ion-nav-view name="survey-tab"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab title="Danh sách khảo sát" icon="ion-clipboard" href="#/tab/dealers">
+        <ion-nav-view name="dealers-tab"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab title="Tài khoản" icon="ion-person" ui-sref="tabs.account">
+        <ion-nav-view name="account-tab"></ion-nav-view>
+    </ion-tab>
+
+</ion-tabs>

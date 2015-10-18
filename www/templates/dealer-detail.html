@@ -1,0 +1,363 @@
+﻿<ion-view view-title="Thông tin đại lý" ng-init="initDealer()" hide-tabs can-swipe-back="false">
+    <ion-content class="padding" style="font-size:16px;">
+        <!--select city/provine-->
+        <center><h3>Đại lý {{dealer.DealerName}}</h3></center>
+        <form name="frmSurvey" ng-submit="updateDealer(frmSurvey.$valid);" novalidate>
+            <div class="row">
+                <div class="col-survey-title">
+                    Tỉnh/Thành phố
+                </div>
+                <!--<div class="col" ng-if="dealer.AC_PC == 2">
+                    <label>
+                        <select class="full-width match-parent" ng-model="dealer.ProvinceId" ng-animate="dealer.city_provine" ng-change="loadDistrict();">
+                            <option ng-selected="dealer.ProvinceId == p.ProvinceId" ng-repeat="p in provinces track by $index" ng-bind="p.ProvinceName" ng-value="p.ProvinceId"></option>
+                        </select>
+                    </label>
+                </div>-->
+                <div class="col" ng-if="dealer.AC_PC != 2">
+                    <label ng-bind="dealer.ProvinceName">
+                    </label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-survey-title">
+                    Tên đại lý
+                </div>
+
+                <div class="col" ng-if="dealer.Buy != 2">
+                    <label>{{dealer.DealerName}}
+                    </label> 
+                </div> 
+                <div class="col" ng-if="dealer.Buy == 2">
+                    <label>
+                        <input class="match-parent" type="text item-input-inset" name="dealerName" ng-model="dealer.DealerName" ng-change="setUpdate(1)" ng-maxlenght="100" required>
+                    </label> 
+                     <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited && frmSurvey.dealerName.$dirty) && frmSurvey.dealerName.$error.required">
+                    Vui lòng nhập tên đại lý
+                    </div>
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="( submited && frmSurvey.dealerName.$dirty) && frmSurvey.dealerName.$error.maxlenght">
+                        Tên đại lý quá dài
+                    </div>
+                </div> 
+            </div>
+
+            <!--ho ten nguoi kinh doanh-->
+            <div class="row">
+                <div class="col-survey-title">Tên người KD</div>
+                <div class="col">
+                    <label>
+                        <input class="match-parent" type="text item-input-inset" ng-model="dealer.FullName"  name="fullName" ng-change="setUpdate(2)" ng-maxlenght="100" required>
+                    </label>
+                     <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.fullName.$dirty) && frmSurvey.fullName.$error.required">
+                        Vui lòng nhập tên người KD
+                    </div>
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.fullName.$dirty) && frmSurvey.fullName.$error.maxlenght">
+                        Tên người KD quá dài
+                    </div>
+                </div>
+            </div>
+
+            <!--DTDD-->
+            <div class="row">
+                <div class="col-survey-title">Số ĐTDĐ</div>
+                <div class="col">
+                    <label>
+                        <input pattern="[0-9]*" class="match-parent" type="number item-input-inset" ng-minlength="6" ng-maxlength="15" name="phoneNumber" ng-model="dealer.PhoneNumber" ng-change="setUpdate(3)" required>
+                    </label>
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.phoneNumber.$dirty) && frmSurvey.phoneNumber.$error.required">
+                        Vui lòng nhập số điện thoại
+                    </div>
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.phoneNumber.$dirty) && !frmSurvey.phoneNumber.$error.required && (frmSurvey.phoneNumber.$error.pattern || frmSurvey.phoneNumber.$error.minlength || frmSurvey.phoneNumber.$error.maxlength)">
+                        Số điện thoại không hợp lệ
+                    </div>
+                </div>
+            </div>
+
+            <!--ngay sinh-->
+            <div class="row">
+                <div class="col-survey-title">Ngày sinh</div>
+                <div class="col">
+                    <select ng-model="dealer.day" ng-change="setUpdate(4)">
+                        <option ng-selected="dealer.day == d" ng-repeat="d in dates" ng-bind="d" ng-value="d"></option>
+                    </select>
+                    <label>/</label>
+                    <select ng-model="dealer.month" ng-change="setUpdate(5)">
+                        <option ng-selected="dealer.month == m" ng-repeat="m in months" ng-bind="m" ng-value="m"></option>
+                    </select>
+                    <label>/</label>
+                     <label>
+                        <input pattern="[0-9]*" ng-minlength="4" ng-maxlength="4" type="number item-input-inset" style="width:40px;" ng-model="dealer.year" name="year"  ng-change="setUpdate(6)">
+                    </label>
+                    <!--<div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.year.$dirty) && frmSurvey.year.$error.required">
+                        Vui lòng nhập ngày tháng năm sinh
+                    </div>-->
+                     <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.year.$dirty) && !frmSurvey.year.$error.required && (frmSurvey.year.$error.pattern || frmSurvey.year.$error.minlength || frmSurvey.year.$error.maxlength)">
+                        Ngày sinh không hợp lệ
+                    </div>
+                </div>
+            </div>
+
+            <!--dia chi-->
+            <div class="row">
+                <div class="col-survey-title">Địa chỉ</div>
+            </div>
+            <div class="row">
+                <div class="col-survey-title padding-left">Quận/Huyện</div>
+                <!--<div class="col" ng-if="dealer.AC_PC == 2">
+                    <select class="full-width match-parent" ng-model="dealer.DistrictId" ng-change="loadWard(); setUpdate()" >
+                    <option ng-selected="dealer.DistrictId == d.DistrictId" ng-repeat="d in districts track by $index" ng-bind="d.DistrictName" ng-value="d.DistrictId"></option>
+                    </select>
+                </div>-->
+                <div class="col" ng-if="dealer.AC_PC != 2">
+                    <label ng-bind="dealer.DistrictName">
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-survey-title padding-left">Xã/Phường</div>
+                <!--<div class="col" ng-if="dealer.AC_PC == 2">
+                    <select class="full-width match-parent" ng-model="dealer.wardId"  ng-change="setUpdate()">
+                        <option ng-selected="dealer.wardId == d.wardId" ng-repeat="d in wards track by $index" ng-bind="d.WardName" ng-value="d.WardId"></option>
+                    </select>
+                </div>-->
+                <div class="col" ng-if="dealer.AC_PC != 2">
+                    <label ng-bind="dealer.WardName">
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-survey-title padding-left">Địa chỉ cụ thể</div>
+                <div class="col">
+                    <label>
+                        <!-- <input type="text item-input-inset" ng-model="dealer.address" ng-if="false"> -->
+                        <textarea class="match-parent" type="text item-input-inset" name="address" ng-model="dealer.Address" rows="3" cols="25" ng-change="setUpdate(7)"  ng-maxlength="200" style="border: 1px solid #AAAAAA;" required></textarea>
+                        <div>
+                            <label style="padding-top:5px; font-size:12px;">(Số nhà, tên đường, ấp, xã/phường)</label>
+                        </div>
+                        <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.address.$dirty) && frmSurvey.address.$error.required">
+                        Vui lòng nhập ngày địa chỉ
+                        </div>
+                        <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.address.$dirty) && frmSurvey.address.$error.maxlength">
+                        Địa chỉ quá dài
+                        </div>
+                    </label>
+                    
+                </div>
+            </div>
+
+            <!--GPS-->
+            <div class="row">
+                <div class="col-survey-title">
+                    Tọa độ GPS
+                </div>
+                <div class="col">
+                    <div id="latlong" >
+                        ({{survey.Lat}}, {{survey.Long}})
+                    </div>
+                </div>
+            </div>
+
+            <!--CMND-->
+            <div class="row">
+                <div class="col-survey-title">Số CMND</div>
+                <div class="col">
+                    <label>
+                        <input class="match-parent" type="number item-input-inset" name="cmnd" ng-model="dealer.CMND" ng-change="setUpdate(8)" ng-maxlength="15" required>
+                    </label>
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.cmnd.$dirty) && frmSurvey.cmnd.$error.required">
+                        Vui lòng nhập CMND
+                    </div>
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.cmnd.$dirty) && (frmSurvey.cmnd.$error.maxlength || frmSurvey.cmnd.$error.pattern)">
+                       CMND không hợp lệ
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-survey-img">
+                    <div class="list card" style="pading:10px;">
+                        <div class="item item-image">
+                            <img ng-if="dealer.CMND_Front_Local" ng-src="{{dealer.CMND_Front_Local}}">
+                            <img ng-if="!dealer.CMND_Front_Local && dealer.CMND_Front !== null" ng-src="{{serviceBase}}{{dealer.CMND_Front}}">
+                            <img ng-if="!dealer.CMND_Front_Local && !dealer.CMND_Front" id="img_cmnd1" src="img/no-image.png">
+                        </div>
+                        <center>
+                            <button type="button" class="button button-small" ng-click="takePhoto(1, 0)">
+                                Mặt trước CMND
+                            </button>
+                        </center>
+                    </div>
+
+                </div>
+                <div class="col-survey-img">
+                    <div class="list card" style="pading:10px;">
+                        <div class="item item-image">
+                            <img ng-if="dealer.CMND_Back_Local" ng-src="{{dealer.CMND_Back_Local}}">
+                            <img ng-if="!dealer.CMND_Back_Local && dealer.CMND_Back !== null" ng-src="{{serviceBase}}{{dealer.CMND_Back}}">
+                            <img ng-if="!dealer.CMND_Back_Local && !dealer.CMND_Back" id="img_cmnd2" src="img/no-image.png">
+                        </div>
+                        <center>
+                            <button type="button" class="button button-small" ng-click="takePhoto(2, 0)">
+                                Mặt sau CMND
+                            </button>
+                        </center>
+                    </div>
+                </div>
+            </div>
+
+            <!--Hinh anh khac-->
+            <div class="row">
+                <div class="col-survey-title">Hình ảnh đại lý</div>
+            </div>
+            <div class="row">
+                <div class="col-survey-img">
+                    <div class="list card" style="pading:10px;">
+                        <div class="item item-image">
+                            <img ng-if="survey.DealerPhoto_Local" ng-src="{{survey.DealerPhoto_Local}}">
+                            <img ng-if="!survey.DealerPhoto_Local && survey.DealerPhoto !== null" ng-src="{{serviceBase}}{{survey.DealerPhoto}}">
+                            <img ng-if="!survey.DealerPhoto_Local && !survey.DealerPhoto" id="img_dealer" src="img/no-image.png">
+                        </div>
+                        <center>
+                            <button type="button" class="button button-small" ng-click="getPhoto(3)">
+                                Chủ đại lý
+                            </button>
+                        </center>
+                    </div>
+                </div>
+                <div class="col-survey-img">
+                    <div class="list card" style="pading:10px;">
+                        <div class="item item-image">
+                            <img ng-if="survey.StorePhoto_Local" ng-src="{{survey.StorePhoto_Local}}">
+                            <img ng-if="!survey.StorePhoto_Local && survey.StorePhoto !== null" ng-src="{{serviceBase}}{{survey.StorePhoto}}">
+                            <img ng-if="!survey.StorePhoto_Local && !survey.StorePhoto" id="img_shop" src="img/no-image.png">
+                        </div>
+                        <center>
+                            <button type="button" class="button button-small" ng-click="getPhoto(4)">
+                                Cửa hàng
+                            </button>
+                        </center>
+                    </div>
+                </div>
+                <div class="col-survey-img">
+                    <div class="list card" style="pading:10px;">
+                        <div class="item item-image">
+                            <img ng-if="survey.StockPhoto_Local" ng-src="{{survey.StockPhoto_Local}}">
+                            <img ng-if="!survey.StockPhoto_Local && survey.StockPhoto !== null" ng-src="{{serviceBase}}{{survey.StockPhoto}}">
+                            <img ng-if="!survey.StockPhoto_Local && !survey.StockPhoto" id="img_warehouse" src="img/no-image.png">
+                        </div>
+                        <center>
+                            <button type="button" class="button button-small" ng-click="getPhoto(5)">
+                                Kho
+                            </button>
+                        </center>
+                    </div>
+                </div>
+            </div>
+
+            <!--So dai ly cap 2-->
+            <div class="row">
+                <div class="col-survey-title">
+                    SL Đại lý cấp 2
+                </div>
+                <div class="col">
+                    <label>
+                        <input class="number"  pattern="[0-9]*" type="number item-input-inset" name="SL_DL2" ng-model="survey.SL_DL2" ng-change="setUpdate(9)" style="width:100px;">
+                    </label>
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.SL_DL2.$dirty) && (frmSurvey.SL_DL2.$error.pattern || frmSurvey.SL_DL2.$error.maxlength)">
+                        Số lượng đại lý cấp 2 không hợp lệ
+                    </div>
+                </div>
+            </div>
+
+            <!--So Ho/Trai danh ban-->
+            <div class="row">
+                <div class="col-survey-title">SL Hộ/Trại</div>
+                <div class="col">
+                    <label>
+                        <input class="number"  pattern="[0-9]*" type="number item-input-inset" ng-model="survey.SL_HO" name="SL_HO" ng-change="setUpdate(10)" style="width:100px;" required>
+                    </label>
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.SL_HO.$dirty) && frmSurvey.SL_HO.$error.required">
+                    Vui lòng số lượng Hộ/Trại
+                    </div>
+                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.SL_HO.$dirty) && (frmSurvey.SL_HO.$error.maxlength || frmSurvey.SL_HO.$error.pattern)">
+                    Số lượng Hộ/Trại không hợp lệ
+                    </div>
+                </div>
+            </div>
+
+            <!--Chan nuoi truc tiep-->
+            <div class="row">
+                <div class="col-survey-title">
+                    Chăn nuôi trực tiếp
+                </div>
+                <div class="col">
+                    <input id="k_nuoi_tt" type="radio" name="nuoiTT" value="0" ng-model="survey.NUOI_TT" ng-change="setUpdate(12)">
+                    <label for="k_nuoi_tt">Không &nbsp;</label>
+                    <input id="nuoi_tt" type="radio" name="nuoiTT" value="1" ng-model="survey.NUOI_TT" ng-change="setUpdate(13)">
+                    <label for="nuoi_tt">Có</label>
+                </div>
+            </div>
+
+
+            <div>
+                <div class="row" >
+                    <div class="col-survey-title padding-left">
+                        Nái
+                    </div>
+                    <div class="col">
+                        <input pattern="[0-9]*" ng-disabled="survey.NUOI_TT == 0" class="number" type="number item-input-wrapper" ng-model="survey.SL_NAI" name="SL_NAI" ng-change="setUpdate(14)" ng-maxlenght="5">
+                        <label>
+                            (con)
+                        </label>
+                        <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.SL_NAI.$dirty) && (frmSurvey.SL_NAI.$error.pattern || frmSurvey.SL_NAI.$error.maxlenght)">
+                            Số lượng không hợp lệ
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-survey-title padding-left">
+                        Thịt
+                    </div>
+                    <div class="col">
+                        <input pattern="[0-9]*" ng-disabled="survey.NUOI_TT == 0" class="number" type="number item-input-inset" ng-model="survey.SL_THIT" name="SL_THIT" ng-change="setUpdate(15)" ng-maxlenght="5">
+                        <label>
+                            (con)
+                        </label>
+                        <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.SL_THIT.$dirty) && (frmSurvey.SL_THIT.$error.pattern || frmSurvey.SL_THIT.$error.maxlenght)">
+                            Số lượng không hợp lệ
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-survey-title padding-left">
+                        Nọc
+                    </div>
+                    <div class="col">
+                        <input pattern="[0-9]*" ng-disabled="survey.NUOI_TT == 0" class="number" type="number item-input-inset" ng-model="survey.SL_NOC" name="SL_NOC" ng-change="setUpdate(16)" ng-maxlenght="5">
+                        <label>
+                            (con)
+                        </label>
+                         <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.SL_NOC.$dirty) && (frmSurvey.SL_NOC.$error.pattern || frmSurvey.SL_NOC.$error.maxlenght)">
+                            Số lượng không hợp lệ
+                        </div>
+                    </div> 
+                </div>
+            </div>
+
+
+            <div class="row">
+                <br>
+            </div>
+
+            <!--Next-->
+            <div class="row">
+                <button type="submit" class="button button-positive icon icon-right ion-chevron-right col col-center">Tiếp Tục</button>
+            </div>
+
+        </form>
+        
+        <div class="row">
+            <br>
+        </div>
+    </ion-content>
+</ion-view>

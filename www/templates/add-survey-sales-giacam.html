@@ -1,0 +1,80 @@
+﻿<ion-view view-title="Thông tin khảo sát - Gia cầm" hide-tabs>
+    <ion-content>
+        <center><h3 class="padding-top">Gia cầm</h3></center>
+        <form name="frmGiacam" ng-submit="saveGiaCam(frmGiacam.$valid);" novalidate>
+            <!-- CON CO -->
+            <div class="card">
+                <div class="item item-divider">
+                    Sản lượng
+                    <span style="float:right;">
+                        <input id="giacam_k_kd" type="radio" value="0" ng-model="survey.GIACAM_KD" ng-change="setUpdate()">
+                        <label for="giacam_k_kd">Không KD &nbsp;</label>
+                        <input id="giacam_kd" type="radio" value="1" ng-model="survey.GIACAM_KD" ng-change="setUpdate()">
+                        <label for="giacam_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title padding-left" style="max-width:60px;">Gà</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="^[0-9]+\.?[0-9]*$" ng-maxlength="8" ng-disabled="survey.GIACAM_KD==0" class="number" type="number item-input-inset" name="GIA_CAM_GA" ng-model="survey.GIA_CAM_GA" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGiacam.GIA_CAM_GA.$dirty) && (frmGiacam.GIA_CAM_GA.$error.pattern || frmGiacam.GIA_CAM_GA.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left" style="max-width:60px;">Vịt</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="^[0-9]+\.?[0-9]*$" ng-maxlength="8" ng-disabled="survey.GIACAM_KD==0" class="number" type="number item-input-inset" name="GIA_CAM_VIT" ng-model="survey.GIA_CAM_VIT" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                             <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGiacam.GIA_CAM_VIT.$dirty) && (frmGiacam.GIA_CAM_VIT.$error.pattern || frmGiacam.GIA_CAM_VIT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left" style="max-width:60px;">Cút</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="^[0-9]+\.?[0-9]*$" ng-maxlength="8" ng-disabled="survey.GIACAM_KD==0" class="number" type="number item-input-inset" name="GIA_CAM_CUT" ng-model="survey.GIA_CAM_CUT" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                             <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGiacam.GIA_CAM_CUT.$dirty) && (frmGiacam.GIA_CAM_CUT.$error.pattern || frmGiacam.GIA_CAM_CUT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                         <div class="padding-left">
+                            <div ng-include src="'templates/note-input-double.html'"></div>
+                         </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- CON CO -->
+             
+            <div class="row">
+                <br>
+            </div>
+
+            <div class="row" ng-if="submited && !frmGiacam.$valid">
+                <label class="error"> * Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại.</label>
+            </div>
+
+            <!--Done-->
+            <div class="row">
+                <button type="submit" class="button button-positive icon icon-right ion-checkmark-round col col-center">Xong</button>
+            </div>
+        </form>
+        <div class="row">
+            <br>
+        </div>
+    </ion-content>
+</ion-view>

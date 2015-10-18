@@ -1,0 +1,359 @@
+﻿<ion-view view-title="Thông tin khảo sát - VỊT" hide-tabs>
+    <ion-content>
+        <center><h3 class="padding-top">VỊT</h3></center>
+        <form name="frmVit" ng-submit="saveVit(frmVit.$valid);" novalidate>
+            <!-- CON CÒ-->
+            <div class="card">
+                <div class="item item-divider">
+                    CON CÒ
+                    <span style="float:right;">
+                        <input id="vit_cc_k_kd" type="radio" value="0" ng-model="survey.VIT_CC" ng-change="setUpdate()">
+                        <label for="vit_cc_k_kd">Không KD &nbsp;</label>
+                        <input id="vit_cc_kd" type="radio" value="1" ng-model="survey.VIT_CC" ng-change="setUpdate()">
+                        <label for="vit_cc_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="vit_cc_k_mua_tt" ng-disabled="survey.VIT_CC == 0" type="radio" value="0" ng-model="survey.VIT_CC_MUA_TT" ng-change="setUpdate()">
+                            <label for="vit_cc_k_mua_tt">Không &nbsp;</label>
+                            <input id="vit_cc_mua_tt" ng-disabled="survey.VIT_CC == 0" type="radio" value="1" ng-model="survey.VIT_CC_MUA_TT" ng-change="setUpdate()">
+                            <label for="vit_cc_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng vịt đẻ</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.VIT_CC == 0" class="number" type="number item-input-inset" name="VIT_CC_VD" ng-model="survey.VIT_CC_VD" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmVit.VIT_CC_VD.$dirty) && (frmVit.VIT_CC_VD.$error.pattern || frmVit.VIT_CC_VD.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng vịt thịt</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.VIT_CC == 0" class="number" type="number item-input-inset" name="VIT_CC_VT" ng-model="survey.VIT_CC_VT" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmVit.VIT_CC_VT.$dirty) && (frmVit.VIT_CC_VT.$error.pattern || frmVit.VIT_CC_VT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- CON CÒ -->
+            <!-- DE HEUS -->
+            <div class="card">
+                <div class="item item-divider">
+                    DE HEUS
+                    <span style="float:right;">
+                        <input id="vit_dh_k_kd" type="radio" value="0" ng-model="survey.VIT_DH" ng-change="setUpdate()">
+                        <label for="vit_dh_k_kd">Không KD &nbsp;</label>
+                        <input id="vit_dh_kd" type="radio" value="1" ng-model="survey.VIT_DH" ng-change="setUpdate()">
+                        <label for="vit_dh_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="vit_dh_k_mua_tt" ng-disabled="survey.VIT_DH == 0" type="radio" value="0" ng-model="survey.VIT_DH_MUA_TT" ng-change="setUpdate()">
+                            <label for="vit_dh_k_mua_tt">Không &nbsp;</label>
+                            <input id="vit_dh_mua_tt" ng-disabled="survey.VIT_DH == 0" type="radio" value="1" ng-model="survey.VIT_DH_MUA_TT" ng-change="setUpdate()">
+                            <label for="vit_dh_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng vịt đẻ</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.VIT_DH == 0" class="number" type="number item-input-inset" name="VIT_DH_VD" ng-model="survey.VIT_DH_VD" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmVit.VIT_DH_VD.$dirty) && (frmVit.VIT_DH_VD.$error.pattern || frmVit.VIT_DH_VD.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng vịt thịt</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.VIT_DH == 0" class="number" type="number item-input-inset" name="VIT_DH_VT" ng-model="survey.VIT_DH_VT" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmVit.VIT_DH_VT.$dirty) && (frmVit.VIT_DH_VT.$error.pattern || frmVit.VIT_DH_VT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- DE HEUS -->
+            <!-- CARGILL -->
+            <div class="card">
+                <div class="item item-divider">
+                    CARGILL
+                    <span style="float:right;">
+                        <input id="vit_cg_k_kd" type="radio" value="0" ng-model="survey.VIT_CG" ng-change="setUpdate()">
+                        <label for="vit_cg_k_kd">Không KD &nbsp;</label>
+                        <input id="vit_cg_kd" type="radio" value="1" ng-model="survey.VIT_CG" ng-change="setUpdate()">
+                        <label for="vit_cg_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="vit_cg_k_mua_tt" ng-disabled="survey.VIT_CG == 0" type="radio" value="0" ng-model="survey.VIT_CG_MUA_TT" ng-change="setUpdate()">
+                            <label for="vit_cg_k_mua_tt">Không &nbsp;</label>
+                            <input id="vit_cg_mua_tt" ng-disabled="survey.VIT_CG == 0" type="radio" value="1" ng-model="survey.VIT_CG_MUA_TT" ng-change="setUpdate()">
+                            <label for="vit_cg_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng vịt đẻ</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.VIT_CG == 0" class="number" type="number item-input-inset" name="VIT_CG_VD" ng-model="survey.VIT_CG_VD" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmVit.VIT_CG_VD.$dirty) && (frmVit.VIT_CG_VD.$error.pattern || frmVit.VIT_CG_VD.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng vịt thịt</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.VIT_CG == 0" class="number" type="number item-input-inset" name="VIT_CG_VT" ng-model="survey.VIT_CG_VT" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmVit.VIT_CG_VT.$dirty) && (frmVit.VIT_CG_VT.$error.pattern || frmVit.VIT_CG_VT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- CARGILL -->
+            <!-- NEW HOPE -->
+            <div class="card">
+                <div class="item item-divider">
+                    NEW HOPE
+                    <span style="float:right;">
+                        <input id="vit_nh_k_kd" type="radio" value="0" ng-model="survey.VIT_NH" ng-change="setUpdate()">
+                        <label for="vit_nh_k_kd">Không KD &nbsp;</label>
+                        <input id="vit_nh_kd" type="radio" value="1" ng-model="survey.VIT_NH" ng-change="setUpdate()">
+                        <label for="vit_nh_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="vit_nh_k_mua_tt" ng-disabled="survey.VIT_NH == 0" type="radio" value="0" ng-model="survey.VIT_NH_MUA_TT" ng-change="setUpdate()">
+                            <label for="vit_nh_k_mua_tt">Không &nbsp;</label>
+                            <input id="vit_nh_mua_tt" ng-disabled="survey.VIT_NH == 0" type="radio" value="1" ng-model="survey.VIT_NH_MUA_TT" ng-change="setUpdate()">
+                            <label for="vit_nh_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng vịt đẻ</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.VIT_NH == 0" class="number" type="number item-input-inset" name="VIT_NH_VD" ng-model="survey.VIT_NH_VD" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmVit.VIT_NH_VD.$dirty) && (frmVit.VIT_NH_VD.$error.pattern || frmVit.VIT_NH_VD.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng vịt thịt</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.VIT_NH == 0" class="number" type="number item-input-inset" name="VIT_NH_VT" ng-model="survey.VIT_NH_VT" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmVit.VIT_NH_VT.$dirty) && (frmVit.VIT_NH_VT.$error.pattern || frmVit.VIT_NH_VT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- NEW HOPE -->
+            <!-- GREEN FEED -->
+            <div class="card">
+                <div class="item item-divider">
+                    GREENFEED
+                    <span style="float:right;">
+                        <input id="vit_gf_k_kd" type="radio" value="0" ng-model="survey.VIT_GF" ng-change="setUpdate()">
+                        <label for="vit_gf_kd">Không KD &nbsp;</label>
+                        <input id="vit_gf_kd" type="radio" value="1" ng-model="survey.VIT_GF" ng-change="setUpdate()">
+                        <label for="vit_gf_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="vit_gf_k_mua_tt" ng-disabled="survey.VIT_GF == 0" type="radio" value="0" ng-model="survey.VIT_GF_MUA_TT" ng-change="setUpdate()">
+                            <label for="vit_gf_k_mua_tt">Không &nbsp;</label>
+                            <input id="vit_gf_mua_tt" ng-disabled="survey.VIT_GF == 0" type="radio" value="1" ng-model="survey.VIT_GF_MUA_TT" ng-change="setUpdate()">
+                            <label for="vit_gf_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng vịt đẻ</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.VIT_GF == 0" class="number" type="number item-input-inset" name="VIT_GF_VD" ng-model="survey.VIT_GF_VD" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmVit.VIT_GF_VD.$dirty) && (frmVit.VIT_GF_VD.$error.pattern || frmVit.VIT_GF_VD.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng vịt thịt</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.VIT_GF == 0" class="number" type="number item-input-inset" name="VIT_GF_VT" ng-model="survey.VIT_GF_VT" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmVit.VIT_GF_VT.$dirty) && (frmVit.VIT_GF_VT.$error.pattern || frmVit.VIT_GF_VT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- GREEN FEED -->
+            <!-- LAI THIEU -->
+            <div class="card">
+                <div class="item item-divider">
+                    LÁI THIÊU
+                    <span style="float:right;">
+                        <input id="vit_lt_k_kd" type="radio" value="0" ng-model="survey.VIT_LT" ng-change="setUpdate()">
+                        <label for="vit_lt_k_kd">Không KD &nbsp;</label>
+                        <input id="vit_lt_kd" type="radio" value="1" ng-model="survey.VIT_LT" ng-change="setUpdate()">
+                        <label for="vit_lt_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="vit_lt_k_mua_tt" ng-disabled="survey.VIT_LT == 0" type="radio" value="0" ng-model="survey.VIT_LT_MUA_TT" ng-change="setUpdate()">
+                            <label for="vit_lt_k_mua_tt">Không &nbsp;</label>
+                            <input id="vit_lt_mua_tt" ng-disabled="survey.VIT_LT == 0" type="radio" value="1" ng-model="survey.VIT_LT_MUA_TT" ng-change="setUpdate()">
+                            <label for="vit_lt_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng vịt đẻ</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.VIT_LT == 0" class="number" type="number item-input-inset" name="VIT_LT_VD" ng-model="survey.VIT_LT_VD" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmVit.VIT_LT_VD.$dirty) && (frmVit.VIT_LT_VD.$error.pattern || frmVit.VIT_LT_VD.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng vịt thịt</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.VIT_LT == 0" class="number" type="number item-input-inset" name="VIT_LT_VT" ng-model="survey.VIT_LT_VT" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmVit.VIT_LT_VT.$dirty) && (frmVit.VIT_LT_VT.$error.pattern || frmVit.VIT_LT_VT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- LAI THIEU -->
+            <!-- Khac -->
+            <div class="card">
+                <div class="item item-divider">
+                    Khác
+                    <span style="float:right;">
+                        <input id="vit_o_k_kd" type="radio" value="0" ng-model="survey.VIT_ANOTHER" ng-change="setUpdate()">
+                        <label for="vit_o_k_kd">Không KD &nbsp;</label>
+                        <input id="vit_o_kd" type="radio" value="1" ng-model="survey.VIT_ANOTHER" ng-change="setUpdate()">
+                        <label for="vit_o_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="vit_o_k_mua_tt" ng-disabled="survey.VIT_ANOTHER == 0" type="radio" value="0" ng-model="survey.VIT_ANOTHER_MUA_TT" ng-change="setUpdate()">
+                            <label for="vit_o_k_mua_tt">Không &nbsp;</label>
+                            <input id="vit_o_mua_tt" ng-disabled="survey.VIT_ANOTHER == 0" type="radio" value="1" ng-model="survey.VIT_ANOTHER_MUA_TT" ng-change="setUpdate()">
+                            <label for="vit_o_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng vịt đẻ</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.VIT_ANOTHER == 0" class="number" type="number item-input-inset" name="VIT_ANOTHER_VD" ng-model="survey.VIT_ANOTHER_VD" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmVit.VIT_ANOTHER_VD.$dirty) && (frmVit.VIT_ANOTHER_VD.$error.pattern || frmVit.VIT_ANOTHER_VD.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng vịt thịt</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.VIT_ANOTHER == 0" class="number" type="number item-input-inset" name="VIT_ANOTHER_VT" ng-model="survey.VIT_ANOTHER_VT" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmVit.VIT_ANOTHER_VT.$dirty) && (frmVit.VIT_ANOTHER_VT.$error.pattern || frmVit.VIT_ANOTHER_VT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Khac -->
+
+            <div class="row">
+                <br>
+            </div>
+
+            <div class="row" ng-if="submited && !frmVit.$valid">
+                <label class="error"> * Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại.</label>
+            </div>
+            
+            <!--Next-->
+            <div class="row ">
+                <button type="submit" class="button button-positive icon icon-right ion-chevron-right col col-center">Tiếp Tục</button>
+            </div>
+
+        <div class="row">
+            <br>
+        </div>
+    </ion-content>
+</ion-view>

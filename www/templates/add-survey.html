@@ -1,0 +1,10 @@
+﻿<ion-view view-title="Khảo sát chăn nuôi thị trường 2015" showTabs hide-back-button="true" ng-init="initSurvey()"> <!--ng-class="{'bg-anco': user.AC_PC==0, 'bg-conco': user.AC_PC==1}"-->>
+    <div class="padding text-center center">
+        <a class="button button-positive icon ion-android-create col-center" href="#/tab/newsurvey"></a>
+        <div class="padding">Click vào đây để thêm khảo sát</div>
+        <div>
+        	<img src="img/logo-anco.jpg" style="width:100px; margin-top: 50px;" ng-if="!user.AC_PC">
+        	<img src="img/logo-conco.png" style="width:80px; margin-top: 50px;" ng-if="user.AC_PC">
+        </div>
+    </div>
+</ion-view>

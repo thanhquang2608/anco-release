@@ -1,0 +1,467 @@
+﻿<ion-view view-title="Thông tin khảo sát - GÀ" ng-init="initGa()" hide-tabs>
+    <ion-content>
+        <center><h3 class="padding-top">GÀ</h3></center>
+        <form name="frmGa" ng-submit="updateGa(frmGa.$valid);" novalidate>
+            <!-- CON CO -->
+            <div class="card">
+                <div class="item item-divider">
+                    CON CÒ
+                    <span style="float:right;">
+                        <input id="ga_cc_k_kd" type="radio" value="0" ng-model="survey.GA_CC" ng-change="setUpdate()">
+                        <label for="ga_cc_k_kd">Không KD &nbsp;</label>
+                        <input id="ga_cc_kd" type="radio" value="1" ng-model="survey.GA_CC" ng-change="setUpdate()">
+                        <label for="ga_cc_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="ga_cc_k_mua_tt" ng-disabled="survey.GA_CC == 0" type="radio" value="0" ng-model="survey.GA_CC_MUA_TT" ng-change="setUpdate()">
+                            <label for="ga_cc_k_mua_tt">Không &nbsp;</label>
+                            <input id="ga_cc_mua_tt" ng-disabled="survey.GA_CC == 0" type="radio" value="1" ng-model="survey.GA_CC_MUA_TT" ng-change="setUpdate()">
+                            <label for="ga_cc_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng Gà đẻ</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_CC == 0" class="number" type="number item-input-inset" name="GA_CC_GD" ng-model="survey.GA_CC_GD" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_CC_GD.$dirty) && (frmGa.GA_CC_GD.$error.pattern || frmGa.GA_CC_GD.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:0px !important;">
+                        <div class="col col-survey-full">Sản lượng Gà thịt</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Lông trắng</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_CC == 0" class="number" type="number item-input-inset" name="GA_CC_LT" ng-model="survey.GA_CC_LT" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_CC_LT.$dirty) && (frmGa.GA_CC_LT.$error.pattern || frmGa.GA_CC_LT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Lông màu</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_CC == 0" class="number" type="number item-input-inset" name="GA_CC_LM" ng-model="survey.GA_CC_LM" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_CC_LM.$dirty) && (frmGa.GA_CC_LM.$error.pattern || frmGa.GA_CC_LM.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- CON CO -->
+            <!-- CP -->
+            <div class="card">
+                <div class="item item-divider">
+                    CP
+                    <span style="float:right;">
+                        <input id="ga_cp_k_kd" type="radio" value="0" ng-model="survey.GA_CP" ng-change="setUpdate()">
+                        <label for="ga_cp_k_kd">Không KD &nbsp;</label>
+                        <input id="ga_cp_kd" type="radio" value="1" ng-model="survey.GA_CP" ng-change="setUpdate()">
+                        <label for="ga_cp_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="ga_cp_k_mua_tt" ng-disabled="survey.GA_CP == 0" type="radio" value="0" ng-model="survey.GA_CP_MUA_TT" ng-change="setUpdate()">
+                            <label for="ga_cp_k_mua_tt">Không &nbsp;</label>
+                            <input id="ga_cp_mua_tt" ng-disabled="survey.GA_CP == 0" type="radio" value="1" ng-model="survey.GA_CP_MUA_TT" ng-change="setUpdate()">
+                            <label for="ga_cp_mua_tt">Có</label>
+                        </div>
+                    </div>
+                   <div class="row">
+                        <div class="col-survey-title">Sản lượng Gà đẻ</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_CP == 0" class="number" type="number item-input-inset" name="GA_CP_GD" ng-model="survey.GA_CP_GD" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_CP_GD.$dirty) && (frmGa.GA_CP_GD.$error.pattern || frmGa.GA_CP_GD.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-survey-full">Sản lượng Gà thịt</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Lông trắng</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_CP == 0" class="number" type="number item-input-inset" name="GA_CP_LT" ng-model="survey.GA_CP_LT" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_CP_LT.$dirty) && (frmGa.GA_CP_LT.$error.pattern || frmGa.GA_CP_LT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Lông màu</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_CP == 0" class="number" type="number item-input-inset" name="GA_CP_LM" ng-model="survey.GA_CP_LM" ng-change="setUpdate() match-parent col-flex">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_CP_LM.$dirty) && (frmGa.GA_CP_LM.$error.pattern || frmGa.GA_CP_LM.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- CP -->
+            <!-- GREENFEED -->
+            <div class="card">
+                <div class="item item-divider">
+                    GREENFEED
+                    <span style="float:right;">
+                        <input id="ga_gf_k_kd" type="radio" value="0" ng-model="survey.GA_GF" ng-change="setUpdate()">
+                        <label for="ga_gf_k_kd">Không KD &nbsp;</label>
+                        <input id="ga_gf_kd" type="radio" value="1" ng-model="survey.GA_GF" ng-change="setUpdate()">
+                        <label for="ga_gf_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="ga_gf_k_mua_tt" ng-disabled="survey.GA_GF == 0" type="radio" value="0" ng-model="survey.GA_GF_MUA_TT" ng-change="setUpdate()">
+                            <label for="ga_gf_k_mua_tt">Không &nbsp;</label>
+                            <input id="ga_gf_mua_tt" ng-disabled="survey.GA_GF == 0" type="radio" value="1" ng-model="survey.GA_GF_MUA_TT" ng-change="setUpdate()">
+                            <label for="ga_gf_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng Gà đẻ</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_GF == 0" class="number" type="number item-input-inset" name="GA_GF_GD" ng-model="survey.GA_GF_GD" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_GF_GD.$dirty) && (frmGa.GA_GF_GD.$error.pattern || frmGa.GA_GF_GD.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-survey-full">Sản lượng Gà thịt</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Lông trắng</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_GF == 0" class="number" type="number item-input-inset" name="GA_GF_LT" ng-model="survey.GA_GF_LT" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_GF_LT.$dirty) && (frmGa.GA_GF_LT.$error.pattern || frmGa.GA_GF_LT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Lông màu</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_GF == 0" class="number" type="number item-input-inset" name="GA_GF_LM" ng-model="survey.GA_GF_LM" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_GF_LM.$dirty) && (frmGa.GA_GF_LM.$error.pattern || frmGa.GA_GF_LM.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- GREENFEED -->
+            <!-- JAPFA -->
+            <div class="card">
+                <div class="item item-divider">
+                    JAPFA
+                    <span style="float:right;">
+                        <input id="ga_jf_k_kd" type="radio" value="0" ng-model="survey.GA_JF" ng-change="setUpdate()">
+                        <label for="ga_jf_k_kd">Không KD &nbsp;</label>
+                        <input id="ga_jf_kd" type="radio" value="1" ng-model="survey.GA_JF" ng-change="setUpdate()">
+                        <label for="ga_jf_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="ga_jf_k_mua_tt" ng-disabled="survey.GA_JF == 0" type="radio" value="0" ng-model="survey.GA_JF_MUA_TT" ng-change="setUpdate()">
+                            <label for="ga_jf_k_mua_tt">Không &nbsp;</label>
+                            <input id="ga_jf_mua_tt" ng-disabled="survey.GA_JF == 0" type="radio" value="1" ng-model="survey.GA_JF_MUA_TT" ng-change="setUpdate()">
+                            <label for="ga_jf_mua_tt">Có</label>
+                        </div>
+                    </div>
+                   <div class="row">
+                        <div class="col-survey-title">Sản lượng Gà đẻ</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_JF == 0" class="number" type="number item-input-inset" name="GA_JF_GD" ng-model="survey.GA_JF_GD" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_JF_GD.$dirty) && (frmGa.GA_JF_GD.$error.pattern || frmGa.GA_JF_GD.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-survey-full">Sản lượng Gà thịt</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Lông trắng</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_JF == 0" class="number" type="number item-input-inset" name="GA_JF_LT" ng-model="survey.GA_JF_LT" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_JF_LT.$dirty) && (frmGa.GA_JF_LT.$error.pattern || frmGa.GA_JF_LT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Lông màu</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_JF == 0" type="number item-input-inset" name="GA_JF_LM" ng-model="survey.GA_JF_LM" class="number" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_JF_LM.$dirty) && (frmGa.GA_JF_LM.$error.pattern || frmGa.GA_JF_LM.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- JAPFA -->
+            <!-- DABACO -->
+            <div class="card">
+                <div class="item item-divider">
+                    DABACO
+                    <span style="float:right;">
+                        <input id="ga_db_k_kd" type="radio" value="0" ng-model="survey.GA_DB" ng-change="setUpdate()">
+                        <label for="ga_db_k_kd">Không KD &nbsp;</label>
+                        <input id="ga_db_kd" type="radio" value="1" ng-model="survey.GA_DB" ng-change="setUpdate()">
+                        <label for="ga_db_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="ga_db_k_mua_tt" ng-disabled="survey.GA_DB == 0" type="radio" value="0" ng-model="survey.GA_DB_MUA_TT" ng-change="setUpdate()">
+                            <label for="ga_db_k_mua_tt">Không &nbsp;</label>
+                            <input id="ga_db_mua_tt" ng-disabled="survey.GA_DB == 0" type="radio" value="1" ng-model="survey.GA_DB_MUA_TT" ng-change="setUpdate()">
+                            <label for="ga_db_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng Gà đẻ</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_DB == 0" class="number" type="number item-input-inset" name="GA_DB_GD" ng-model="survey.GA_DB_GD" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_DB_GD.$dirty) && (frmGa.GA_DB_GD.$error.pattern || frmGa.GA_DB_GD.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-survey-full">Sản lượng Gà thịt</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Lông trắng</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_DB == 0" class="number" type="number item-input-inset" name="GA_DB_LT" ng-model="survey.GA_DB_LT" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_DB_LT.$dirty) && (frmGa.GA_DB_LT.$error.pattern || frmGa.GA_DB_LT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Lông màu</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_DB == 0" class="number" type="number item-input-inset" name="GA_DB_LM" ng-model="survey.GA_DB_LM" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_DB_LM.$dirty) && (frmGa.GA_DB_LM.$error.pattern || frmGa.GA_DB_LM.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- DABACO -->
+            <!-- NEW HOPE -->
+            <div class="card">
+                <div class="item item-divider">
+                    NEW HOPE
+                     <span style="float:right;">
+                        <input id="ga_nh_k_kd" type="radio" value="0" ng-model="survey.GA_NH" ng-change="setUpdate()">
+                        <label for="ga_nh_k_kd">Không KD &nbsp;</label>
+                        <input id="ga_nh_kd" type="radio" value="1" ng-model="survey.GA_NH" ng-change="setUpdate()">
+                        <label for="ga_nh_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="ga_nh_k_mua_tt" ng-disabled="survey.GA_NH == 0" type="radio" value="0" ng-model="survey.GA_NH_MUA_TT" ng-change="setUpdate()">
+                            <label for="ga_nh_k_nuoi_tt">Không &nbsp;</label>
+                            <input id="ga_nh_nuoi_tt" ng-disabled="survey.GA_NH == 0" type="radio" value="1" ng-model="survey.GA_NH_MUA_TT" ng-change="setUpdate()">
+                            <label for="ga_nh_nuoi_tt">Có</label>
+                        </div>
+                    </div>
+                   <div class="row">
+                        <div class="col-survey-title">Sản lượng Gà đẻ</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_NH == 0" class="number" type="number item-input-inset" name="GA_NH_GD" ng-model="survey.GA_NH_GD" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_NH_GD.$dirty) && (frmGa.GA_NH_GD.$error.pattern || frmGa.GA_NH_GD.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-survey-full">Sản lượng Gà thịt</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Lông trắng</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_NH == 0" class="number" type="number item-input-inset"  name="GA_NH_LT" ng-model="survey.GA_NH_LT" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_NH_LT.$dirty) && (frmGa.GA_NH_LT.$error.pattern || frmGa.GA_NH_LT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Lông màu</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_NH == 0" class="number" type="number item-input-inset" name="GA_NH_LM" ng-model="survey.GA_NH_LM" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_NH_LM.$dirty) && (frmGa.GA_NH_LM.$error.pattern || frmGa.GA_NH_LM.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- NEW HOPE -->
+        
+            <!-- Khac -->
+            <div class="card">
+                <div class="item item-divider">
+                    Khác
+                     <span style="float:right;">
+                        <input id="ga_o_k_kd" type="radio" value="0" ng-model="survey.GA_ANOTHER" ng-change="setUpdate()">
+                        <label for="ga_o_k_kd">Không KD &nbsp;</label>
+                        <input id="ga_o_kd" type="radio" value="1" ng-model="survey.GA_ANOTHER" ng-change="setUpdate()">
+                        <label for="ga_o_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="ga_o_k_nuoi_tt" ng-disabled="survey.GA_ANOTHER == 0" type="radio" value="0" ng-model="survey.GA_ANOTHER_MUA_TT" ng-change="setUpdate()">
+                            <label for="ga_o_k_nuoi_tt">Không &nbsp;</label>
+                            <input id="ga_o_nuoi_tt" ng-disabled="survey.GA_ANOTHER == 0" type="radio" value="1" ng-model="survey.GA_ANOTHER_MUA_TT" ng-change="setUpdate()">
+                            <label for="ga_o_nuoi_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng Gà đẻ</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_ANOTHER == 0" class="number" type="number item-input-inset" name="GA_ANOTHER_GD" ng-model="survey.GA_ANOTHER_GD" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_ANOTHER_GD.$dirty) && (frmGa.GA_ANOTHER_GD.$error.pattern || frmGa.GA_ANOTHER_GD.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-survey-full">Sản lượng Gà thịt</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Lông trắng</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_ANOTHER == 0" class="number" type="number item-input-inset" name="GA_ANOTHER_LT" ng-model="survey.GA_ANOTHER_LT" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_ANOTHER_LT.$dirty) && (frmGa.GA_ANOTHER_LT.$error.pattern || frmGa.GA_ANOTHER_LT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Lông màu</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_ANOTHER == 0" class="number" type="number item-input-inset" name="GA_ANOTHER_LM" ng-model="survey.GA_ANOTHER_LM" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_ANOTHER_LM.$dirty) && (frmGa.GA_ANOTHER_LM.$error.pattern || frmGa.GA_ANOTHER_LM.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Khac -->
+
+            <div class="row">
+                <br>
+            </div>
+                
+            <div class="row" ng-if="submited && !frmGa.$valid">
+                <label class="error"> * Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại.</label>
+            </div>
+
+            <!--Next-->
+            <div class="row">
+                <button type="submit" class="button button-positive icon icon-right ion-chevron-right col col-center">Tiếp Tục</button>
+            </div>
+        </form>
+
+        <div class="row">
+            <br>
+        </div>
+
+    </ion-content>
+</ion-view>

@@ -1,0 +1,34 @@
+﻿<ion-view view-title="Danh Sách Đã Khảo Sát" ng-init="loadDealers(false)" hide-back-button="true" showTabs>
+    <ion-content>
+        <ion-refresher
+            pulling-text="Pull to refresh..."
+            on-refresh="loadDealers(true)">
+        </ion-refresher>
+        <ion-list>
+            <div style="margin: 0 auto; width:100px; padding-bottom:10px; padding-top:10px;" ng-if="loading">
+                <img src="img/loading.gif" style="vertical-align: middle;" >
+                <label style="color: gray;">
+                    Đang tải...
+                </label>
+            </div>
+            <div ng-if="!loading" style="margin: 0 auto; width:150px; padding-bottom:10px; padding-top:10px;">
+                <center>
+                    <label style="color: gray;">
+                        {{dealers.length}} khảo sát
+                    </label>
+                </center>
+            </div>
+            <ion-item class="item-remove-animate item-avatar item-icon-right" collection-repeat="dealer in dealers" type="item-text-wrap" href="#/tab/dealers/{{dealer.SurveyId}}">
+                <img ng-if="dealer.DealerPhoto" ng-src="{{serviceBase}}{{dealer.DealerPhoto}}">
+                <img ng-if="!dealer.DealerPhoto" src="img/no-image.png">
+                <h2>{{dealer.DealerName}}</h2>
+                <p>{{dealer.ProvinceName}}</p>
+                <p>{{dealer.Address}}</p>
+                <i class="icon ion-chevron-right icon-accessory"></i>
+                <ion-option-button class="button-assertive" ng-click="remove(dealer)">
+                    Delete
+                </ion-option-button>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

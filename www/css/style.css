@@ -1,0 +1,154 @@
+/* Empty. Add your own CSS if you like */
+
+/*LOGIN*/
+.login.header {
+	font-size: 20px;
+	text-transform: uppercase;
+	padding: 10px;
+	display: block;
+	text-align: center;
+}
+
+.item-row {
+	padding: 6px 0 5px 16px;
+}
+
+.list-inset .item.item-input input {
+	padding-right: 20px;
+}
+
+.item-right {
+	position: absolute;
+	right: 0px;
+}
+
+.center {
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    position: absolute !important;
+    margin:0 auto;
+    width:100%;
+}
+
+
+.col-survey-title {
+	width: 120px;
+	padding-top: 5px;
+}
+
+.col-survey-full {
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+	padding-bottom: 0px !important;
+	padding-top: 7px !important;
+}
+
+.col-survey-img {
+	width: 33%;
+	padding-right: 20px;
+	max-width: 140px;
+}
+
+.col-survey-img img {
+	width: 100%;
+}
+
+.button-small {
+	font-size: 10px !important;
+}
+
+.col-survey-img button {
+	width: 100%;
+}
+
+.list:last-child.card {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.table-border-left {
+	border: 1px solid rgb(207, 207, 207);
+	border-right: 0;
+}
+
+.border.left {
+	border-left: 1px solid rgb(207, 207, 207);
+}
+
+.border.right {
+	border-right: 1px solid rgb(207, 207, 207);
+}
+
+.border.top {
+	border-top: 1px solid rgb(207, 207, 207);
+}
+
+.border.bottom {
+	border-bottom: 1px solid rgb(207, 207, 207);
+}
+
+.border.all {
+	border: 1px solid rgb(207, 207, 207);
+}
+
+.row {
+	padding-top: 8px !important;
+}
+
+ion-content {
+	font-size: 16px;
+}
+
+.error {
+	font-size:12px; 
+	color:red;
+}
+
+.bg-anco {
+	background: url(./../img/bg5.jpg) no-repeat fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	 background-size: cover;
+}
+
+.bg-conco {
+	background: url(./../img/bg1.png) no-repeat fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	 background-size: cover;
+}
+
+input.number {
+	text-align: right;
+	padding-right: 5px;
+	width: 100px !important;
+}
+
+select.full-width, select.full-width option {
+	width: 100%;
+}
+
+.match-parent {
+	width: 100%;
+	max-width: 300px;
+}
+
+.col-flex {
+	display: flex;
+}
+
+.col-flex input {
+	/*-webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -moz-box-flex: 1;
+    -moz-flex: 1;
+    -ms-flex: 1;
+    flex: 1;*/
+    margin-right: 5px;
+}

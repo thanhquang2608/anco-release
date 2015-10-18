@@ -1,0 +1,214 @@
+﻿<ion-view view-title="Thông tin khảo sát - BÒ" ng-init="initBo()" hide-tabs>
+    <ion-content>
+        <center><h3 class="padding-top">BÒ</h3></center>
+        <form name="frmBo" ng-submit="updateBo(frmBo.$valid);" novalidate>
+            <!-- CON CO -->
+            <div class="card">
+                <div class="item item-divider">
+                    CON CÒ
+                    <span style="float:right;">
+                        <input id="bo_cc_k_kd" type="radio" value="0" ng-model="survey.BO_CC" ng-change="setUpdate()">
+                        <label for="bo_cc_k_kd">Không KD &nbsp;</label>
+                        </input>
+                        <input id="bo_cc_kd" type="radio" value="1" ng-model="survey.BO_CC" ng-change="setUpdate()">
+                        <label for="bo_cc_kd">Có KD</label>
+                        </input>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="bo_cc_k_mua_tt" ng-disabled="survey.BO_CC == 0" type="radio" value="0" ng-model="survey.BO_CC_MUA_TT" ng-change="setUpdate()">
+                            <label for="bo_cc_k_mua_tt">Không &nbsp;</label>
+                            <input id="bo_cc_mua_tt" ng-disabled="survey.BO_CC == 0" type="radio" value="1" ng-model="survey.BO_CC_MUA_TT" ng-change="setUpdate()">
+                            <label for="bo_cc_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.BO_CC == 0" class="number" type="number item-input-inset" name="BO_CC_SL" ng-model="survey.BO_CC_SL" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmBo.BO_CC_SL.$dirty) && (frmBo.BO_CC_SL.$error.pattern || frmBo.BO_CC_SL.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- CON CO -->
+            <!-- DE HUES -->
+            <div class="card">
+                <div class="item item-divider">
+                    DE HUES
+                    <span style="float:right;">
+                        <input id="bo_dh_k_kd" type="radio" value="0" ng-model="survey.BO_DH" ng-change="setUpdate()">
+                        <label for="bo_dh_k_kd">Không KD &nbsp;</label>
+                        <input id="bo_dh_kd" type="radio" value="1" ng-model="survey.BO_DH" ng-change="setUpdate()">
+                        <label for="bo_dh_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="bo_dh_k_mua_tt" ng-disabled="survey.BO_DH == 0" type="radio" value="0" ng-model="survey.BO_DH_MUA_TT" ng-change="setUpdate()">
+                            <label for="bo_dh_k_mua_tt">Không &nbsp;</label>
+                            <input id="bo_dh_mua_tt" ng-disabled="survey.BO_DH == 0" type="radio" value="1" ng-model="survey.BO_DH_MUA_TT" ng-change="setUpdate()">
+                            <label for="bo_dh_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.BO_DH == 0" class="number" type="number item-input-inset" name="BO_DH_SL" ng-model="survey.BO_DH_SL" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmBo.BO_DH_SL.$dirty) && (frmBo.BO_DH_SL.$error.pattern || frmBo.BO_DH_SL.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- DE HUES -->
+            <!-- CP -->
+            <div class="card">
+                <div class="item item-divider">
+                    CP
+                    <span style="float:right;">
+                        <input id="bo_cp_k_kd" type="radio" value="0" ng-model="survey.BO_CP" ng-change="setUpdate()">
+                        <label for="bo_cp_k_kd">Không KD &nbsp;</label>
+                        <input id="bo_cp_kd" type="radio" value="1" ng-model="survey.BO_CP" ng-change="setUpdate()">
+                        <label for="bo_cp_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="bo_cp_k_mua_tt" ng-disabled="survey.BO_CP == 0" type="radio" value="0" ng-model="survey.BO_CP_MUA_TT" ng-change="setUpdate()">
+                            <label for="bo_cp_k_mua_tt">Không &nbsp;</label>
+                            <input id="bo_cp_mua_tt" ng-disabled="survey.BO_CP == 0" type="radio" value="1" ng-model="survey.BO_CP_MUA_TT" ng-change="setUpdate()">
+                            <label for="bo_cp_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.BO_CP == 0" class="number" type="number item-input-inset" name="BO_CP_SL" ng-model="survey.BO_CP_SL" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmBo.BO_CP_SL.$dirty) && (frmBo.BO_CP_SL.$error.pattern || frmBo.BO_CP_SL.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- CP -->
+            <!-- UP -->
+            <div class="card">
+                <div class="item item-divider">
+                    UP
+                    <span style="float:right;">
+                        <input id="bo_up_k_kd" type="radio" value="0" ng-model="survey.BO_UP" ng-change="setUpdate()">
+                        <label for="bo_up_k_kd">Không KD &nbsp;</label>
+                        <input id="bo_up_kd" type="radio" value="1" ng-model="survey.BO_UP" ng-change="setUpdate()">
+                        <label for="bo_up_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="bo_up_k_mua_tt" ng-disabled="survey.BO_UP == 0" type="radio" value="0" ng-model="survey.BO_UP_MUA_TT" ng-change="setUpdate()">
+                            <label for="bo_up_k_mua_tt">Không &nbsp;</label>
+                            <input id="bo_up_mua_tt" ng-disabled="survey.BO_UP == 0" type="radio" value="1" ng-model="survey.BO_UP_MUA_TT" ng-change="setUpdate()">
+                            <label for="bo_up_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.BO_UP == 0" class="number" type="number item-input-inset" name="BO_UP_SL" ng-model="survey.BO_UP_SL" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmBo.BO_UP_SL.$dirty) && (frmBo.BO_UP_SL.$error.pattern || frmBo.BO_UP_SL.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- UP -->
+            
+            <!-- Khac -->
+            <div class="card">
+                <div class="item item-divider">
+                    Khác
+                    <span style="float:right;">
+                        <input id="bo_o_k_kd" type="radio" value="0" ng-model="survey.BO_ANOTHER" ng-change="setUpdate()">
+                        <label for="bo_o_k_kd">Không KD &nbsp;</label>
+                        <input id="bo_o_kd" type="radio" value="1" ng-model="survey.BO_ANOTHER" ng-change="setUpdate()">
+                        <label for="bo_o_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="bo_o_k_mua_tt" ng-disabled="survey.BO_ANOTHER == 0" type="radio" value="0" ng-model="survey.BO_ANOTHER_MUA_TT" ng-change="setUpdate()">
+                            <label for="bo_o_k_mua_tt">Không &nbsp;</label>
+                            <input id="bo_o_mua_tt" ng-disabled="survey.BO_ANOTHER == 0" type="radio" value="1" ng-model="survey.BO_ANOTHER_MUA_TT" ng-change="setUpdate()">
+                            <label for="bo_o_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                 <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.BO_ANOTHER == 0" class="number" type="number item-input-inset" name="BO_ANOTHER_SL" ng-model="survey.BO_ANOTHER_SL" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmBo.BO_ANOTHER_SL.$dirty) && (frmBo.BO_ANOTHER_SL.$error.pattern || frmBo.BO_ANOTHER_SL.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Khac -->
+
+            <div class="row">
+                <br>
+            </div>
+
+            <div class="row" ng-if="submited && !frmBo.$valid">
+                <label class="error"> * Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại.</label>
+            </div>
+
+             <ul>
+              <li ng-repeat="(key, errors) in frmBo.$error track by $index"> <strong>{{ key }}</strong> errors
+                <ul>
+                  <li ng-repeat="e in errors">{{ e.$name }} has an error: <strong>{{ key }}</strong>.</li>
+                </ul>
+              </li>
+            </ul>
+            
+            <!--Done-->
+            <div class="row">
+                <button type="submit" class="button button-positive icon icon-right ion-checkmark-round col col-center">Xong</button>
+            </div>
+        </form>
+        <div class="row">
+            <br>
+        </div>
+    </ion-content>
+</ion-view>

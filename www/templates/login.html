@@ -1,0 +1,80 @@
+﻿<ion-view name="login-view" view-title="" hide-back-button="true" hide-nav-bar="true" style="background: url(img/bg4.png) no-repeat right fixed; -webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover; background-size: cover;">
+    <ion-content class="padding center-form" style="max-width:500px; margin:0 auto;">
+       <div style="margin-top:50px; padding:20px; background-color: rgba(255, 255, 255, 0.6); border-radius: 10px;"> 
+        <div class="list list-inset" style="background-color:transparent; margin-top:0px;">
+            <label class="login header">Đăng nhập</label>
+              <div class="list">
+
+                <!-- Team -->
+                <!-- <label class="item item-row">
+                  <div class="input-label">
+                    Công ty
+                    <span class="item-right">
+                      <label class="padding-right padding-left">
+                        <input type="radio" ng-model="user.AC_PC" value="0">
+                        AC
+                      </label>
+                      <label class="padding-right">
+                        <input type="radio" ng-model="user.AC_PC" ng-value="1">
+                        PC
+                      </label>
+                    </span>
+                  </div>
+                </label> -->
+                <!-- Team -->
+
+                <!-- Region -->
+                <!-- <label class="item item-input item-select">
+                  <div class="input-label">
+                    Vùng/Miền
+                  </div>
+                  <select ng-model="user.region">
+                    <option ng-repeat="r in regions" ng-bind="r.name" ng-value="r.id" ng-selected="user.region == r.id"></option>
+                  </select>
+                </label> -->
+                <!-- Region -->
+
+                <!-- Sale -->
+               <!--  <label class="item item-input item-select">
+                  <div class="input-label">
+                    Tên
+                  </div>
+                  <select ng-model="user.id">
+                    <option ng-repeat="u in users | filter: { AC_PC: user.AC_PC, region: user.region } | orderBy: 'name' " ng-bind="u.name" ng-value="u.id" ng-selected="user.id == u.id"></option>
+                  </select>
+                </label> -->
+                <!-- Sale -->
+
+                <!-- SaleId -->
+                <label class="item item-input">
+                  <div class="input-label">
+                    Id
+                  </div>
+                  <input type="text" placeholder="Id" ng-model="user.id">
+                </label>
+                <!-- SaleId -->
+
+                <!-- Password -->
+                <label class="item item-input">
+                  <div class="input-label">
+                    Mật khẩu
+                  </div>
+                  <input type="password" placeholder="Mật khẩu" ng-model="user.password">
+                </label>
+                <!-- Password -->
+
+                 <!-- Re-Password -->
+                <!--<label class="item item-input">
+                  <div class="input-label">
+                    Nhập lại MK
+                  </div>
+                  <input type="password" placeholder="Nhập lại mật khẩu" ng-model="user.repassword">
+                </label>-->
+                <!-- Re-Password -->
+
+              </div>
+        </div>
+        <button class="button button-block button-positive" ng-click="login(user)">Đăng nhập</button>
+      </div>
+    </ion-content>
+</ion-view>
