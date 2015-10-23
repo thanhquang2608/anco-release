@@ -220,8 +220,9 @@
         if ($scope.user.Provinces.length > 0) {
             $scope.provinces = $scope.user.Provinces;
             $scope.dealer.provinceId = $scope.user.Provinces[0].ProvinceId;
-            $scope.provinceName = $scope.user.Provinces[0].provinceName;
+            $scope.provinceName = $scope.user.Provinces[0].ProvinceName;
             $scope.dealer.province = $scope.user.Provinces[0];
+
             loadDistrict();
         }
     }
