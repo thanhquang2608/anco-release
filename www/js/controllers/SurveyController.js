@@ -9,6 +9,7 @@
     //Model
     ////adress
     $scope.provineId = "";
+    $scope.provineName = "";
     $scope.districtId = "";
     $scope.wardId = ""
 
@@ -81,6 +82,12 @@
     // $scope.survey.HEO_ANOTHER_HEO = 0;
     // $scope.survey.HEO_ANOTHER_THIT = 0;
     // $scope.survey.HEO_ANOTHER_NAI = 0;
+    $scope.heo_anco_error = undefined;
+    $scope.heo_conco_error = undefined;
+    $scope.heo_cp_error = undefined;
+    $scope.heo_cg_error = undefined;
+    $scope.heo_gf_error = undefined;
+    $scope.heo_o_error = undefined;
 
     //////// GA
     //// CON CO
@@ -209,15 +216,22 @@
 
     $scope.getUser = function () {
         $scope.user = AuthService.user();
-        loadDistrict();
-        //loadProvinces();
+
+        if ($scope.user.Provinces.length > 0) {
+            $scope.provinces = $scope.user.Provinces;
+            $scope.dealer.provinceId = $scope.user.Provinces[0].ProvinceId;
+            $scope.provinceName = $scope.user.Provinces[0].provinceName;
+            $scope.dealer.province = $scope.user.Provinces[0];
+            loadDistrict();
+        }
     }
 
     $scope.getUser();
 
+
     $rootScope.$on(AUTH_EVENTS.authenticated, function (event) {
-        $scope.user = AuthService.user();
-        loadProvinces();
+        $scope.getUser();
+        // loadProvinces();
     });
 
     $scope.$on('$ionicView.enter', function () {
@@ -228,8 +242,7 @@
     });
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-
-
+        
     });
 
     // check change sate to set needUpdate = false
@@ -382,7 +395,6 @@
 
         if ($scope.update) {
             //console.log("func: saveHeo " + SurveyService.getSurveyID());
-            $ionicLoading.show({ template: 'Đang lưu...' });
 
             var param = {
                 token: AuthService.token(),
@@ -430,6 +442,15 @@
                 o_nai: $scope.survey.HEO_ANOTHER == 0 ? 0 : parseInt($scope.survey.HEO_ANOTHER_NAI)
             }
 
+            var valid = checkValidData(param);
+            if (!valid) {
+                $ionicLoading.hide();
+                $ionicLoading.show({ template: 'Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại!\n', noBackdrop: true, duration: 2000 });
+                return;
+            }
+
+            $ionicLoading.show({ template: 'Đang lưu...' });
+
             if ($scope.survey.HEO_ID) {
                 param.heoid = $scope.survey.HEO_ID;
             }
@@ -439,7 +460,7 @@
                 .then(
                     function successCallback(response) {
                         $ionicLoading.hide();
-                        $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                        //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                         //console.log("AC_PC: " + ac_pc);
                         $scope.survey.HEO_ID = response.data.HeoId;
                         $scope.update = false;
@@ -462,6 +483,51 @@
             $state.go('tabs.sales-ga', {});
         }
     }
+
+    function checkValidData(data) {
+        var errorPercent = "Tổng sản lượng phải bằng 100%";
+        var valid = true;
+
+        // ANCO
+        if ((data.ac_con + data.ac_thit + data.ac_nai != 100) && (data.ac_con + data.ac_thit + data.ac_nai != 0)) {
+            $scope.heo_anco_error = errorPercent;
+            valid = false;
+        }
+
+        // CONCO
+        if ((data.cc_con + data.cc_thit + data.cc_nai != 100) && (data.cc_con + data.cc_thit + data.cc_nai != 0)) {
+            $scope.heo_conco_error = errorPercent;
+            valid = false;
+        }
+
+
+        // CP
+        if ((data.cp_con + data.cp_thit + data.cp_nai != 100) && (data.cp_con + data.cp_thit + data.cp_nai != 0)) {
+            $scope.heo_cp_error = errorPercent;
+            valid = false;
+        }
+
+        // CG
+        if ((data.cg_con + data.cg_thit + data.cg_nai != 100) && (data.cg_con + data.cg_thit + data.cg_nai != 0)) {
+            $scope.heo_cg_error = errorPercent;
+            valid = false;
+        }
+
+        // GF
+        if ((data.gf_con + data.gf_thit + data.gf_nai != 100) && (data.gf_con + data.gf_thit + data.gf_nai != 0)) {
+            $scope.heo_gf_error = errorPercent;
+            valid = false;
+        }
+
+        // OTHER
+        if ((data.o_con + data.o_thit + data.o_nai != 100) && (data.o_con + data.o_thit + data.o_nai != 0)) {
+            $scope.heo_o_error = errorPercent;
+            valid = false;
+        }
+
+        return valid;
+    }
+
     // ---------------------GA--------------------------
     $scope.saveGa = function (isValid) {
 
@@ -531,7 +597,7 @@
                 .then(
                     function successCallback(response) {
                         $ionicLoading.hide();
-                        $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                        //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                         $scope.survey.GA_ID = response.data.GaId;
                         $scope.update = false;
 
@@ -609,7 +675,7 @@
                 .then(
                     function successCallback(response) {
                         $ionicLoading.hide();
-                        $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                        //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                         $scope.survey.VIT_ID = response.data.VitId;
                         $scope.update = false;
 
@@ -674,7 +740,7 @@
                 .then(
                     function successCallback(response) {
                         $ionicLoading.hide();
-                        $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                        //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                         $scope.BO_ID = response.data.BoId;
                         $scope.update = false;
                         $ionicHistory.clearCache();
@@ -771,7 +837,7 @@
 
                     if ($scope.provinces.length > 0) {
                         $scope.dealer.provinceId = $scope.provinces[0].ProvinceId;
-                        $scope.loadDistrict();
+                        loadDistrict();
                     }
                 },
                 function errorCallback(response) {
@@ -791,8 +857,10 @@
         $scope.dealer.dealerName = dealer.DealerName;
         $scope.dealer.districtId = dealer.DistrictId;
         $scope.dealer.districtName = dealer.DistrictName;
+        $scope.dealer.district = {DistrictId : dealer.DistrictId, DistrictName : dealer.DistrictName};
         $scope.dealer.wardName = dealer.WardName;
         $scope.dealer.wardId = dealer.WardId;
+        $scope.dealer.ward = {WardId : dealer.WardId, WardName : dealer.WardName};
         $scope.dealer.address = dealer.Address;
 
         $scope.loadWard();
@@ -808,6 +876,24 @@
         $scope.dealer.districtName = undefined;
         $scope.dealer.address = undefined;
         $scope.dealer.wardId = undefined;
+        $scope.dealer.district = undefined;
+        $scope.dealer.ward = undefined;
+
+        if ($scope.districts) {
+            if ($scope.districts.length > 0) {
+                $scope.dealer.district = $scope.districts[0];
+
+                if ($scope.wards) {
+                    if ($scope.wards.length > 0) {
+                        $scope.dealer.ward = $scope.wards[0];
+                    }
+                } else {
+                    $scope.loadWard();
+                }
+            }
+        } else {
+            loadDistrict();
+        }
     }
 
     $scope.checkInput = function () {
@@ -933,13 +1019,13 @@
 
                         if ($scope.surveyID != -1) {
                             // if update dealer -> edit first item in list dealer                       
-                            Dealers.updateDealerBySurveyId(response.data.SurveyId, $scope.dealer.dealerName, $scope.user.Province.provinceName, $scope.dealer.address, null);
+                            Dealers.updateDealerBySurveyId(response.data.SurveyId, $scope.dealer.dealerName, $scope.provinceName, $scope.dealer.address, null);
                         }
                         else {
                             // if create dealer -> add temp data to list dealer
                             Dealers.dealerPush({
                                 "SurveyId": response.data.SurveyId, "DealerPhoto": "",
-                                "DealerName": $scope.dealer.dealerName, "ProvinceName": $scope.user.Province.provinceName, "Address": $scope.dealer.address
+                                "DealerName": $scope.dealer.dealerName, "ProvinceName": $scope.provinceName, "Address": $scope.dealer.address
                             });
                         }
                         $scope.surveyID = response.data.SurveyId;
@@ -964,10 +1050,15 @@
                         if ($scope.update5)
                             $scope.sum++;
 
-                        if ($scope.sum == 0) {
+                        if ($scope.sum == 0)
+                            SurveyService.setUploadImageFinish(true);
+                        else
+                            SurveyService.setUploadImageFinish(false);
+
+                        //if ($scope.sum == 0) {
                             $ionicLoading.hide();
-                            $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
-                        }
+                            //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                        //}
 
                         if ($scope.update1)
                             uploadImage($scope.imgCMND1, 1);
@@ -1007,6 +1098,11 @@
             if ($scope.update5)
                 $scope.sum++;
 
+            if ($scope.sum == 0)
+                SurveyService.setUploadImageFinish(true);
+            else
+                SurveyService.setUploadImageFinish(false);
+
             // if need update image -> update
             if ($scope.update1)
                 uploadImage($scope.imgCMND1, 1);
@@ -1023,6 +1119,16 @@
             $state.go('tabs.sales-heo');
         }
     }
+
+    $scope.uploadImageFinish = SurveyService.getUploadImageFinish();
+    $rootScope.$on('uploadImagesFinish', function (event) {
+        console.log('uploadImagesFinish');
+        $scope.$apply(function() {
+            $scope.uploadImageFinish = true;
+            SurveyService.setUploadImageFinish(true);
+        })
+    });
+
     // ---upload image
     function uploadImage(uri, typeId) {
         //console.log(uri);
@@ -1077,10 +1183,12 @@
                         imgFailed += "Kho\n"
                     $ionicLoading.hide();
                     $ionicLoading.show({ template: 'Upload ảnh thất bại.\n' + imgFailed, noBackdrop: true, duration: 2000 });
+                    $rootScope.$broadcast('uploadImagesFinish');
                 }
                 else {
                     $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!\n', noBackdrop: true, duration: 2000 });
+                    $rootScope.$broadcast('uploadImagesFinish');
+                    //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!\n', noBackdrop: true, duration: 2000 });
                 }
             }
 
@@ -1103,6 +1211,7 @@
                         imgFailed += "Kho\n"
                     $ionicLoading.hide();
                     $ionicLoading.show({ template: 'Upload ảnh thất bại.\n' + imgFailed, noBackdrop: true, duration: 2000 });
+                    $rootScope.$broadcast('uploadImagesFinish');
                 }
             }
             //$ionicLoading.show({ template: 'upload failed!\n', noBackdrop: true, duration: 2000 });
@@ -1136,13 +1245,18 @@
     }
 
     $scope.loadDealer = function () {
+
+        if ($scope.dealer.AC_PC == 2) {
+            return;
+        }
+
         $scope.dealer.dealerCode = undefined;
         $scope.dealerIndex = undefined;
         //$scope.update = true;
 
         var param = {
             token: AuthService.token(),
-            province: $scope.user.Province.provinceId,
+            province: $scope.dealer.provinceId,
             ac_pc: $scope.dealer.AC_PC,
             uac_pc: $scope.user.AC_PC
         }
@@ -1260,24 +1374,33 @@
         $state.go('tabs.survey', {}, { reload: true });
     };
 
+    $scope.loadDistrict = function() {
+        loadDistrict();
+    }
+
     function loadDistrict() {
         var param = {
             token: AuthService.token(),
-            province: $scope.user.Province.provinceId,
+            province: $scope.dealer.province.ProvinceId,
             uac_pc: $scope.user.AC_PC
         }
-
-        //console.log(param);
 
         $http.get($scope.serviceBase + '/districts', { params: param, timeout: $rootScope.TIME_OUT })
             .then(
                 function successCallback(response) {
                     $scope.districts = [];
+                    $scope.dealer.district = {};
                     $scope.districts.push.apply($scope.districts, response.data);
 
                     if ($scope.districts.length > 0) {
                         $scope.dealer.districtId = $scope.districts[0].DistrictId;
+                        $scope.dealer.district = $scope.districts[0];
+
                         $scope.loadWard();
+
+                        if(!$scope.$$phase) {
+                            $scope.$apply();
+                        }
                     }
                 },
                 function errorCallback(response) {
@@ -1289,7 +1412,7 @@
     $scope.loadWard = function () {
         var param = {
             token: AuthService.token(),
-            district: $scope.dealer.districtId,
+            district: $scope.dealer.district.DistrictId,
         }
 
         $http.get($scope.serviceBase + '/wards', { params: param, timeout: $rootScope.TIME_OUT })
@@ -1312,6 +1435,10 @@
                                 $scope.dealer.ward = value;
                             }
                         });
+                    }
+
+                    if(!$scope.$$phase) {
+                        $scope.$apply();
                     }
                 },
                 function errorCallback(response) {

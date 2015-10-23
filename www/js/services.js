@@ -106,6 +106,7 @@ angular.module('starter.services', [])
 })
 
 .service('SurveyService', function () {
+    var uploadImageFinish = false;
     var surveyID = -2;
     var AC_PC = undefined;
     return {
@@ -114,6 +115,12 @@ angular.module('starter.services', [])
         },
         setSurveyID: function (id) {
             surveyID = id;
+        },
+        getUploadImageFinish: function () {
+            return uploadImageFinish;
+        },
+        setUploadImageFinish: function (stt) {
+            uploadImageFinish = stt;
         }
     }
 })
@@ -123,13 +130,16 @@ angular.module('starter.services', [])
     var LOCAL_TOKEN_KEY = STORAGE_KEYS.token_key;
     var LOCAL_USER_KEY = STORAGE_KEYS.user_key;
     var LIST_DEALERS_KEY = STORAGE_KEYS.list_dealers;
+    var APP_VERSION_KEY = STORAGE_KEYS.appversion_dealers;
     var isAuthenticated = false;
     var role = '';
     var authToken;
     var user;
+    var appVersion = '';
 
     function loadUserCredentials() {
         var token = $localstorage.get(LOCAL_TOKEN_KEY);
+        var appVersion = $localstorage.get(APP_VERSION_KEY);
         var retrievedUser = $localstorage.get(LOCAL_USER_KEY);
         //console.log(retrievedUser);
         if (token && retrievedUser) {
@@ -155,6 +165,14 @@ angular.module('starter.services', [])
         // Set the token as header for your requests!
         // $http.defaults.headers.common['X-Auth-Token'] = 'Bearer ' + token;
         // $http.defaults.headers.common.Authorization = 'Bearer ' + token;
+    }
+
+    function checkVersion(currentVersion) {
+        if (appVersion != currentVersion) {
+            destroyUserCredentials();
+            $localstorage.set(APP_VERSION_KEY, currentVersion);
+            appVersion = currentVersion;
+        }
     }
 
     function destroyUserCredentials() {
@@ -211,6 +229,8 @@ angular.module('starter.services', [])
         login: login,
         logout: logout,
         isAuthorized: isAuthorized,
+        checkVersion: checkVersion,
+        appVersion: function () { return appVersion; },
         token: function () { return authToken; },
         isAuthenticated: function () { return isAuthenticated; },
         user: function () { return user; }

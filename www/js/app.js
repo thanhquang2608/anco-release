@@ -5,6 +5,8 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
+var appVersion = "0.0.2";
+
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .run(function ($ionicPlatform) {
@@ -24,6 +26,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
                 alert('Không kết nối mạng được!'); 
             }
         }
+
+        if (window.cordova) {
+          cordova.getAppVersion(function(version) {
+            appVersion = version;
+          });
+        }
+       
     });
 })
 
@@ -216,6 +225,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 .run(function ($rootScope, $state, AuthService, AUTH_EVENTS) {
     $rootScope.$on('$stateChangeStart', function (event, next, nextParams, fromState) {
 
+        // AuthService.checkVersion(appVersion);
         if (!AuthService.isAuthenticated()) {
             if (next.name !== 'login') {
                 event.preventDefault();

@@ -15,8 +15,13 @@
                 <div class="col-survey-title">
                     Tỉnh/Thành phố
                 </div>
-                <div class="col">
-                        {{user.Province.provinceName}}
+                <div class="col" ng-if="provinces.length > 1">
+                    <label>
+                       <select class="full-width match-parent" ng-model="dealer.province" ng-options="p.ProvinceName for p in provinces" ng-change="loadDealer(); loadDistrict(); setUpdate()"></select>
+                    </label>
+                </div>
+                <div class="col" ng-if="provinces.length <= 1">
+                    {{provinceName}}
                 </div>
             </div>
 
@@ -153,9 +158,12 @@
             <div class="row">
                 <div class="col-survey-title padding-left">Quận/Huyện</div>
                 <div class="col" ng-if="dealer.AC_PC == 2">
-                    <select class="full-width match-parent" ng-model="dealer.districtId" ng-change="loadWard(); setUpdate()">
+                    <!-- <select class="full-width match-parent" ng-model="dealer.districtId" ng-change="loadWard(); setUpdate()">
                         <option ng-selected="dealer.districtId == d.DistrictId" ng-repeat="d in districts track by $index" ng-bind="d.DistrictName" ng-value="d.DistrictId"></option>
+                    </select> -->
+                    <select class="full-width match-parent" ng-model="dealer.district" ng-options="d.DistrictName for d in districts" ng-change="loadWard(); setUpdate()">
                     </select>
+                    <label>{{district}}</label>
                 </div>
                 <div class="col" ng-if="dealer.AC_PC != 2">
                     <label ng-bind="dealer.districtName">

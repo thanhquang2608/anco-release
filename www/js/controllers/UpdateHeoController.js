@@ -241,6 +241,14 @@
                 o_thit: $scope.heo.HEO_ANOTHER == 0 ? 0 : parseInt($scope.heo.HEO_ANOTHER_THIT),
                 o_nai:  $scope.heo.HEO_ANOTHER == 0 ? 0 : parseInt($scope.heo.HEO_ANOTHER_NAI)
             }
+
+            var valid = checkValidData(param);
+            if (!valid) {
+                $ionicLoading.hide();
+                $ionicLoading.show({ template: 'Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại!\n', noBackdrop: true, duration: 2000 });
+                return;
+            }
+
             if (Dealers.survey().HEO_ID != null) {
                 param.heoid = Dealers.survey().HEO_ID;
             }
@@ -276,4 +284,5 @@
         }
 
     }
+
 })
