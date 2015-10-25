@@ -1,6 +1,6 @@
 var app = angular.module('starter.controllers', []);
 
-app.controller('AppCtrl', function ($rootScope, $scope, $state, $ionicPopup, $ionicLoading, AuthService, AUTH_EVENTS, NETWORK_EVENTS) {
+app.controller('AppCtrl', function ($rootScope, $scope, $state, $ionicPopup, $ionicLoading, AuthService, AUTH_EVENTS, NETWORK_EVENTS, DealerService) {
     $rootScope.TIME_OUT = 60000;
 
     $scope.$on(AUTH_EVENTS.notAuthorized, function (event) {
@@ -55,6 +55,14 @@ app.controller('AppCtrl', function ($rootScope, $scope, $state, $ionicPopup, $io
             });
         }
     }
+
+    $rootScope.$on('uploadImagesFinishDealer', function (event) {
+        console.log('uploadImagesFinishDealer');
+        $scope.$apply(function () {
+            $scope.uploadImageFinish = true;
+            DealerService.setUploadImageFinish(true);
+        })
+    });
 })
 
 .controller('HomeCtrl', function ($scope) {

@@ -182,6 +182,50 @@
         //console.log($scope.heo);
     }
 
+    function checkValidData(data) {
+        var errorPercent = "Tổng sản lượng phải bằng 100%";
+        var valid = true;
+
+        // ANCO
+        if ((data.ac_con + data.ac_thit + data.ac_nai != 100) && (data.ac_con + data.ac_thit + data.ac_nai != 0)) {
+            $scope.heo_anco_error = errorPercent;
+            valid = false;
+        }
+
+        // CONCO
+        if ((data.cc_con + data.cc_thit + data.cc_nai != 100) && (data.cc_con + data.cc_thit + data.cc_nai != 0)) {
+            $scope.heo_conco_error = errorPercent;
+            valid = false;
+        }
+
+
+        // CP
+        if ((data.cp_con + data.cp_thit + data.cp_nai != 100) && (data.cp_con + data.cp_thit + data.cp_nai != 0)) {
+            $scope.heo_cp_error = errorPercent;
+            valid = false;
+        }
+
+        // CG
+        if ((data.cg_con + data.cg_thit + data.cg_nai != 100) && (data.cg_con + data.cg_thit + data.cg_nai != 0)) {
+            $scope.heo_cg_error = errorPercent;
+            valid = false;
+        }
+
+        // GF
+        if ((data.gf_con + data.gf_thit + data.gf_nai != 100) && (data.gf_con + data.gf_thit + data.gf_nai != 0)) {
+            $scope.heo_gf_error = errorPercent;
+            valid = false;
+        }
+
+        // OTHER
+        if ((data.o_con + data.o_thit + data.o_nai != 100) && (data.o_con + data.o_thit + data.o_nai != 0)) {
+            $scope.heo_o_error = errorPercent;
+            valid = false;
+        }
+
+        return valid;
+    }
+
     $scope.updateHeo = function (ac_pc, isValid) {
         $scope.submited = true;
 
@@ -258,7 +302,7 @@
                 .then(
                     function successCallback (response) {
                         $ionicLoading.hide();
-                        $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                        //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                         //console.log("AC_PC: " + $scope.user.AC_PC);
 
                         $scope.update = false;

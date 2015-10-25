@@ -213,7 +213,7 @@
                 .then(
                     function successCallback (response) {
                         $ionicLoading.hide();
-                        $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                        //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                         $scope.update = false;
 
                         $state.go('tabs.dealer-detail-sales-bo', {}, { reload: true });

@@ -1,4 +1,4 @@
-﻿app.controller('DealerController', function ($rootScope, $scope, $stateParams, $http, AuthService,
+﻿app.controller('DealerController', function ($rootScope, $scope, $stateParams, $http, AuthService, DealerService,
     AUTH_EVENTS, NETWORK, $ionicLoading, Dealers, $state, SurveyService, $localstorage, STORAGE_KEYS, $ionicPopup, $ionicHistory) {
     //FOR upload image
     $scope.sum = 0;
@@ -24,20 +24,20 @@
 
     // -----------------------upload picture--------------------------------------
 
-   $scope.getPhoto = function(id) {
+    $scope.getPhoto = function (id) {
         $scope.id = id;
-        
+
         $scope.popupChooseImage = $ionicPopup.show({
             templateUrl: 'templates/popup-choose-picture.html',
             title: 'Chọn ảnh từ',
             scope: $scope
         });
     }
-    
-   $scope.takePhoto = function (id, from) {
+
+    $scope.takePhoto = function (id, from) {
         $scope.id = id;
 
-        switch(from) {
+        switch (from) {
             case 0:
                 $scope.takePhotoFromCamera(id);
                 break;
@@ -51,7 +51,7 @@
         if ($scope.popupChooseImage) {
             $scope.popupChooseImage.close();
         }
-        
+
         var options = {
             quality: 75,
             destinationType: Camera.DestinationType.FILE_URL,
@@ -65,13 +65,13 @@
         };
 
         navigator.camera.getPicture(onSuccess, onFail, options);
-    } 
+    }
 
     $scope.takePhotoFromAlbum = function (id) {
         if ($scope.popupChooseImage) {
             $scope.popupChooseImage.close();
         }
-        
+
         // var options = {
         //     quality: 75,
         //     destinationType: Camera.DestinationType.NATIVE_URI,
@@ -85,7 +85,7 @@
         // navigator.camera.getPicture(onSuccess, onFail, options);
 
         window.imagePicker.getPictures(
-            function(results) {
+            function (results) {
                 var uri = results[0];
                 onSuccess(uri);
             },
@@ -94,7 +94,7 @@
                 maximumImagesCount: 1,
                 width: 500,
                 height: 500,
-                quality : 75
+                quality: 75
             }
         );
     }
@@ -132,113 +132,125 @@
         console.log('Failed because: ' + message);
     }
 
+    $scope.uploadImageFinish = DealerService.getUploadImageFinish();
+    $rootScope.$on('uploadImagesFinishDealer', function (event) {
+        console.log('uploadImagesFinishDealer');
+        $scope.$apply(function () {
+            $scope.uploadImageFinish = true;
+            DealerService.setUploadImageFinish(true);
+        })
+    });
+
     function uploadImage(uri, typeId) {
         try {
 
 
-        //console.log(uri);
-        var fileURL = uri;
-        //var options = {
-        //    fileKey: "uploadFile",
-        //    fileName: fileURL.substr(fileURL.lastIndexOf('/') + 1),
-        //    chunkedMode: false,
-        //    mimeType: "image/jpeg"
-        //};
+            //console.log(uri);
+            var fileURL = uri;
+            //var options = {
+            //    fileKey: "uploadFile",
+            //    fileName: fileURL.substr(fileURL.lastIndexOf('/') + 1),
+            //    chunkedMode: false,
+            //    mimeType: "image/jpeg"
+            //};
 
-        var params = {
-            dealerid: $scope.dealer.DealerId,
-            surveyid: $scope.survey.SurveyId,
-            type: typeId
-        };
-
-        //$ionicLoading.hide();
-        //$ionicLoading.show({ template: 'start upload ! + ' + typeId, noBackdrop: true, duration: 2000 });
-
-
-        // $scope.showToast('start upload ' + uri, 'short', 'bottom');
-        var win = function (r) {
-            $scope.success++;
-            // $scope.showToast("SUCCESS: " + JSON.stringify(r.response), 'long', 'bottom');
-            switch (typeId) {
-                case 1: $scope.update1 = false; break;
-                case 2: $scope.update2 = false; break;
-                case 3:
-                    // update dealer photo
-                    // $ionicLoading.hide();
-                    // $ionicLoading.show({ template: 'typeId = ' + typeId, noBackdrop: true, duration: 2000 });
-                    var serverResult = JSON.stringify(r.response);
-                    var serverImageUrl = JSON.parse(r.response).file[0].fd;
-                    Dealers.updateDealerBySurveyId(Dealers.survey().SurveyId, null, null, null, serverImageUrl);
-                    $scope.update3 = false;
-                    break;
-                case 4: $scope.update4 = false; break;
-                case 5: $scope.update5 = false; break;
-            }
-
-            if ($scope.success + $scope.failure == $scope.sum) {
-                var imgFailed = "";
-                if ($scope.failure > 0) {
-                    if ($scope.update1)
-                        imgFailed += "Mặt trước CMND\n"
-                    if ($scope.update2)
-                        imgFailed += "Mặt sau CMND\n"
-                    if ($scope.update3)
-                        imgFailed += "Chủ đại lý\n"
-                    if ($scope.update4)
-                        imgFailed += "Cửa hàng\n"
-                    if ($scope.update5)
-                        imgFailed += "Kho\n"
-                    $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'Upload ảnh thất bại.\n' + imgFailed, noBackdrop: true, duration: 2000 });
-                }
-                else {
-                    $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
-                }
-            }
-        }
-
-        var fail = function (error) {
-            $scope.failure++;
-            if ($scope.success + $scope.failure == $scope.sum) {
-                var imgFailed = "";
-                if ($scope.failure > 0) {
-                    if ($scope.update1)
-                        imgFailed += "Mặt trước CMND\n"
-                    if ($scope.update2)
-                        imgFailed += "Mặt sau CMND\n"
-                    if ($scope.update3)
-                        imgFailed += "Chủ đại lý\n"
-                    if ($scope.update4)
-                        imgFailed += "Cửa hàng\n"
-                    if ($scope.update5)
-                        imgFailed += "Kho\n"
-                    $ionicLoading.hide();
-                    $ionicLoading.show({ template: 'Upload ảnh thất bại.\n' + imgFailed, noBackdrop: true, duration: 2000 });
-                }
-            }
-            //$ionicLoading.hide();
-            //$ionicLoading.show({ template: "ERROR: " + JSON.stringify(err), noBackdrop: true, duration: 2000 });
-        }
-
-        var options = new FileUploadOptions();
-        options.fileKey = "uploadFile";
-        options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
-        options.mimeType = "image/jpeg";
-        options.params = params;
-        try {
-            var ft = new FileTransfer();
-            ft.onprogress = function (progressEvent) {
-                // $scope.showToast("PROGRESS: " + JSON.stringify(err), 'long', 'bottom');
+            var params = {
+                dealerid: $scope.dealer.DealerId,
+                surveyid: $scope.survey.SurveyId,
+                type: typeId
             };
-            ft.upload(fileURL, encodeURI($scope.serviceBase + '/images/upload'), win, fail, options);
-        }
-        catch (err) {
-            // $scope.showToast('exception ' + err, 'short', 'bottom');
-        }
 
-         }  catch (err) {
-             $ionicLoading.hide();
+            //$ionicLoading.hide();
+            //$ionicLoading.show({ template: 'start upload ! + ' + typeId, noBackdrop: true, duration: 2000 });
+
+
+            // $scope.showToast('start upload ' + uri, 'short', 'bottom');
+            var win = function (r) {
+                $scope.success++;
+                // $scope.showToast("SUCCESS: " + JSON.stringify(r.response), 'long', 'bottom');
+                switch (typeId) {
+                    case 1: $scope.update1 = false; break;
+                    case 2: $scope.update2 = false; break;
+                    case 3:
+                        // update dealer photo
+                        // $ionicLoading.hide();
+                        // $ionicLoading.show({ template: 'typeId = ' + typeId, noBackdrop: true, duration: 2000 });
+                        var serverResult = JSON.stringify(r.response);
+                        var serverImageUrl = JSON.parse(r.response).file[0].fd;
+                        Dealers.updateDealerBySurveyId(Dealers.survey().SurveyId, null, null, null, serverImageUrl);
+                        $scope.update3 = false;
+                        break;
+                    case 4: $scope.update4 = false; break;
+                    case 5: $scope.update5 = false; break;
+                }
+
+                if ($scope.success + $scope.failure == $scope.sum) {
+                    var imgFailed = "";
+                    if ($scope.failure > 0) {
+                        if ($scope.update1)
+                            imgFailed += "Mặt trước CMND\n"
+                        if ($scope.update2)
+                            imgFailed += "Mặt sau CMND\n"
+                        if ($scope.update3)
+                            imgFailed += "Chủ đại lý\n"
+                        if ($scope.update4)
+                            imgFailed += "Cửa hàng\n"
+                        if ($scope.update5)
+                            imgFailed += "Kho\n"
+                        $ionicLoading.hide();
+                        $ionicLoading.show({ template: 'Upload ảnh thất bại.\n' + imgFailed, noBackdrop: true, duration: 2000 });
+                        $rootScope.$broadcast('uploadImagesFinishDealer');
+                    }
+                    else {
+                        $ionicLoading.hide();
+                        $rootScope.$broadcast('uploadImagesFinishDealer');
+                        //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                    }
+                }
+            }
+
+            var fail = function (error) {
+                $scope.failure++;
+                if ($scope.success + $scope.failure == $scope.sum) {
+                    var imgFailed = "";
+                    if ($scope.failure > 0) {
+                        if ($scope.update1)
+                            imgFailed += "Mặt trước CMND\n"
+                        if ($scope.update2)
+                            imgFailed += "Mặt sau CMND\n"
+                        if ($scope.update3)
+                            imgFailed += "Chủ đại lý\n"
+                        if ($scope.update4)
+                            imgFailed += "Cửa hàng\n"
+                        if ($scope.update5)
+                            imgFailed += "Kho\n"
+                        $ionicLoading.hide();
+                        $ionicLoading.show({ template: 'Upload ảnh thất bại.\n' + imgFailed, noBackdrop: true, duration: 2000 });
+                        $rootScope.$broadcast('uploadImagesFinish');
+                    }
+                }
+                //$ionicLoading.hide();
+                //$ionicLoading.show({ template: "ERROR: " + JSON.stringify(err), noBackdrop: true, duration: 2000 });
+            }
+
+            var options = new FileUploadOptions();
+            options.fileKey = "uploadFile";
+            options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
+            options.mimeType = "image/jpeg";
+            options.params = params;
+            try {
+                var ft = new FileTransfer();
+                ft.onprogress = function (progressEvent) {
+                    // $scope.showToast("PROGRESS: " + JSON.stringify(err), 'long', 'bottom');
+                };
+                ft.upload(fileURL, encodeURI($scope.serviceBase + '/images/upload'), win, fail, options);
+            }
+            catch (err) {
+                // $scope.showToast('exception ' + err, 'short', 'bottom');
+            }
+
+        } catch (err) {
+            $ionicLoading.hide();
             $ionicLoading.show({ template: 'exception ' + err, noBackdrop: true, duration: 2000 });
         }
     }
@@ -274,13 +286,13 @@
 
         $http.get($scope.serviceBase + '/districts', { params: param, timeout: $rootScope.TIME_OUT })
             .then(
-                function successCallback (response) {
+                function successCallback(response) {
                     $scope.districts = response.data;
                     $scope.loadWard();
                     //$scope.districts = [];
                     //$scope.districts.push.apply($scope.districts, response);
                 },
-                function errorCallback (response) {
+                function errorCallback(response) {
                     $rootScope.processRequestError(response);
                 }
             );
@@ -294,21 +306,21 @@
 
         $http.get($scope.serviceBase + '/wards', { params: param, timeout: $rootScope.TIME_OUT })
             .then(
-                function successCallback (response) {
+                function successCallback(response) {
                     $scope.wards = [];
                     $scope.wards.push.apply($scope.wards, response.data);
 
                     if (!$scope.dealer.WardId && $scope.wards.length > 0) {
                         $scope.dealer.ward = $scope.wards[0];
                     } else {
-                        angular.forEach($scope.wards, function(value, key) {
+                        angular.forEach($scope.wards, function (value, key) {
                             if ($scope.dealer.WardId == value.WardId) {
                                 $scope.dealer.ward = value;
                             }
                         });
                     }
                 },
-                function errorCallback (response) {
+                function errorCallback(response) {
                     $rootScope.processRequestError(response);
                 }
             );
@@ -325,11 +337,11 @@
 
         $http.get($scope.serviceBase + '/provinces', { params: param, timeout: $rootScope.TIME_OUT })
             .then(
-                function successCallback (response) {
+                function successCallback(response) {
                     $scope.provinces = response.data;
                     $scope.loadDistrict();
                 },
-                function errorCallback (response) {
+                function errorCallback(response) {
                     $rootScope.processRequestError(response);
                 }
             );
@@ -346,12 +358,12 @@
             $scope.loadDealers(false);
             console.log("EDIT");
         }
-            
+
         if (fromState.name == "tabs.dealers" && (toState.name == "tabs.dealer-detail-sales-giacam" ||
             toState.name == "tabs.dealer-detail-sales-bo"))
             event.preventDefault();
-            $ionicHistory.clearCache();
-        });
+        $ionicHistory.clearCache();
+    });
 
     $scope.setUpdateImage = function (id) {
         switch (id) {
@@ -376,7 +388,7 @@
             if (isPull) {
                 $http.get($scope.serviceBase + '/survey/list', { params: param, timeout: $rootScope.TIME_OUT })
                     .then(
-                        function successCallback (response) {
+                        function successCallback(response) {
                             Dealers.setDealers(response.data);
                             $scope.dealers = Dealers.all();
                             console.log($scope.dealers);
@@ -384,24 +396,24 @@
                             //$scope.loading = false;
 
                         },
-                        function errorCallback (response) {
+                        function errorCallback(response) {
                             $scope.$broadcast('scroll.refreshComplete');
                             $rootScope.processRequestError(response);
                         }
                     );
             }
-            // Click tab
+                // Click tab
             else {
                 Dealers.setDealers(listDealer);
                 $scope.dealers = Dealers.all();
             }
         }
-        // List dealer null
+            // List dealer null
         else {
             $scope.loading = true;
             $http.get($scope.serviceBase + '/survey/list', { params: param, timeout: $rootScope.TIME_OUT })
                 .then(
-                    function successCallback (response) {
+                    function successCallback(response) {
                         Dealers.setDealers(response.data);
                         $scope.dealers = Dealers.all();
                         ////console.log($scope.dealers);
@@ -409,7 +421,7 @@
                         $scope.loading = false;
 
                     },
-                    function errorCallback (response) {
+                    function errorCallback(response) {
                         $scope.$broadcast('scroll.refreshComplete');
                         $scope.loading = false;
                         $rootScope.processRequestError(response);
@@ -464,7 +476,7 @@
         }
         $http.get($scope.serviceBase + '/survey/' + $stateParams.SurveyId, { params: param, timeout: $rootScope.TIME_OUT })
             .then(
-                function successCallback (response) {
+                function successCallback(response) {
                     //console.log("Init DEALER");
                     //console.log(response);
 
@@ -491,7 +503,7 @@
 
                     //console.log($scope.dealer);
                 },
-                function errorCallback (response) {
+                function errorCallback(response) {
                     $rootScope.processRequestError(response);
                 }
             );
@@ -499,7 +511,7 @@
 
     $scope.setUpdate = function (name) {
         console.log("SET UPDATE at " + name);
-        switch(name){
+        switch (name) {
             case 4:
                 if (!isNaN($scope.dealer.day) && $scope.dealer.day != null)
                     $scope.update = true;
@@ -605,9 +617,9 @@
                 sldl2: parseInt($scope.survey.SL_DL2),
                 slho: parseInt($scope.survey.SL_HO),
                 nuoitt: $scope.survey.NUOI_TT,
-                slnai:  $scope.survey.NUOI_TT == 0 ? 0 : parseInt($scope.survey.SL_NAI),
+                slnai: $scope.survey.NUOI_TT == 0 ? 0 : parseInt($scope.survey.SL_NAI),
                 slthit: $scope.survey.NUOI_TT == 0 ? 0 : parseInt($scope.survey.SL_THIT),
-                slnoc:  $scope.survey.NUOI_TT == 0 ? 0 : parseInt($scope.survey.SL_NOC),
+                slnoc: $scope.survey.NUOI_TT == 0 ? 0 : parseInt($scope.survey.SL_NOC),
                 saleid: $scope.user.SaleRepId
             }
 
@@ -619,7 +631,7 @@
 
             $http.post($scope.serviceBase + '/survey/create_or_update', param, { timeout: $rootScope.TIME_OUT })
                 .then(
-                    function successCallback (response) {
+                    function successCallback(response) {
                         //console.log(response);
                         //$ionicLoading.hide();
                         //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
@@ -647,10 +659,15 @@
                         if ($scope.update5)
                             $scope.sum++;
 
-                        if ($scope.sum == 0) {
+                        //if ($scope.sum == 0) {
                             $ionicLoading.hide();
-                            $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
-                        }
+                        //    $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                        //}
+
+                        if ($scope.sum == 0)
+                            DealerService.setUploadImageFinish(true);
+                        else
+                            DealerService.setUploadImageFinish(false);
 
                         if ($scope.update1)
                             uploadImage($scope.dealer.CMND_Front_Local, 1);
@@ -669,8 +686,8 @@
                         //$window.location.href = "#/tab/sales-heo";
 
                     },
-                    function errorCallback (response) {
-                       $rootScope.processRequestError(response);
+                    function errorCallback(response) {
+                        $rootScope.processRequestError(response);
                     }
                 );
         }
@@ -689,6 +706,11 @@
                 $scope.sum++;
             if ($scope.update5)
                 $scope.sum++;
+
+            if ($scope.sum == 0)
+                DealerService.setUploadImageFinish(true);
+            else
+                DealerService.setUploadImageFinish(false);
 
             if ($scope.update1)
                 uploadImage($scope.dealer.CMND_Front_Local, 1);
@@ -760,7 +782,7 @@
             }
             $http.get($scope.serviceBase + '/survey/heo/' + Dealers.survey().HEO_ID, { params: param, timeout: $rootScope.TIME_OUT })
                 .then(
-                    function successCallback (res) {
+                    function successCallback(res) {
                         //console.log("load heo success");
                         //console.log(response);
                         var response = res.data;
@@ -808,7 +830,7 @@
                         $scope.heo.HEO_ANOTHER_NAI = response.O_NAI;
 
                     },
-                    function errorCallback (response) {
+                    function errorCallback(response) {
                         $rootScope.processRequestError(response);
                     }
                 );
@@ -921,7 +943,7 @@
 
             $http.post($scope.serviceBase + '/survey/create/heo', param, { timeout: $rootScope.TIME_OUT })
                 .then(
-                    function successCallback (response) {
+                    function successCallback(response) {
                         $ionicLoading.hide();
                         $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                         //console.log("AC_PC: " + $scope.user.AC_PC);
@@ -933,8 +955,8 @@
                             $state.go('tabs.dealer-detail-sales-ga', {});
 
                     },
-                    function errorCallback (response) {
-                       $rootScope.processRequestError(response);
+                    function errorCallback(response) {
+                        $rootScope.processRequestError(response);
                     }
                 );
         }

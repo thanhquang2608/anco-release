@@ -1,11 +1,20 @@
 ﻿app.controller('UpdateBoController', function ($rootScope, $scope, $stateParams, $http, AuthService,
-    AUTH_EVENTS, NETWORK, $ionicLoading, Dealers, $state, $ionicHistory, $ionicViewService) {
+    AUTH_EVENTS, NETWORK, $ionicLoading, Dealers, $state, $ionicHistory, $ionicViewService, DealerService) {
 
     var serviceBase = NETWORK.BASE_URL;
 
     $scope.getUser = function () {
         $scope.user = AuthService.user();
     }
+
+    $scope.uploadImageFinish = DealerService.getUploadImageFinish();
+    $rootScope.$on('uploadImagesFinish', function (event) {
+        console.log('uploadImagesFinish');
+        $scope.$apply(function () {
+            $scope.uploadImageFinish = true;
+            DealerService.setUploadImageFinish(true);
+        })
+    });
 
     $scope.getUser();
     $scope.submited = false;
@@ -156,7 +165,7 @@
                 .then(
                     function successCallback (response) {
                         $ionicLoading.hide();
-                        $ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                        //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                         $scope.BO_ID = response.data.BoId;
                         $scope.update = false;
 

@@ -105,6 +105,18 @@ angular.module('starter.services', [])
     };
 })
 
+.service('DealerService', function () {
+    var uploadImageFinish = false;
+    return {
+        getUploadImageFinish: function () {
+            return uploadImageFinish;
+        },
+        setUploadImageFinish: function (stt) {
+            uploadImageFinish = stt;
+        }
+    }
+})
+
 .service('SurveyService', function () {
     var uploadImageFinish = false;
     var surveyID = -2;
