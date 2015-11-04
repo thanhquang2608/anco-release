@@ -24,18 +24,18 @@
   <!--<gap:plugin name="cordova-plugin-device" source="npm" />-->
   <gap:plugin name="cordova-plugin-console" source="npm" />
   <gap:plugin name="cordova-plugin-splashscreen" source="npm" />
-  <gap:plugin name="com.ionic.keyboard" source="npm" />
-  <gap:plugin name="org.apache.cordova.file" source="npm"/>
+  <gap:plugin name="ionic-plugin-keyboard" source="npm" />
+  <gap:plugin name="cordova-plugin-file" source="npm"/>
   <!--<gap:plugin name="cordova-plugin-file" source="npm" />-->
-  <gap:plugin name="org.apache.cordova.file-transfer" source="npm" />
+  <gap:plugin name="cordova-plugin-file-transfer" source="npm" />
   <!--<gap:plugin name="cordova-plugin-file-transfer" source="npm" />-->
   <gap:plugin name="cordova-plugin-x-toast" source="npm" />
   
-  <gap:plugin name="org.apache.cordova.camera" source="npm"/>
+  <gap:plugin name="cordova-plugin-camera" source="npm"/>
 	<!--<gap:plugin name="org.apache.cordova.media-capture" source="npm"/>
 	<gap:plugin name="org.apache.cordova.media" source="npm"/>-->
-	<gap:plugin name="org.apache.cordova.device" source="npm"/>
-  <gap:plugin name="org.apache.cordova.geolocation" source="npm" />
+	<gap:plugin name="cordova-plugin-device" source="npm"/>
+  <gap:plugin name="cordova-plugin-geolocation" source="npm" />
   <gap:plugin name="com.synconset.imagepicker" version="1.0.4" />
   <platform name="android">
     <icon src="resources/android/icon/drawable-ldpi-icon.png" density="ldpi"/>
