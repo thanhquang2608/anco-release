@@ -1257,7 +1257,7 @@
 
         var param = {
             token: AuthService.token(),
-            province: $scope.dealer.provinceId,
+            province: $scope.dealer.province.ProvinceId,
             ac_pc: $scope.dealer.AC_PC,
             uac_pc: $scope.user.AC_PC
         }
