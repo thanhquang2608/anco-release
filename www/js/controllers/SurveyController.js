@@ -960,7 +960,7 @@
     $scope.saveDealer = function (isValid) {
         $scope.submited = true;
 
-        if (!isValid || ($scope.dealer.AC_PC != '2' && $scope.dealerIndex < 0)) {
+        if (!isValid) {
             $ionicLoading.hide();
             $ionicLoading.show({ template: 'Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại!\n', noBackdrop: true, duration: 2000 });
             return;

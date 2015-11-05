@@ -69,9 +69,6 @@
                             Mã: {{dealer.dealerCode}}
                         </div>
                     </label>
-                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited && dealerIndex < 0)">
-                        Vui lòng chọn đại lý
-                    </div>
                 </div>
             </div>
             
@@ -410,7 +407,7 @@
                <label class="error"> * Vui lòng xác nhận tọa độ GPS trước khi tiếp tục.</label>
             </div>
 
-            <div class="row" ng-if="submited && (!frmSurvey.$valid || (dealer.AC_PC != 2 && dealerIndex < 0))">
+            <div class="row" ng-if="submited && (!frmSurvey.$valid)">
                <label class="error"> * Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại.</label>
             </div>
 
