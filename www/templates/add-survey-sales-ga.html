@@ -2,6 +2,69 @@
     <ion-content>
         <center><h3 class="padding-top">GÀ</h3></center>
         <form name="frmGa" ng-submit="saveGa(frmGa.$valid);" novalidate>
+            <!-- ANCO -->
+            <div class="card">
+                <div class="item item-divider">
+                    ANCO
+                    <span style="float:right;">
+                        <input id="ga_anco_k_kd" type="radio" value="0" ng-model="survey.GA_ANCO" ng-change="setUpdate()">
+                        <label for="ga_anco_k_kd">Không KD &nbsp;</label>
+                        <input id="ga_anco_kd" type="radio" value="1" ng-model="survey.GA_ANCO" ng-change="setUpdate()">
+                        <label for="ga_anco_kd">Có KD</label>
+                    </span>
+                </div>
+                <div class="item item-text-wrap" style="padding: 2px;">
+                    <div class="row">
+                        <div class="col-survey-title">Mua trực tiếp</div>
+                        <div class="col match-parent">
+                            <input id="ga_anco_k_mua_tt" ng-disabled="survey.GA_ANCO == 0" type="radio" value="0" ng-model="survey.GA_ANCO_MUA_TT" ng-change="setUpdate()">
+                            <label for="ga_anco_k_mua_tt">Không &nbsp;</label>
+                            <input id="ga_anco_mua_tt" ng-disabled="survey.GA_ANCO == 0" type="radio" value="1" ng-model="survey.GA_ANCO_MUA_TT" ng-change="setUpdate()">
+                            <label for="ga_anco_mua_tt">Có</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title">Sản lượng Gà đẻ</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_ANCO == 0" class="number" type="number item-input-inset" name="GA_ANCO_GD" ng-model="survey.GA_ANCO_GD" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_ANCO_GD.$dirty) && (frmGa.GA_ANCO_GD.$error.pattern || frmGa.GA_ANCO_GD.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:0px !important;">
+                        <div class="col col-survey-full">Sản lượng Gà thịt</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Lông trắng</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_ANCO == 0" class="number" type="number item-input-inset" name="GA_ANCO_LT" ng-model="survey.GA_ANCO_LT" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_ANCO_LT.$dirty) && (frmGa.GA_ANCO_LT.$error.pattern || frmGa.GA_ANCO_LT.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-survey-title padding-left">Lông màu</div>
+                        <div class="col">
+                            <div class="col match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_ANCO == 0" class="number" type="number item-input-inset" name="GA_ANCO_LM" ng-model="survey.GA_ANCO_LM" ng-change="setUpdate()">
+                                <label>(tấn/tháng)</label>
+                            </div>
+                            <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_ANCO_LM.$dirty) && (frmGa.GA_ANCO_LM.$error.pattern || frmGa.GA_ANCO_LM.$error.maxlength)">
+                                Không hợp lệ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ANCO -->
             <!-- CON CO -->
             <div class="card">
                 <div class="item item-divider">

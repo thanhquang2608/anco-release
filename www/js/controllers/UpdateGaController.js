@@ -21,6 +21,12 @@
     }
 
     //////// GA
+    //// ANCO
+    $scope.survey.GA_ANCO = 0;
+    $scope.survey.GA_ANCO_MUA_TT = 0;
+    $scope.survey.GA_ANCO_GD = 0;
+    $scope.survey.GA_ANCO_LT = 0;
+    $scope.survey.GA_ANCO_LM = 0;
     //// CON CO
     $scope.survey.GA_CC = 0;
     $scope.survey.GA_CC_MUA_TT = 0;
@@ -79,6 +85,12 @@
                         //console.log("load gia cam success");
                         var response = res.data;
                         //////// GA
+                        //// ANCO
+                        $scope.survey.GA_ANCO = response.ANCO_KD;
+                        $scope.survey.GA_ANCO_MUA_TT = response.ANCO_MUA;
+                        $scope.survey.GA_ANCO_GD = response.ANCO_GADE;
+                        $scope.survey.GA_ANCO_LT = response.ANCO_LT;
+                        $scope.survey.GA_ANCO_LM = response.ANCO_LM;
                         //// CON CO
                         $scope.survey.GA_CC = response.CC_KD;
                         $scope.survey.GA_CC_MUA_TT = response.CC_MUA;
@@ -129,6 +141,12 @@
         }
         else {
             //////// GA
+            //// ANCO
+            $scope.survey.GA_ANCO = 0;
+            $scope.survey.GA_ANCO_MUA_TT = 0;
+            $scope.survey.GA_ANCO_GD = 0;
+            $scope.survey.GA_ANCO_LT = 0;
+            $scope.survey.GA_ANCO_LM = 0;
             //// CON CO
             $scope.survey.GA_CC = 0;
             $scope.survey.GA_CC_MUA_TT = 0;
@@ -191,6 +209,12 @@
             var param = {
                 token: AuthService.token(),
                 surveyid: Dealers.survey().SurveyId,
+
+                anco_kd: $scope.survey.GA_ANCO,
+                anco_mua: $scope.survey.GA_ANCO == 0 ? 0 : $scope.survey.GA_ANCO_MUA_TT,
+                anco_gade: $scope.survey.GA_ANCO == 0 ? 0 : parseInt($scope.survey.GA_ANCO_GD),
+                anco_lt: $scope.survey.GA_ANCO == 0 ? 0 : parseInt($scope.survey.GA_ANCO_LT),
+                anco_lm: $scope.survey.GA_ANCO == 0 ? 0 : parseInt($scope.survey.GA_ANCO_LM),
 
                 cc_kd: $scope.survey.GA_CC,
                 cc_mua:  $scope.survey.GA_CC == 0 ? 0 : $scope.survey.GA_CC_MUA_TT,

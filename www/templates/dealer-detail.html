@@ -165,11 +165,8 @@
                 <div class="col-survey-title">Số CMND</div>
                 <div class="col">
                     <label>
-                        <input class="match-parent" type="number item-input-inset" name="cmnd" ng-model="dealer.CMND" ng-change="setUpdate(8)" ng-maxlength="15" required>
+                        <input class="match-parent" type="number item-input-inset" name="cmnd" ng-model="dealer.CMND" ng-change="setUpdate(8)" ng-maxlength="15">
                     </label>
-                    <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.cmnd.$dirty) && frmSurvey.cmnd.$error.required">
-                        Vui lòng nhập CMND
-                    </div>
                     <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmSurvey.cmnd.$dirty) && (frmSurvey.cmnd.$error.maxlength || frmSurvey.cmnd.$error.pattern)">
                        CMND không hợp lệ
                     </div>
