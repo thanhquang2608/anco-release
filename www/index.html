@@ -55,6 +55,11 @@
         <button class="button button-positive col col-center" ng-click="takePhoto(id, 1)">Album</button>
         <button class="button button-positive col col-center" ng-click="takePhoto(id, 0)" style="margin-top:5px;">Camera</button>
     </script>
+
+    <script id="templates/popup-confirm-done.html" type="text/ng-template">
+        <button class="button button-positive col col-center" ng-click="uploadBo()">Đồng ý</button>
+        <button class="button button-positive col col-center" ng-click="closePopupContinue()" style="margin-top:5px;">Hủy bỏ</button>
+    </script>
     
     <!--<script id="templates/tabs.html" type="text/ng-template">
         <ion-tabs class="tabs-icon-top tabs-positive">
