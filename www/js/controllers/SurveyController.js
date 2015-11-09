@@ -1,5 +1,5 @@
 ﻿app.controller('SurveyController', function ($rootScope, $scope, $state, $http, $ionicHistory, $ionicPlatform,
-     AuthService, SurveyService, Dealers, AUTH_EVENTS, $ionicLoading, $ionicPopup, NETWORK) {
+     AuthService, SurveyService, Dealers, AUTH_EVENTS, $ionicLoading, $ionicPopup, NETWORK, DealerMap) {
     //FOR upload image
     $scope.sum = 0;
     $scope.success = 0;
@@ -249,7 +249,7 @@
     });
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        
+
     });
 
     // check change sate to set needUpdate = false
@@ -320,7 +320,7 @@
             popoverOptions: CameraPopoverOptions,
             targetWidth: 500,
             targetHeight: 500,
-            saveToPhotoAlbum: false
+            saveToPhotoAlbum: true
         };
 
         navigator.camera.getPicture(onSuccess, onFail, options);
@@ -409,44 +409,44 @@
                 ac_kd: $scope.survey.HEO_ANCO,
                 ac_mua: $scope.survey.HEO_ANCO == 0 ? 0 : $scope.survey.HEO_ANCO_MUA_TT,
                 ac_sl: $scope.survey.HEO_ANCO == 0 ? 0 : parseInt($scope.survey.HEO_ANCO_SL),
-                ac_con: $scope.survey.HEO_ANCO == 0 ? 0 : parseInt($scope.survey.HEO_ANCO_HEO),
-                ac_thit: $scope.survey.HEO_ANCO == 0 ? 0 : parseInt($scope.survey.HEO_ANCO_THIT),
-                ac_nai: $scope.survey.HEO_ANCO == 0 ? 0 : parseInt($scope.survey.HEO_ANCO_NAI),
+                ac_con: $scope.survey.HEO_ANCO == 0 ? 0 : parseInt($scope.survey.HEO_ANCO_HEO || 0),
+                ac_thit: $scope.survey.HEO_ANCO == 0 ? 0 : parseInt($scope.survey.HEO_ANCO_THIT || 0),
+                ac_nai: $scope.survey.HEO_ANCO == 0 ? 0 : parseInt($scope.survey.HEO_ANCO_NAI || 0),
 
                 cc_kd: $scope.survey.HEO_CONCO,
                 cc_mua: $scope.survey.HEO_CONCO == 0 ? 0 : $scope.survey.HEO_CONCO_MUA_TT,
                 cc_sl: $scope.survey.HEO_CONCO == 0 ? 0 : parseInt($scope.survey.HEO_CONCO_SL),
-                cc_con: $scope.survey.HEO_CONCO == 0 ? 0 : parseInt($scope.survey.HEO_CONCO_HEO),
-                cc_thit: $scope.survey.HEO_CONCO == 0 ? 0 : parseInt($scope.survey.HEO_CONCO_THIT),
-                cc_nai: $scope.survey.HEO_CONCO == 0 ? 0 : parseInt($scope.survey.HEO_CONCO_NAI),
+                cc_con: $scope.survey.HEO_CONCO == 0 ? 0 : parseInt($scope.survey.HEO_CONCO_HEO || 0),
+                cc_thit: $scope.survey.HEO_CONCO == 0 ? 0 : parseInt($scope.survey.HEO_CONCO_THIT || 0),
+                cc_nai: $scope.survey.HEO_CONCO == 0 ? 0 : parseInt($scope.survey.HEO_CONCO_NAI || 0),
 
                 cp_kd: $scope.survey.HEO_CP,
                 cp_mua: $scope.survey.HEO_CP == 0 ? 0 : $scope.survey.HEO_CP_MUA_TT,
                 cp_sl: $scope.survey.HEO_CP == 0 ? 0 : parseInt($scope.survey.HEO_CP_SL),
-                cp_con: $scope.survey.HEO_CP == 0 ? 0 : parseInt($scope.survey.HEO_CP_HEO),
-                cp_thit: $scope.survey.HEO_CP == 0 ? 0 : parseInt($scope.survey.HEO_CP_THIT),
-                cp_nai: $scope.survey.HEO_CP == 0 ? 0 : parseInt($scope.survey.HEO_CP_NAI),
+                cp_con: $scope.survey.HEO_CP == 0 ? 0 : parseInt($scope.survey.HEO_CP_HEO || 0),
+                cp_thit: $scope.survey.HEO_CP == 0 ? 0 : parseInt($scope.survey.HEO_CP_THIT || 0),
+                cp_nai: $scope.survey.HEO_CP == 0 ? 0 : parseInt($scope.survey.HEO_CP_NAI || 0),
 
                 cg_kd: $scope.survey.HEO_CG,
                 cg_mua: $scope.survey.HEO_CG == 0 ? 0 : $scope.survey.HEO_CG_MUA_TT,
                 cg_sl: $scope.survey.HEO_CG == 0 ? 0 : parseInt($scope.survey.HEO_CG_SL),
-                cg_con: $scope.survey.HEO_CG == 0 ? 0 : parseInt($scope.survey.HEO_CG_HEO),
-                cg_thit: $scope.survey.HEO_CG == 0 ? 0 : parseInt($scope.survey.HEO_CG_THIT),
-                cg_nai: $scope.survey.HEO_CG == 0 ? 0 : parseInt($scope.survey.HEO_CG_NAI),
+                cg_con: $scope.survey.HEO_CG == 0 ? 0 : parseInt($scope.survey.HEO_CG_HEO || 0),
+                cg_thit: $scope.survey.HEO_CG == 0 ? 0 : parseInt($scope.survey.HEO_CG_THIT || 0),
+                cg_nai: $scope.survey.HEO_CG == 0 ? 0 : parseInt($scope.survey.HEO_CG_NAI || 0),
 
                 gf_kd: $scope.survey.HEO_GF,
                 gf_mua: $scope.survey.HEO_GF == 0 ? 0 : $scope.survey.HEO_GF_MUA_TT,
                 gf_sl: $scope.survey.HEO_GF == 0 ? 0 : parseInt($scope.survey.HEO_GF_SL),
-                gf_con: $scope.survey.HEO_GF == 0 ? 0 : parseInt($scope.survey.HEO_GF_HEO),
-                gf_thit: $scope.survey.HEO_GF == 0 ? 0 : parseInt($scope.survey.HEO_GF_THIT),
-                gf_nai: $scope.survey.HEO_GF == 0 ? 0 : parseInt($scope.survey.HEO_GF_NAI),
+                gf_con: $scope.survey.HEO_GF == 0 ? 0 : parseInt($scope.survey.HEO_GF_HEO || 0),
+                gf_thit: $scope.survey.HEO_GF == 0 ? 0 : parseInt($scope.survey.HEO_GF_THIT || 0),
+                gf_nai: $scope.survey.HEO_GF == 0 ? 0 : parseInt($scope.survey.HEO_GF_NAI || 0),
 
                 o_kd: $scope.survey.HEO_ANOTHER,
                 o_mua: $scope.survey.HEO_ANOTHER == 0 ? 0 : $scope.survey.HEO_ANOTHER_MUA_TT,
                 o_sl: $scope.survey.HEO_ANOTHER == 0 ? 0 : parseInt($scope.survey.HEO_ANOTHER_SL),
-                o_con: $scope.survey.HEO_ANOTHER == 0 ? 0 : parseInt($scope.survey.HEO_ANOTHER_HEO),
-                o_thit: $scope.survey.HEO_ANOTHER == 0 ? 0 : parseInt($scope.survey.HEO_ANOTHER_THIT),
-                o_nai: $scope.survey.HEO_ANOTHER == 0 ? 0 : parseInt($scope.survey.HEO_ANOTHER_NAI)
+                o_con: $scope.survey.HEO_ANOTHER == 0 ? 0 : parseInt($scope.survey.HEO_ANOTHER_HEO || 0),
+                o_thit: $scope.survey.HEO_ANOTHER == 0 ? 0 : parseInt($scope.survey.HEO_ANOTHER_THIT || 0),
+                o_nai: $scope.survey.HEO_ANOTHER == 0 ? 0 : parseInt($scope.survey.HEO_ANOTHER_NAI || 0)
             }
 
             var valid = checkValidData(param);
@@ -708,16 +708,17 @@
         }
     }
     // ---------------------BO--------------------------
-    $scope.saveBo = function (isValid) {
-        $scope.submited = true;
-
-        if (!isValid) {
-            $ionicLoading.hide();
-            $ionicLoading.show({ template: 'Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại!\n', noBackdrop: true, duration: 2000 });
-            return;
+    $scope.closePopupContinue = function () {
+        if ($scope.popupConfirmDone) {
+            $scope.popupConfirmDone.close();
         }
-
+    }
+    $scope.uploadBo = function () {
+        if ($scope.popupConfirmDone) {
+            $scope.popupConfirmDone.close();
+        }
         if ($scope.update) {
+
             $ionicLoading.show({ template: 'Đang lưu...' });
 
             var param = {
@@ -769,6 +770,29 @@
             $scope.update = false;
             $ionicHistory.clearCache();
             $state.go('tabs.survey', {}, { reload: true });
+        }
+    }
+    $scope.saveBo = function (isValid) {
+        $scope.submited = true;
+
+        if (!isValid) {
+            $ionicLoading.hide();
+            $ionicLoading.show({ template: 'Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại!\n', noBackdrop: true, duration: 2000 });
+            return;
+        }
+        //uploadImageFinish = false;
+        console.log(SurveyService.getUploadImageFinish());
+        //$ionicLoading.hide();
+        //$ionicLoading.show({ template: SurveyService.getUploadImageFinish(), noBackdrop: true, duration: 2000 });
+        if (!SurveyService.getUploadImageFinish()) {
+            $scope.popupConfirmDone = $ionicPopup.show({
+                templateUrl: 'templates/popup-confirm-done.html',
+                title: 'Ảnh đang upload hoặc upload lỗi. upload sau?',
+                scope: $scope
+            });
+        }
+        else {
+            $scope.uploadBo();
         }
     }
     // ---------------------GIA CAM--------------------------
@@ -870,10 +894,10 @@
         $scope.dealer.dealerName = dealer.DealerName;
         $scope.dealer.districtId = dealer.DistrictId;
         $scope.dealer.districtName = dealer.DistrictName;
-        $scope.dealer.district = {DistrictId : dealer.DistrictId, DistrictName : dealer.DistrictName};
+        $scope.dealer.district = { DistrictId: dealer.DistrictId, DistrictName: dealer.DistrictName };
         $scope.dealer.wardName = dealer.WardName;
         $scope.dealer.wardId = dealer.WardId;
-        $scope.dealer.ward = {WardId : dealer.WardId, WardName : dealer.WardName};
+        $scope.dealer.ward = { WardId: dealer.WardId, WardName: dealer.WardName };
         $scope.dealer.address = dealer.Address;
 
         $scope.loadWard();
@@ -1073,8 +1097,8 @@
                             SurveyService.setUploadImageFinish(false);
 
                         //if ($scope.sum == 0) {
-                            $ionicLoading.hide();
-                            //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
+                        $ionicLoading.hide();
+                        //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                         //}
 
                         if ($scope.update1)
@@ -1115,10 +1139,12 @@
             if ($scope.update5)
                 $scope.sum++;
 
-            if ($scope.sum == 0)
+            if ($scope.sum == 0) {
                 SurveyService.setUploadImageFinish(true);
-            else
+            }
+            else {
                 SurveyService.setUploadImageFinish(false);
+            }
 
             // if need update image -> update
             if ($scope.update1)
@@ -1140,7 +1166,7 @@
     $scope.uploadImageFinish = SurveyService.getUploadImageFinish();
     $rootScope.$on('uploadImagesFinish', function (event) {
         console.log('uploadImagesFinish');
-        $scope.$apply(function() {
+        $scope.$apply(function () {
             $scope.uploadImageFinish = true;
             SurveyService.setUploadImageFinish(true);
         })
@@ -1186,8 +1212,13 @@
             }
 
             if ($scope.success + $scope.failure == $scope.sum) {
+                DealerMap.add($scope.dealer.dealerId, false);
                 var imgFailed = "";
                 if ($scope.failure > 0) {
+                    $scope.$apply(function () {
+                        DealerMap.add($scope.dealer.dealerId, false);
+                        Dealers.addMessage($scope.dealer.dealerId,'Upload hình lỗi!');
+                    });
                     if ($scope.update1)
                         imgFailed += "Mặt trước CMND\n"
                     if ($scope.update2)
@@ -1200,9 +1231,15 @@
                         imgFailed += "Kho\n"
                     $ionicLoading.hide();
                     $ionicLoading.show({ template: 'Upload ảnh thất bại.\n' + imgFailed, noBackdrop: true, duration: 2000 });
-                    $rootScope.$broadcast('uploadImagesFinish');
+                    //$rootScope.$broadcast('uploadImagesFinish');
                 }
                 else {
+                    if (DealerMap.getByKey($scope.dealer.dealerId) == false) {
+                        $scope.$apply(function () {
+                            DealerMap.remove($scope.dealer.dealerId);
+                            Dealers.clearMessage($scope.dealer.dealerId);
+                        });
+                    }
                     $ionicLoading.hide();
                     $rootScope.$broadcast('uploadImagesFinish');
                     //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!\n', noBackdrop: true, duration: 2000 });
@@ -1216,6 +1253,11 @@
             if ($scope.success + $scope.failure == $scope.sum) {
                 var imgFailed = "";
                 if ($scope.failure > 0) {
+                    console.log("upload image fail");
+                    $scope.$apply(function () {
+                        DealerMap.add($scope.dealer.dealerId, false);
+                        Dealers.addMessage($scope.dealer.dealerId, 'Upload hình lỗi!');
+                    });
                     if ($scope.update1)
                         imgFailed += "Mặt trước CMND\n"
                     if ($scope.update2)
@@ -1228,7 +1270,7 @@
                         imgFailed += "Kho\n"
                     $ionicLoading.hide();
                     $ionicLoading.show({ template: 'Upload ảnh thất bại.\n' + imgFailed, noBackdrop: true, duration: 2000 });
-                    $rootScope.$broadcast('uploadImagesFinish');
+                    //$rootScope.$broadcast('uploadImagesFinish');
                 }
             }
             //$ionicLoading.show({ template: 'upload failed!\n', noBackdrop: true, duration: 2000 });
@@ -1391,7 +1433,7 @@
         $state.go('tabs.survey', {}, { reload: true });
     };
 
-    $scope.loadDistrict = function() {
+    $scope.loadDistrict = function () {
         loadDistrict();
     }
 
@@ -1415,7 +1457,7 @@
 
                         $scope.loadWard();
 
-                        if(!$scope.$$phase) {
+                        if (!$scope.$$phase) {
                             $scope.$apply();
                         }
                     }
@@ -1447,14 +1489,14 @@
                     if (!$scope.dealer.wardId && $scope.wards.length > 0) {
                         $scope.dealer.ward = $scope.wards[0];
                     } else {
-                        angular.forEach($scope.wards, function(value, key) {
+                        angular.forEach($scope.wards, function (value, key) {
                             if ($scope.dealer.wardId == value.WardId) {
                                 $scope.dealer.ward = value;
                             }
                         });
                     }
 
-                    if(!$scope.$$phase) {
+                    if (!$scope.$$phase) {
                         $scope.$apply();
                     }
                 },
@@ -1470,6 +1512,7 @@
 
     //document.addEventListener("deviceready", onDeviceReady, false);
     // ---------------------------GPS---------------------------------
+    //var geolocationApp = null;
     $scope.watch = function () {
         //navigator.splashscreen.hide();
         //console.log("run");
@@ -1487,12 +1530,13 @@
 
             if (geolocationApp) {
                 geolocationApp.stopWatch();
+                console.log("STOP WATCH");
             }
         } else {
             confirmLong = undefined;
             confirmLat = undefined;
         }
-        
+
     }
 
     function geolocationApp() {
@@ -1512,31 +1556,31 @@
                 $scope.survey.lat = undefined;
                 $scope.survey.long = undefined;
                 $scope.dealer.confirmGPS = false;
-               that._handleWatch.apply(that, arguments);
+                that._handleRefresh.apply(that, arguments);
             }, false);
         },
 
         _handleRefresh: function () {
             var options = {
-                timeout: 5000,
+                timeout: 30000,
                 enableHighAccuracy: true,
                 maximumAge: 3000
             };
-            
+
             var that = this;
 
             that._setResults("Đang lấy vị trí, vui lòng chờ...");
 
-            navigator.geolocation.getCurrentPosition(function () {
+            that._watchID = navigator.geolocation.getCurrentPosition(function () {
                 that._onSuccess.apply(that, arguments);
                 document.getElementById("refreshGPS").disabled = false;
             }, function () {
                 that._onError.apply(that, arguments);
-                document.getElementById("refreshGPS").disabled = true;
+                document.getElementById("refreshGPS").disabled = false;
             }, options);
         },
 
-        stopWatch : function() {
+        stopWatch: function () {
             var that = this;
             if (that._watchID != null) {
                 navigator.geolocation.clearWatch(that._watchID);
@@ -1552,15 +1596,16 @@
 
             // Neu dang lang nghe thi stop
             that.stopWatch();
-            
+
             // Bat dau lang nghe
             that._setResults("Đang lấy vị trí, vui lòng chờ...");
             // Update the watch every second.
             var options = {
-                timeout: 5000,
+                timeout: 30000,
                 enableHighAccuracy: true,
                 maximumAge: 3000
             };
+
             that._watchID = navigator.geolocation.watchPosition(function () {
                 that._onSuccess.apply(that, arguments);
                 document.getElementById("refreshGPS").disabled = false;
@@ -1582,12 +1627,14 @@
         },
 
         _onError: function (error) {
-            this._setResults('code: ' + error.code + '<br/>' +
+            if (!$scope.survey.lat || !$scope.survey.long) {
+                this._setResults('code: ' + error.code + '<br/>' +
                              'message: ' + error.message + '<br/>');
-            $scope.$apply(function () {
-                $scope.survey.lat = null;
-                $scope.survey.long = null;
-            });
+                $scope.$apply(function () {
+                    $scope.survey.lat = null;
+                    $scope.survey.long = null;
+                });
+            }
         },
 
         _setResults: function (value) {

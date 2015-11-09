@@ -180,7 +180,7 @@
                         <div class="col-survey-title padding-left">Lông màu</div>
                         <div class="col">
                             <div class="col match-parent col-flex">
-                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_CP == 0" class="number" type="number item-input-inset" name="GA_CP_LM" ng-model="survey.GA_CP_LM" ng-change="setUpdate() match-parent col-flex">
+                                <input pattern="[0-9]*" ng-maxlength="8" ng-disabled="survey.GA_CP == 0" class="number" type="number item-input-inset" name="GA_CP_LM" ng-model="survey.GA_CP_LM" ng-change="setUpdate()">
                                 <label>(tấn/tháng)</label>
                             </div>
                             <div class="error" style="padding-top:5px; font-size:12px;" ng-if="(submited || frmGa.GA_CP_LM.$dirty) && (frmGa.GA_CP_LM.$error.pattern || frmGa.GA_CP_LM.$error.maxlength)">

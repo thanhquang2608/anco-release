@@ -18,17 +18,18 @@
                     </label>
                 </center>
             </div>
-            <ion-item class="item-remove-animate item-avatar item-icon-right" collection-repeat="dealer in dealers" type="item-text-wrap" href="#/tab/dealers/{{dealer.SurveyId}}">
+            <ion-item class="item-remove-animate item-avatar item-icon-right" collection-repeat="dealer in dealers" type="item-text-wrap" href="#/tab/dealers/{{dealer.SurveyId}}" ng-click="dealerDetail(dealer.DealerId)">
                 <img ng-if="dealer.DealerPhoto" ng-src="{{serviceBase}}{{dealer.DealerPhoto}}">
                 <img ng-if="!dealer.DealerPhoto" src="img/no-image.png">
                 <h2>Mã: {{dealer.DealerId}}</h2>
                 <h2>{{dealer.DealerName}}</h2>
                 <p>{{dealer.ProvinceName}}</p>
                 <p>{{dealer.Address}}</p>
+                <label class="error"> {{dealer.Message}}</label>
                 <i class="icon ion-chevron-right icon-accessory"></i>
-                <ion-option-button class="button-assertive" ng-click="remove(dealer)">
+                <!--<ion-option-button class="button-assertive" ng-click="remove(dealer)">
                     Delete
-                </ion-option-button>
+                </ion-option-button>-->
             </ion-item>
         </ion-list>
     </ion-content>

@@ -1,5 +1,5 @@
 ﻿app.controller('DealerController', function ($rootScope, $scope, $stateParams, $http, AuthService, DealerService,
-    AUTH_EVENTS, NETWORK, $ionicLoading, Dealers, $state, SurveyService, $localstorage, STORAGE_KEYS, $ionicPopup, $ionicHistory) {
+    AUTH_EVENTS, NETWORK, $ionicLoading, Dealers, $state, SurveyService, $localstorage, STORAGE_KEYS, $ionicPopup, $ionicHistory, DealerMap) {
     //FOR upload image
     $scope.sum = 0;
     $scope.success = 0;
@@ -61,7 +61,7 @@
             popoverOptions: CameraPopoverOptions,
             targetWidth: 500,
             targetHeight: 500,
-            saveToPhotoAlbum: false
+            saveToPhotoAlbum: true
         };
 
         navigator.camera.getPicture(onSuccess, onFail, options);
@@ -187,6 +187,8 @@
                 if ($scope.success + $scope.failure == $scope.sum) {
                     var imgFailed = "";
                     if ($scope.failure > 0) {
+                        DealerMap.add($scope.dealer.DealerId, false);
+                        Dealers.addMessage($scope.dealer.DealerId, "Upload hình lỗi!");
                         if ($scope.update1)
                             imgFailed += "Mặt trước CMND\n"
                         if ($scope.update2)
@@ -199,9 +201,13 @@
                             imgFailed += "Kho\n"
                         $ionicLoading.hide();
                         $ionicLoading.show({ template: 'Upload ảnh thất bại.\n' + imgFailed, noBackdrop: true, duration: 2000 });
-                        $rootScope.$broadcast('uploadImagesFinishDealer');
+                        //$rootScope.$broadcast('uploadImagesFinishDealer');
                     }
                     else {
+                        if (DealerMap.getByKey($scope.dealer.DealerId) == false) {
+                            DealerMap.remove($scope.dealer.DealerId);
+                            Dealers.clearMessage($scope.dealer.DealerId);
+                        }
                         $ionicLoading.hide();
                         $rootScope.$broadcast('uploadImagesFinishDealer');
                         //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
@@ -214,6 +220,8 @@
                 if ($scope.success + $scope.failure == $scope.sum) {
                     var imgFailed = "";
                     if ($scope.failure > 0) {
+                        DealerMap.add($scope.dealer.DealerId, false);
+                        Dealers.addMessage($scope.dealer.DealerId, "Upload hình lỗi!");
                         if ($scope.update1)
                             imgFailed += "Mặt trước CMND\n"
                         if ($scope.update2)
@@ -226,7 +234,7 @@
                             imgFailed += "Kho\n"
                         $ionicLoading.hide();
                         $ionicLoading.show({ template: 'Upload ảnh thất bại.\n' + imgFailed, noBackdrop: true, duration: 2000 });
-                        $rootScope.$broadcast('uploadImagesFinish');
+                        //$rootScope.$broadcast('uploadImagesFinish');
                     }
                 }
                 //$ionicLoading.hide();
@@ -389,6 +397,12 @@
                 $http.get($scope.serviceBase + '/survey/list', { params: param, timeout: $rootScope.TIME_OUT })
                     .then(
                         function successCallback(response) {
+                            for (var item in response.data) {
+                                //console.log(response.data[item]);
+                                if (DealerMap.getByKey(response.data[item].DealerId) == false) {
+                                    response.data[item]['Message'] = "Upload hình lỗi!";                                   
+                                }
+                            }
                             Dealers.setDealers(response.data);
                             $scope.dealers = Dealers.all();
                             console.log($scope.dealers);
@@ -402,10 +416,11 @@
                         }
                     );
             }
-                // Click tab
+            // Click tab
             else {
                 Dealers.setDealers(listDealer);
                 $scope.dealers = Dealers.all();
+                console.log($scope.dealers);
             }
         }
             // List dealer null
@@ -414,6 +429,12 @@
             $http.get($scope.serviceBase + '/survey/list', { params: param, timeout: $rootScope.TIME_OUT })
                 .then(
                     function successCallback(response) {
+                        for (var item in response.data) {
+                            //console.log(response.data[item]);
+                            if (DealerMap.getByKey(response.data[item].DealerId) == false) {
+                                response.data[item]['Message'] = "Upload hình lỗi!";
+                            }
+                        }
                         Dealers.setDealers(response.data);
                         $scope.dealers = Dealers.all();
                         ////console.log($scope.dealers);
@@ -428,7 +449,8 @@
                     }
                 );
         }
-
+        console.log("Dealer");
+        //console.log(dealers);
         // $scope.loading = false;
         // Old flow
         //if (!isPull) {
@@ -479,8 +501,13 @@
                 function successCallback(response) {
                     //console.log("Init DEALER");
                     //console.log(response);
+                    if (DealerMap.getByKey(DealerService.getCurrentDealerId()) == false) {
+                        DealerMap.remove(DealerService.getCurrentDealerId());
+                        Dealers.clearMessage(DealerService.getCurrentDealerId());
+                    }
+                    //DealerMap.add(DealerService.getCurrentDealerId, true);
 
-
+                    console.log(DealerMap.getAll());
                     Dealers.setDealer(response.data.dealer);
                     Dealers.setSurvey(response.data.survey);
                     $scope.dealer = Dealers.dealer();
@@ -707,6 +734,9 @@
             if ($scope.update5)
                 $scope.sum++;
 
+            //DealerService.setUploadImageFinish(false);
+            //DealerMap.add(5837, false);
+            //Dealers.addMessage(5837, "Upload hình lỗi!");
             if ($scope.sum == 0)
                 DealerService.setUploadImageFinish(true);
             else
@@ -970,5 +1000,15 @@
                 $state.go('tabs.dealer-detail-sales-ga', {});
         }
 
+    }
+
+    $scope.mapping = function (dealerId) {
+        if (DealerMap.getByKey(dealerId) == false)
+            return true;
+        return false;
+    }
+
+    $scope.dealerDetail = function (dealerId) {
+        DealerService.setCurrentDealerId(dealerId);
     }
 })

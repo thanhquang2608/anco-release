@@ -1,5 +1,38 @@
 angular.module('starter.services', [])
 
+    .factory('DealerMap', function ($localstorage) {
+        var map = {};
+
+        return {
+            getAll: function () {
+                map = $localstorage.getObject("DealerMap");
+                return map;
+            },
+            add: function (key, value) {
+                if (!map)
+                    map = {};
+                map[key] = value;
+                $localstorage.setObject("DealerMap", map);
+            },
+            getByKey: function (key) {
+                map = $localstorage.getObject("DealerMap");
+                if(map)
+                //if (map.hasOwnProperty(key))
+                    return map[key];
+                //return null;
+            },
+            remove: function (key) {
+                map = $localstorage.getObject("DealerMap");
+                if (map) {
+                    console.log(key);
+                    delete map[key];
+                    console.log(map);
+                    $localstorage.setObject("DealerMap", map);
+                }
+            }
+        };
+    })
+
 .factory('Dealers', function ($localstorage, STORAGE_KEYS) {
      //Might use a resource here that returns a JSON array
 
@@ -101,11 +134,32 @@ angular.module('starter.services', [])
         },
         getMonth: function () {
             return dealer.month;
+        },
+        clearMessage: function(id) {
+            dealers = $localstorage.getObject(LIST_DEALERS_KEY);
+            if (dealers != null && dealers.length > 0) {
+                for (var item in dealers) {
+                    if (dealers[item].DealerId == id) 
+                        dealers[item]['Message'] = "";
+                }
+                saveDealer();
+            }
+        },
+        addMessage: function (id, msg) {
+            dealers = $localstorage.getObject(LIST_DEALERS_KEY);
+            if (dealers != null && dealers.length > 0) {
+                for (var item in dealers) {
+                    if (dealers[item].DealerId == id)
+                        dealers[item]['Message'] = msg;
+                }
+                saveDealer();
+            }
         }
     };
 })
 
 .service('DealerService', function () {
+    var currentDealerId = -1;
     var uploadImageFinish = false;
     return {
         getUploadImageFinish: function () {
@@ -113,6 +167,12 @@ angular.module('starter.services', [])
         },
         setUploadImageFinish: function (stt) {
             uploadImageFinish = stt;
+        },
+        getCurrentDealerId: function () {
+            return currentDealerId;
+        },
+        setCurrentDealerId: function (id) {
+            currentDealerId = id;
         }
     }
 })

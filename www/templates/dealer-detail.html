@@ -181,7 +181,7 @@
                             <img ng-if="!dealer.CMND_Front_Local && !dealer.CMND_Front" id="img_cmnd1" src="img/no-image.png">
                         </div>
                         <center>
-                            <button type="button" class="button button-small" ng-click="takePhoto(1, 0)">
+                            <button type="button" class="button button-small" ng-click="getPhoto(1)">
                                 Mặt trước CMND
                             </button>
                         </center>
@@ -196,7 +196,7 @@
                             <img ng-if="!dealer.CMND_Back_Local && !dealer.CMND_Back" id="img_cmnd2" src="img/no-image.png">
                         </div>
                         <center>
-                            <button type="button" class="button button-small" ng-click="takePhoto(2, 0)">
+                            <button type="button" class="button button-small" ng-click="getPhoto(2)">
                                 Mặt sau CMND
                             </button>
                         </center>

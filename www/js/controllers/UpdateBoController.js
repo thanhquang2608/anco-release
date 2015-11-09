@@ -1,5 +1,5 @@
 ﻿app.controller('UpdateBoController', function ($rootScope, $scope, $stateParams, $http, AuthService,
-    AUTH_EVENTS, NETWORK, $ionicLoading, Dealers, $state, $ionicHistory, $ionicViewService, DealerService) {
+    AUTH_EVENTS, NETWORK, $ionicLoading, Dealers, $state, $ionicHistory, $ionicViewService, DealerService, $ionicPopup, DealerMap) {
 
     var serviceBase = NETWORK.BASE_URL;
 
@@ -118,16 +118,16 @@
         //console.log($scope.giacam);
     }
 
-    $scope.updateBo = function (isValid) {
-        $scope.submited = true;
-
-        if (!isValid) {
-            $ionicLoading.hide();
-            $ionicLoading.show({ template: 'Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại!\n', noBackdrop: true, duration: 2000 });
-            return;
+    $scope.closePopupContinue = function () {
+        if ($scope.popupConfirmDone) {
+            $scope.popupConfirmDone.close();
         }
+    }
 
-
+    $scope.uploadBo = function () {
+        if ($scope.popupConfirmDone) {
+            $scope.popupConfirmDone.close();
+        }
         if ($scope.update) {
             $ionicLoading.show({ template: 'Đang lưu...' });
 
@@ -138,23 +138,23 @@
 
                 cc_kd: $scope.survey.BO_CC,
                 cc_mua: $scope.survey.BO_CC == 0 ? 0 : $scope.survey.BO_CC_MUA_TT,
-                cc_sl:  $scope.survey.BO_CC == 0 ? 0 : parseInt($scope.survey.BO_CC_SL),
+                cc_sl: $scope.survey.BO_CC == 0 ? 0 : parseInt($scope.survey.BO_CC_SL),
 
                 dh_kd: $scope.survey.BO_DH,
                 dh_mua: $scope.survey.BO_DH == 0 ? 0 : $scope.survey.BO_DH_MUA_TT,
-                dh_sl:  $scope.survey.BO_DH == 0 ? 0 : parseInt($scope.survey.BO_DH_SL),
+                dh_sl: $scope.survey.BO_DH == 0 ? 0 : parseInt($scope.survey.BO_DH_SL),
 
                 cp_kd: $scope.survey.BO_CP,
                 cp_mua: $scope.survey.BO_CP == 0 ? 0 : $scope.survey.BO_CP_MUA_TT,
-                cp_sl:  $scope.survey.BO_CP == 0 ? 0 : parseInt($scope.survey.BO_CP_SL),
+                cp_sl: $scope.survey.BO_CP == 0 ? 0 : parseInt($scope.survey.BO_CP_SL),
 
                 up_kd: $scope.survey.BO_UP,
                 up_mua: $scope.survey.BO_UP == 0 ? 0 : $scope.survey.BO_UP_MUA_TT,
-                up_sl:  $scope.survey.BO_UP == 0 ? 0 : parseInt($scope.survey.BO_UP_SL),
+                up_sl: $scope.survey.BO_UP == 0 ? 0 : parseInt($scope.survey.BO_UP_SL),
 
                 o_kd: $scope.survey.BO_ANOTHER,
                 o_mua: $scope.survey.BO_ANOTHER == 0 ? 0 : $scope.survey.BO_ANOTHER_MUA_TT,
-                o_sl:  $scope.survey.BO_ANOTHER == 0 ? 0 : parseInt($scope.survey.BO_ANOTHER_SL)
+                o_sl: $scope.survey.BO_ANOTHER == 0 ? 0 : parseInt($scope.survey.BO_ANOTHER_SL)
             }
             if (Dealers.survey().BO_ID) {
                 param.boid = Dealers.survey().BO_ID;
@@ -163,7 +163,7 @@
 
             $http.post(serviceBase + '/survey/create/bo', param, { timeout: $rootScope.TIME_OUT })
                 .then(
-                    function successCallback (response) {
+                    function successCallback(response) {
                         $ionicLoading.hide();
                         //$ionicLoading.show({ template: 'Dữ liệu đã được lưu trên hệ thống!', noBackdrop: true, duration: 2000 });
                         $scope.BO_ID = response.data.BoId;
@@ -172,7 +172,7 @@
                         $state.go('tabs.dealers', {}, { reload: true });
 
                     },
-                    function errorCallback (response) {
+                    function errorCallback(response) {
                         $rootScope.processRequestError(response);
                     }
                 );
@@ -180,5 +180,30 @@
         else {
             $state.go('tabs.dealers', {}, { reload: true });
         }
+    }
+
+    $scope.updateBo = function (isValid) {
+        $scope.submited = true;
+
+        if (!isValid) {
+            $ionicLoading.hide();
+            $ionicLoading.show({ template: 'Dữ liệu nhập chưa đúng, vui lòng kiểm tra lại!\n', noBackdrop: true, duration: 2000 });
+            return;
+        }
+        //DealerMap.add("5806", false);
+        console.log(DealerService.getUploadImageFinish());
+        //$ionicLoading.hide();
+        //$ionicLoading.show({ template: DealerService.getUploadImageFinish(), noBackdrop: true, duration: 2000 });
+        if (!DealerService.getUploadImageFinish()) {
+            $scope.popupConfirmDone = $ionicPopup.show({
+                templateUrl: 'templates/popup-confirm-done.html',
+                title: 'Ảnh đang upload hoặc upload lỗi. upload sau?',
+                scope: $scope
+            });
+        }
+        else {
+            $scope.uploadBo();
+        }
+        
     }
 })

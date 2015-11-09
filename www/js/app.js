@@ -66,7 +66,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       })
       .state('tabs.newsurvey', {
           url: "/newsurvey",
-          cache: true,
+          //cache: true,
           views: {
               'survey-tab': {
                   templateUrl: "templates/new-survey.html",
