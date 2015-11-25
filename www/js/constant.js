@@ -26,9 +26,11 @@
 
 .constant('NETWORK', {
     // BASE_URL: 'http://192.168.1.69:1337'
-    BASE_URL: 'http://survey-anco.rhcloud.com'
+    // BASE_URL: 'http://survey-anco.rhcloud.com'
     // BASE_URL: 'http://server-tintmanco.rhcloud.com'
     // BASE_URL: 'http://localhost:1337'
+    BASE_URL: 'http://113.161.152.115:1337/'
+    
 })
 
 .constant('REGIONS', [
